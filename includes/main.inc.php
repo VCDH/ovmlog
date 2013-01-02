@@ -15,7 +15,8 @@ $qry = "SELECT `id`, `date`
 	ORDER BY `date` DESC";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
-echo '<table>';
+	echo '<table class="grid">';
+	echo '<tr><th>datum</th><th>tijd</th><th>omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
 		echo '<tr><td>'.$row[1].'</td>';
 		$qry2 = "SELECT `time`, `description`
@@ -26,7 +27,7 @@ echo '<table>';
 		if (mysqli_num_rows($res2)) {
 			while ($row2 = mysqli_fetch_row($res2)) {
 				//nog iets toevoegen van string afbreken na bepaalde lengte
-				echo '<td>'.$row[0].'</td><td>'.htmlspecialchars(str_replace('<br />', ' ', $row[1])).'</td></tr><tr><td>&nbsp;</td>';
+				echo '<td>'.$row2[0].'</td><td class="expand">'.htmlspecialchars(str_replace('<br />', ' ', $row2[1])).'</td></tr><tr class="nogrid"><td>&nbsp;</td>';
 			}
 		}
 		echo '<td>&nbsp;</td><td>&nbsp;</td></tr>';
@@ -50,9 +51,10 @@ $qry = "SELECT `id`, `datetime_start`, `datetime_end`, `description`
 	ORDER BY `datetime_start`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
-echo '<table>';
+	echo '<table class="grid">';
+	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.$row[1].'</td><td>'.$row[2].'</td><td>'.htmlspecialchars($row[3]).'</td></tr>';
+		echo '<tr><td>'.$row[1].'</td><td>'.$row[2].'</td><td class="expand">'.htmlspecialchars($row[3]).'</td></tr>';
 	}
 echo '</table>';
 }
@@ -73,9 +75,10 @@ $qry = "SELECT `id`, `datetime_start`, `datetime_end`, `description`
 	ORDER BY `datetime_start`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
-echo '<table>';
+	echo '<table class="grid">';
+	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.$row[1].'</td><td>'.$row[2].'</td><td>'.htmlspecialchars($row[3]).'</td></tr>';
+		echo '<tr><td>'.$row[1].'</td><td>'.$row[2].'</td><td class="expand">'.htmlspecialchars($row[3]).'</td></tr>';
 	}
 echo '</table>';
 }
