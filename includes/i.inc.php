@@ -47,6 +47,6 @@ $time = date('H:i');
 </tr>
 </table>
 
-<p><input type="submit" name"add" value="nog een tijdstip toevoegen"> <input type="submit" name"save" value="opslaan en naar overzicht"></p>
+<p><input type="submit" name"add" value="nog een tijdstip toevoegen"> <input type="submit" name"save" value="opslaan en naar overzicht"> <a href=?>Annuleren</a></p>
 
 </form>
