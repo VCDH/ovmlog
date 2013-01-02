@@ -5,32 +5,87 @@
 
 if (($_GET['s'] == 'i') && !empty($_POST)) {
 	
-	$date = date('Y-m-d', strtotime($_POST['date']));
-	
-	$qry = "INSERT INTO `".$sql['database']."`.`".$sql['table_i']."`
-	SET
-	`date` = '".$date."',
-	`road` = '".mysqli_real_escape_string($sql['link'], $_POST['road'])."',
-	`location` = '".mysqli_real_escape_string($sql['link'], $_POST['location'])."',
-	`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."'";
-	if (mysqli_query($sql['link'], $qry)) {
-		
-		$id = mysqli_insert_id($sql['link']);
-		$time = date('H:i:s', strtotime($_POST['time']));
-		
-		$qry = "INSERT INTO `".$sql['database']."`.`".$sql['table_id']."`
-		SET
-		`parent_id` = ".$id.",
-		`time` = '".$time."',
-		`description` = '".mysqli_real_escape_string($sql['link'], nl2br($_POST['description']))."',
-		`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'])."'";
-		if (mysqli_query($sql['link'], $qry)) {
-			$msg = 's001';
+	//decide edit or add
+	if (!empty($_POST['id'])) {
+		$qry = "SELECT * 
+		FROM `".$sql['database']."`.`".$sql['table_i']."`
+		WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_POST['id'])."'
+		LIMIT 1";
+		$res = mysqli_query($sql['link'], $qry);
+		if (mysqli_num_rows($res)) {
+			$edit = TRUE;
 		}
-		else $msg = 'e002';
 	}
-	else $msg = 'e001';
-	echo mysqli_error($sql['link']);
+	
+	//edit
+	if ($edit === TRUE) {
+		
+		$qry = "UPDATE `".$sql['database']."`.`".$sql['table_i']."`
+		SET
+		`date` = '".date('Y-m-d', strtotime($_POST['date']))."',
+		`road` = '".mysqli_real_escape_string($sql['link'], $_POST['road'])."',
+		`location` = '".mysqli_real_escape_string($sql['link'], $_POST['location'])."',
+		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."'
+		WHERE `id` = '".$_POST['id']."'";
+		if (mysqli_query($sql['link'], $qry)) {
+			
+			foreach ($_POST['time'] as $id => $time) {
+				$qry = "UPDATE `".$sql['database']."`.`".$sql['table_id']."`
+				SET
+				`time` = '".date('H:i:s', strtotime($time))."',
+				`description` = '".mysqli_real_escape_string($sql['link'], nl2br($_POST['description'][$id]))."',
+				`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'][$id])."'
+				WHERE `id` = '".mysqli_real_escape_string($sql['link'], $id)."'";
+				if (mysqli_query($sql['link'], $qry)) {
+					$msg = 's001';
+				}
+				else {
+					$msg = 'e002';
+				}
+			}
+			
+			if (!empty($_POST['description'][0])) {
+				$qry = "INSERT INTO `".$sql['database']."`.`".$sql['table_id']."`
+				SET
+				`parent_id` = ".$_POST['id'].",
+				`time` = '".date('H:i:s', strtotime($_POST['time'][0]))."',
+				`description` = '".mysqli_real_escape_string($sql['link'], nl2br($_POST['description'][0]))."',
+				`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'][0])."'";
+				if (mysqli_query($sql['link'], $qry)) {
+					$msg = 's001';
+				}
+				else $msg = 'e002';
+			}
+		}
+		else $msg = 'e001';
+		echo mysqli_error($sql['link']);
+	}
+	//add
+	else {
+		$qry = "INSERT INTO `".$sql['database']."`.`".$sql['table_i']."`
+		SET
+		`date` = '".date('Y-m-d', strtotime($_POST['date']))."',
+		`road` = '".mysqli_real_escape_string($sql['link'], $_POST['road'])."',
+		`location` = '".mysqli_real_escape_string($sql['link'], $_POST['location'])."',
+		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."'";
+		if (mysqli_query($sql['link'], $qry)) {
+			
+			$id = mysqli_insert_id($sql['link']);
+			
+			$qry = "INSERT INTO `".$sql['database']."`.`".$sql['table_id']."`
+			SET
+			`parent_id` = ".$id.",
+			`time` = '".date('H:i:s', strtotime($_POST['time'][0]))."',
+			`description` = '".mysqli_real_escape_string($sql['link'], nl2br($_POST['description'][0]))."',
+			`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'][0])."'";
+			if (mysqli_query($sql['link'], $qry)) {
+				$msg = 's001';
+			}
+			else $msg = 'e002';
+		}
+		else $msg = 'e001';
+		echo mysqli_error($sql['link']);
+	}
 }
 
 ?>

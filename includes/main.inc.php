@@ -18,7 +18,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>datum</th><th>tijd</th><th>omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.$row[1].'</td>';
+		echo '<tr><td><a href="?p=i&amp;id='.$row[0].'">'.$row[1].'</a></td>';
 		$qry2 = "SELECT `time`, `description`
 		FROM `".$sql['database']."`.`".$sql['table_id']."`
 		WHERE `parent_id` = ".$row[0]."
