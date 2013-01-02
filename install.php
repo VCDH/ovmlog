@@ -22,7 +22,7 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_i']."` 
 		`road` TINYTEXT,
 		`location` TINYTEXT,
 		`scenario` TINYTEXT,
-		`open` BOOLEAN
+		`open` BOOLEAN DEFAULT 1
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
