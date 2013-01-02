@@ -1,0 +1,83 @@
+html {
+	border: 0;
+	margin: 0;
+	font-family: Calibri, Arial, Helvetica, sans-serif;
+	font-size: medium;
+}
+body {
+	width: 1000px;
+	margin: auto;
+	padding: 8px;
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+}
+h1 {
+	font-size: x-large;
+	font-weight: bold;
+	margin-bottom: 8px;
+	}
+h2 {
+	font-size: large;
+	font-weight: bold;
+	margin-top: 16px;
+	margin-bottom: 8px;
+}
+p {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+a {
+	color: #00F;
+}
+
+th {
+	text-align: left;
+	font-weight: bold;
+}
+td {
+	vertical-align: top;
+	padding: 2px;
+}
+td.count {
+	font-size: 60px;
+	color: #CCC;
+}
+table.grid {
+	border-collapse: collapse;
+	width: 100%;
+	
+}
+table.grid td {
+	border: 1px solid #EEE;
+	white-space: nowrap;
+}
+table.grid td.expand {
+	white-space: wrap;
+	width: 99%;
+}
+table.grid tr.nogrid td {
+	border: none;
+}
+
+label {
+	font-weight: bold;
+}
+input.m {
+	border: none;
+	border-bottom: 1px solid #000;
+	background-color: #EEE;
+	width: 200px;
+}
+input.s {
+	border: none;
+	border-bottom: 1px solid #000;
+	background-color: #EEE;
+	width: 70px;
+}
+textarea {
+	border: 1px solid #000;
+	border-top: none;
+	background-color: #EEE;
+	width: 600px;
+	height: 80px;
+}
