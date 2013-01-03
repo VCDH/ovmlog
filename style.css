@@ -26,6 +26,18 @@ p {
 	margin-top: 8px;
 	margin-bottom: 8px;
 }
+p.error {
+	display: block;
+	margin: 8px;
+	padding: 8px;
+	border: 1px dashed #400;
+}
+p.error {
+	display: block;
+	margin: 8px;
+	padding: 8px;
+	border: 1px dashed #040;
+}
 a {
 	color: #00F;
 }
