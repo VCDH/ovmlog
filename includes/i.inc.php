@@ -4,10 +4,14 @@
 */
 
 //decide edit or add
-if (!empty($_GET['id'])) {
+if (!empty($_GET['id'])) $id = $_GET['id'];
+elseif (!empty($_POST['id'])) $id = $_POST['id'];
+
+
+if (!empty($id)) {
 	$qry = "SELECT * 
 	FROM `".$sql['database']."`.`".$sql['table_i']."`
-	WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'
+	WHERE `id` = '".mysqli_real_escape_string($sql['link'], $id)."'
 	LIMIT 1";
 	$res = mysqli_query($sql['link'], $qry);
 	if (mysqli_num_rows($res)) {
@@ -28,7 +32,7 @@ if ($edit === TRUE) {
 	
 	$qry = "SELECT * 
 	FROM `".$sql['database']."`.`".$sql['table_id']."`
-	WHERE `parent_id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'
+	WHERE `parent_id` = '".mysqli_real_escape_string($sql['link'], $id)."'
 	ORDER BY `time`";
 	$res = mysqli_query($sql['link'], $qry);
 	if (mysqli_num_rows($res)) {
@@ -59,7 +63,7 @@ $content[] = array(	'id' => '0',
 <h1><?php echo $title; ?></h1>
 
 <form action="?s=i" method="post">
-<input type="hidden" name="id" value="<?php echo htmlspecialchars($_GET['id']) ?>" />
+<input type="hidden" name="id" value="<?php echo htmlspecialchars($id) ?>" />
 
 <table>
 <tr>
@@ -103,6 +107,6 @@ foreach ($content as $count => $values) {
 </tr>
 </table>
 
-<p><input type="submit" name"add" value="nog een tijdstip toevoegen"> <input type="submit" name"save" value="opslaan en naar overzicht"> <a href=?>Annuleren</a></p>
+<p><input type="submit" name="add" value="nog een tijdstip toevoegen"> <input type="submit" name="save" value="opslaan en naar overzicht"> <a href="?">Annuleren</a></p>
 
 </form>

@@ -25,8 +25,9 @@ if (!empty($_GET['s']) && file_exists('includes/'.urlencode($_GET['s']).'_save.i
 //include messages
 include('includes/messages.inc.php');
 
-if (empty($_GET['p'])) include ('includes/main.inc.php');
-elseif (file_exists('includes/'.urlencode($_GET['p']).'.inc.php')) include('includes/'.urlencode($_GET['p']).'.inc.php');
+if (empty($p)) $p = $_GET['p'];
+if (empty($p)) include ('includes/main.inc.php');
+elseif (file_exists('includes/'.urlencode($p).'.inc.php')) include('includes/'.urlencode($p).'.inc.php');
 else include ('includes/404.inc.php');
 ?>
 

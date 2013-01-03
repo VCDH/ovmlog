@@ -87,6 +87,9 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 		else $msg = 'e001';
 		echo mysqli_error($sql['link']);
 	}
+	
+	//decide return to main page or continue editing
+	if (!empty($_POST['add'])) $p = 'i';
 }
 
 ?>
