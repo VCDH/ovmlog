@@ -31,7 +31,7 @@ if (mysqli_num_rows($res)) {
 			}
 		}
 	}
-echo '</table>';
+	echo '</table>';
 }
 else {
 	?>
@@ -53,9 +53,12 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>locatie</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td><a href="?p=w_view&amp;id='.$row[0].'">'.date('d-m-Y H:i', strtotime($row[1])).'</a></td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand">'.htmlspecialchars($row[3].' - '.$row[4]).'</td></tr>';
+		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
+		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
+		else echo htmlspecialchars($row[3].' - '.$row[4]);
+		echo '</a></td></tr>';
 	}
-echo '</table>';
+	echo '</table>';
 }
 else {
 	?>
@@ -77,9 +80,12 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td><a href="?p=e_view&amp;id='.$row[0].'">'.date('d-m-Y H:i', strtotime($row[1])).'</a></td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand">'.htmlspecialchars($row[3]).'</td></tr>';
+		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
+		if (empty($row[3])) echo '(leeg)';
+		else echo htmlspecialchars($row[3]);
+		echo '</a></td></tr>';
 	}
-echo '</table>';
+	echo '</table>';
 }
 else {
 	?>
