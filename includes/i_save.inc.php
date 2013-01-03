@@ -46,7 +46,7 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 				}
 			}
 			
-			if (!empty($_POST['description'][0])) {
+			if (!empty($_POST['description'][0]) || ($_POST['closed'] == 'true')) {				
 				$qry = "INSERT INTO `".$sql['database']."`.`".$sql['table_id']."`
 				SET
 				`parent_id` = ".$_POST['id'].",
