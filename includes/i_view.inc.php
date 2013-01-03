@@ -22,7 +22,6 @@ if (!empty($_GET['id'])) {
 
 if ($edit === TRUE) {
 	//load values
-	$title = 'Incident bewerken';
 	$data = mysqli_fetch_assoc($res);
 	
 	$date = date('d-m-Y', strtotime($data['date']));
@@ -95,8 +94,6 @@ if ($edit === TRUE) {
 	</table>
 
 	<p><a href="?p=i_hist">Terug naar overzicht</a></p>
-
-	</form>
 	<?php
 }
 else {

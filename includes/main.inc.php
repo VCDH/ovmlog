@@ -54,7 +54,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td><a href="?p=w&amp;id='.$row[0].'">'.$row[1].'</a></td><td>'.$row[2].'</td><td class="expand">'.htmlspecialchars($row[3]).'</td></tr>';
+		echo '<tr><td><a href="?p=w_view&amp;id='.$row[0].'">'.$row[1].'</a></td><td>'.$row[2].'</td><td class="expand">'.htmlspecialchars($row[3]).'</td></tr>';
 	}
 echo '</table>';
 }

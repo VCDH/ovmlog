@@ -50,7 +50,7 @@ else {
 		<input class="s" name="date_start" id="date_start" type="text" value="<?php echo $date_start; ?>" /> 
 		<input class="s" name="time_start" id="time_start" type="text" value="<?php echo $time_start; ?>" />
 		<label for="date_end">tot:</label>
-		<input class="s" name="date_end" id="date_end" type="text" value="<?php echo $date_end; ?>" /> <input class="s" name="time_end" id="time_end" type="text" value="<?php echo $time_end; ?>" /></td>
+		<input class="s" name="date_end" id="date_end" type="text" value="<?php echo $date_end; ?>" /> <input class="s" name="time_end" id="time_end" type="text" value="<?php echo $time_end; ?>" />
 	</td>
 </tr>
 <tr>
