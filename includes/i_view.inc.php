@@ -43,10 +43,6 @@ if ($edit === TRUE) {
 								'contact' => htmlspecialchars($data['contact']));
 		}
 	}
-	$content[] = array(	'id' => '0', 
-						'time' => date('H:i'), 
-						'description' => null, 
-						'content' => null);
 	
 	?>
 	<div class="right"><a href="?p=i&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a></div>
