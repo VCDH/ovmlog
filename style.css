@@ -92,6 +92,12 @@ input.l {
 	background-color: #EEE;
 	width: 800px;
 }
+input.time {
+	border: none;
+	border-bottom: 1px solid #000;
+	background-color: #EEE;
+	width: 40px;
+}
 textarea {
 	border: 1px solid #000;
 	border-top: none;
