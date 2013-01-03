@@ -34,7 +34,7 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 				$qry = "UPDATE `".$sql['database']."`.`".$sql['table_id']."`
 				SET
 				`time` = '".date('H:i:s', strtotime($time))."',
-				`description` = '".mysqli_real_escape_string($sql['link'], nl2br($_POST['description'][$id]))."',
+				`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'][$id])."',
 				`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'][$id])."'
 				WHERE `id` = '".mysqli_real_escape_string($sql['link'], $id)."'";
 				if (mysqli_query($sql['link'], $qry)) {
@@ -50,7 +50,7 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 				SET
 				`parent_id` = ".$_POST['id'].",
 				`time` = '".date('H:i:s', strtotime($_POST['time'][0]))."',
-				`description` = '".mysqli_real_escape_string($sql['link'], nl2br($_POST['description'][0]))."',
+				`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'][0])."',
 				`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'][0])."'";
 				if (mysqli_query($sql['link'], $qry)) {
 					$msg = 's001';
@@ -77,7 +77,7 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 			SET
 			`parent_id` = ".$id.",
 			`time` = '".date('H:i:s', strtotime($_POST['time'][0]))."',
-			`description` = '".mysqli_real_escape_string($sql['link'], nl2br($_POST['description'][0]))."',
+			`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'][0])."',
 			`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'][0])."'";
 			if (mysqli_query($sql['link'], $qry)) {
 				$msg = 's001';
