@@ -93,7 +93,10 @@ textarea {
 	width: 600px;
 	height: 80px;
 }
-
+textarea.l {
+	width: 800px;
+	height: 200px;
+}
 div.right {
 	float: right;
 }
