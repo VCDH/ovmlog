@@ -25,8 +25,9 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 		`date` = '".date('Y-m-d', strtotime($_POST['date']))."',
 		`road` = '".mysqli_real_escape_string($sql['link'], $_POST['road'])."',
 		`location` = '".mysqli_real_escape_string($sql['link'], $_POST['location'])."',
-		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."'
-		WHERE `id` = '".$_POST['id']."'";
+		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."'";
+		if ($_POST['closed'] == 'true') $qry .= ", `open` = 0 ";
+		$qry .= "WHERE `id` = '".$_POST['id']."'";
 		if (mysqli_query($sql['link'], $qry)) {
 			
 			foreach ($_POST['time'] as $id => $time) {
