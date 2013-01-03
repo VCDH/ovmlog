@@ -118,11 +118,18 @@ div.right {
 div#container {
 	width: 1000px;
 	margin: auto;
-	background-image: url(logo.png);
-	background-repeat: no-repeat;
-	background-position: right top;
 }
 div#content {
 	width: 984px;
 	padding: 8px;
+	padding-top: 0;
+}
+div#logo {
+	margin: -16px;
+	width: 120px;
+	height:120px;
+	float: right;
+	background-image: url(logo.png);
+	background-repeat: no-repeat;
+	background-position: left top;
 }

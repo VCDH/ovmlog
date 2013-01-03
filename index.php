@@ -29,6 +29,7 @@ if (!empty($_GET['s']) && file_exists('includes/'.urlencode($_GET['s']).'_save.i
 
 <div id="container">
 <div id="content">
+<div id="logo"></div>
 <?php
 //include messages
 include('includes/messages.inc.php');
