@@ -56,8 +56,7 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_e']."` 
 		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		`datetime_start` DATETIME NOT NULL,
 		`datetime_end` DATETIME NOT NULL,
-		`road` TINYTEXT,
-		`location` TINYTEXT,
+		`name` TINYTEXT,
 		`description` TEXT,
 		`scenario` TINYTEXT
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";

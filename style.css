@@ -86,6 +86,12 @@ input.s {
 	background-color: #EEE;
 	width: 70px;
 }
+input.l {
+	border: none;
+	border-bottom: 1px solid #000;
+	background-color: #EEE;
+	width: 800px;
+}
 textarea {
 	border: 1px solid #000;
 	border-top: none;
