@@ -16,7 +16,7 @@ if ($msg_type == 'e') {
 }
 //success messages
 elseif ($msg_type == 's') {
-	echo '<p class="error">';
+	echo '<p class="success">';
 	switch ( (int) substr($msg, 1, 3)) {
 		case 1: echo 'Opgeslagen.'; break;
 	}
