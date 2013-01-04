@@ -22,7 +22,9 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_i']."` 
 		`road` TINYTEXT,
 		`location` TINYTEXT,
 		`scenario` TINYTEXT,
-		`open` BOOLEAN DEFAULT 1
+		`open` BOOLEAN DEFAULT 1,
+		`user_id_create` INT UNSIGNED DEFAULT 0,
+		`user_id_edit` INT UNSIGNED DEFAULT 0
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
@@ -33,7 +35,9 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_id']."`
 		`parent_id` INT UNSIGNED NOT NULL,
 		`time` TIME NOT NULL,
 		`description` TEXT,
-		`contact` TINYTEXT
+		`contact` TINYTEXT,
+		`user_id_create` INT UNSIGNED DEFAULT 0,
+		`user_id_edit` INT UNSIGNED DEFAULT 0
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
@@ -46,7 +50,9 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_w']."` 
 		`road` TINYTEXT,
 		`location` TINYTEXT,
 		`description` TEXT,
-		`scenario` TINYTEXT
+		`scenario` TINYTEXT,
+		`user_id_create` INT UNSIGNED DEFAULT 0,
+		`user_id_edit` INT UNSIGNED DEFAULT 0
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
@@ -58,7 +64,20 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_e']."` 
 		`datetime_end` DATETIME NOT NULL,
 		`name` TINYTEXT,
 		`description` TEXT,
-		`scenario` TINYTEXT
+		`scenario` TINYTEXT,
+		`user_id_create` INT UNSIGNED DEFAULT 0,
+		`user_id_edit` INT UNSIGNED DEFAULT 0
+	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+mysqli_query($sql['link'], $qry);
+echo mysqli_error($sql['link']);
+
+//create table "evenementen"
+$qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_users']."` (
+		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		`username` VARCHAR(64),
+		`password` VARCHAR(32),
+		`accesscode` TEXT,
+		`email` VARCHAR(255)
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);

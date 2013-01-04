@@ -3,6 +3,13 @@
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
 */
 
+
+include('functions/getuser.fct.php');
+//check login
+if (getuser() === FALSE) {
+	header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/login.php');
+}
+
 include('db.inc.php');
 
 //connect to database
@@ -30,6 +37,8 @@ if (!empty($_GET['s']) && file_exists('includes/'.urlencode($_GET['s']).'_save.i
 <div id="container">
 <div id="content">
 <div id="logo"></div>
+<p>Welkom <b><?php echo getuser('name'); ?></b> | <a href="login.php">wissel gebruiker</a></p>
+
 <?php
 //include messages
 include('includes/messages.inc.php');

@@ -11,6 +11,9 @@ if ($msg_type == 'e') {
 	switch ( (int) substr($msg, 1, 3)) {
 		case 1: echo 'Kan niet opslaan.'; break;
 		case 2: echo 'Kan omschrijving niet opslaan.'; break;
+		case 3: echo 'Gebruikersnaam/wachtwoord combinatie komt niet overeen.'; break;
+		case 4: echo 'Kan cookie niet zetten. Zorg ervoor dat je browser cookies accepteert.'; break;
+		case 5: echo 'Niet afgemeld. Kan cookie niet zetten. Zorg ervoor dat je browser cookies accepteert.'; break;
 	}
 	echo '</p>';
 }
@@ -19,6 +22,7 @@ elseif ($msg_type == 's') {
 	echo '<p class="success">';
 	switch ( (int) substr($msg, 1, 3)) {
 		case 1: echo 'Opgeslagen.'; break;
+		case 2: echo 'Afgemeld.'; break;
 	}
 	echo '</p>';
 }
