@@ -49,11 +49,13 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 			}
 			
 			if (!empty($_POST['description'][0]) || ($_POST['closed'] == 'true')) {				
+				if (empty($_POST['description'][0])) $desc_insert = 'melding afgesloten';
+				else $desc_insert = $_POST['description'][0];
 				$qry = "INSERT INTO `".$sql['database']."`.`".$sql['table_id']."`
 				SET
 				`parent_id` = ".$_POST['id'].",
 				`time` = '".date('H:i:s', strtotime($_POST['time'][0]))."',
-				`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'][0])."',
+				`description` = '".mysqli_real_escape_string($sql['link'], $desc_insert)."',
 				`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'][0])."',
 				`user_id_create` = '".getuser()."',
 				`user_id_edit` = '".getuser()."'";
