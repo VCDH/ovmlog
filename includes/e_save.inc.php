@@ -26,7 +26,8 @@ if (($_GET['s'] == 'e') && !empty($_POST)) {
 		`datetime_end` = '".date('Y-m-d H:i:s', strtotime($_POST['date_end'].' '.$_POST['time_end']))."',
 		`name` = '".mysqli_real_escape_string($sql['link'], $_POST['name'])."',
 		`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'])."',
-		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."'
+		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."',
+		`user_id_edit` = '".getuser()."'
 		WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_POST['id'])."'";
 		if (mysqli_query($sql['link'], $qry)) $msg = 's001';
 		else $msg = 'e001';
@@ -40,7 +41,9 @@ if (($_GET['s'] == 'e') && !empty($_POST)) {
 		`datetime_end` = '".date('Y-m-d H:i:s', strtotime($_POST['date_end'].' '.$_POST['time_end']))."',
 		`name` = '".mysqli_real_escape_string($sql['link'], $_POST['name'])."',
 		`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'])."',
-		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."'";
+		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."',
+		`user_id_create` = '".getuser()."',
+		`user_id_edit` = '".getuser()."'";
 		if (mysqli_query($sql['link'], $qry)) $msg = 's001';
 		else $msg = 'e001';
 		echo mysqli_error($sql['link']);
