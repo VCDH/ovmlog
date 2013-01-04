@@ -89,7 +89,7 @@ if (mysqli_num_rows($res)) {
 }
 else {
 	?>
-	<p>Geen werkzaamheden.</p>
+	<p>Geen evenementen.</p>
 	<?php
 }
 ?>
