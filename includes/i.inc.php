@@ -122,7 +122,7 @@ $(function() {
 	<td><label for="date">datum:</label></td>
 	<td><input class="date s" name="date" id="date" type="text" value="<?php echo $date; ?>" /></td>
 	<td><label for="scenario">scenario:</label></td>
-	<td><input class="m" name="scenario" id="scenario" type="text" value="<?php echo $scenario; ?>" /> (laat leeg in geval van maatwerk)</td>
+	<td><input class="m" name="scenario" id="scenario" type="text" value="<?php echo $scenario; ?>" /> (laat leeg in geval van maatwerk, typ <i>geen</i> bij geen inzet)</td>
 </tr>
 <tr>
 	<td><label for="road">wegnr:</label></td>
