@@ -8,13 +8,13 @@
 <p><a href="?">&laquo; terug</a> | <a href="?p=i_analyse">analyse</a></p>
 
 <?php
-$qry = "SELECT `id`, `date`, `road`, `location`  
+$qry = "SELECT `id`, `date`, `road`, `location`, `scenario`  
 	FROM `".$sql['database']."`.`".$sql['table_i']."`
 	ORDER BY `date` DESC";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
-	echo '<tr><th>datum</th><th>tijd</th><th>locatie/omschrijving</th></tr>';
+	echo '<tr><th>datum</th><th>tijd</th><th>locatie/omschrijving</th><th>scenario</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
 		$qry2 = "SELECT `time`
 		FROM `".$sql['database']."`.`".$sql['table_id']."`
@@ -25,7 +25,7 @@ if (mysqli_num_rows($res)) {
 		if (mysqli_num_rows($res2)) {
 			$row2 = mysqli_fetch_row($res2);
 		}
-		echo '<tr><td>'.date('d-m-Y', strtotime($row[1])).'</td><td>'.date('H:i', strtotime($row2[0])).'</td><td class="expand"><a href="?p=i_view&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3]).'</a></td></tr>';
+		echo '<tr><td>'.date('d-m-Y', strtotime($row[1])).'</td><td>'.date('H:i', strtotime($row2[0])).'</td><td class="expand"><a href="?p=i_view&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3]).'</a></td><td>'.htmlspecialchars($row[4]).'</td></tr>';
 	}
 	echo '</table>';
 }
