@@ -15,6 +15,7 @@ $qry = "SELECT `id`, `date`, `road`, `location`
 	ORDER BY `date` DESC";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
+	echo '<h3>Nu</h3>';
 	echo '<table class="grid">';
 	echo '<tr><th>datum</th><th>tijd</th><th>locatie/omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
@@ -40,6 +41,7 @@ else {
 }
 ?>
 
+<hr />
 <h2>Werkzaamheden</h2>
 <p><a href="?p=w">nieuw</a> | <a href="?p=w_hist">historie</a></p>
 
@@ -47,9 +49,11 @@ else {
 $qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location` 
 	FROM `".$sql['database']."`.`".$sql['table_w']."`
 	WHERE `datetime_end` > NOW()
+	AND `datetime_start` < NOW()
 	ORDER BY `datetime_start`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
+	echo '<h3>Nu</h3>';
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>locatie</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
@@ -60,13 +64,27 @@ if (mysqli_num_rows($res)) {
 	}
 	echo '</table>';
 }
-else {
-	?>
-	<p>Geen werkzaamheden.</p>
-	<?php
+
+$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location` 
+	FROM `".$sql['database']."`.`".$sql['table_w']."`
+	WHERE `datetime_start` > NOW()
+	ORDER BY `datetime_start`";
+$res = mysqli_query($sql['link'], $qry);
+if (mysqli_num_rows($res)) {
+	echo '<h3>Gepland</h3>';
+	echo '<table class="grid">';
+	echo '<tr><th>start</th><th>eind</th><th>locatie</th></tr>';
+	while ($row = mysqli_fetch_row($res)) {
+		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
+		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
+		else echo htmlspecialchars($row[3].' - '.$row[4]);
+		echo '</a></td></tr>';
+	}
+	echo '</table>';
 }
 ?>
 
+<hr />
 <h2>Evenementen</h2>
 <p><a href="?p=e">nieuw</a> | <a href="?p=e_hist">historie</a></p>
 
@@ -74,9 +92,11 @@ else {
 $qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name` 
 	FROM `".$sql['database']."`.`".$sql['table_e']."`
 	WHERE `datetime_end` > NOW()
+	AND `datetime_start` < NOW()
 	ORDER BY `datetime_start`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
+	echo '<h3>Nu</h3>';
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
@@ -87,9 +107,22 @@ if (mysqli_num_rows($res)) {
 	}
 	echo '</table>';
 }
-else {
-	?>
-	<p>Geen evenementen.</p>
-	<?php
+
+$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name` 
+	FROM `".$sql['database']."`.`".$sql['table_e']."`
+	WHERE `datetime_start` > NOW()
+	ORDER BY `datetime_start`";
+$res = mysqli_query($sql['link'], $qry);
+if (mysqli_num_rows($res)) {
+	echo '<h3>Gepland</h3>';
+	echo '<table class="grid">';
+	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th></tr>';
+	while ($row = mysqli_fetch_row($res)) {
+		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
+		if (empty($row[3])) echo '(leeg)';
+		else echo htmlspecialchars($row[3]);
+		echo '</a></td></tr>';
+	}
+	echo '</table>';
 }
 ?>

@@ -22,6 +22,12 @@ h2 {
 	margin-top: 16px;
 	margin-bottom: 8px;
 }
+h3{
+	font-size: medium;
+	font-weight: bold;
+	margin-top: 16px;
+	margin-bottom: 8px;
+}
 p {
 	margin-top: 8px;
 	margin-bottom: 8px;
@@ -40,6 +46,11 @@ p.success {
 }
 a {
 	color: #056;
+}
+hr {
+	border: none;
+	border-bottom: 1px solid #056;
+	margin: 16px;
 }
 
 th {
