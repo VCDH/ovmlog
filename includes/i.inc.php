@@ -162,3 +162,7 @@ foreach ($content as $count => $values) {
 <p><input type="submit" name="add" value="nog een tijdstip toevoegen"> <input type="submit" name="save" value="opslaan en naar overzicht"> <a href="?">Annuleren</a></p>
 
 </form>
+
+<div style="text-align: center; margin-top: 32px;">
+<img src="ongevalscenarios.png" height="525" width="676" alt="overzicht ongevalscenario's" />
+</div>
