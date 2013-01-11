@@ -72,6 +72,29 @@ $(function() {
 		delay: 0,
 		minLength: <?php echo floor(count($autocomplete)/$max_autocomplete); ?>
 	});
+	
+	$(document).ready( function () {
+		if ($('#scenario').val() == 'maatwerk') {
+			$('#maatwerk').attr('checked', 'checked');
+			$('#scenario').attr('readonly', 'readonly');
+		}
+	});
+	$('#maatwerk').change( function (){
+		if ($('#maatwerk').is(':checked') == true) {
+			$('#scenario').val('maatwerk');
+			$('#scenario').attr('readonly', 'readonly');
+		}
+		else {
+			$('#scenario').val('');
+			$('#scenario').removeAttr('readonly');
+		}
+	});
+	$('#scenario').change( function (){
+		if ($('#scenario').val() == 'maatwerk') {
+			$('#maatwerk').attr('checked', 'checked');
+			$('#scenario').attr('readonly', 'readonly');
+		}
+	});
 });
 </script>
 
@@ -104,7 +127,7 @@ $(function() {
 	<td>
 		<label for="scenario">scenario:</label>
 	</td><td>
-		<input class="m" name="scenario" id="scenario" type="text" value="<?php echo $scenario; ?>" /> (laat leeg in geval van maatwerk)
+		<input class="m" name="scenario" id="scenario" type="text" value="<?php echo $scenario; ?>" /> <input type="checkbox" name="maatwerk" id="maatwerk" value="true" /> <label for="maatwerk">maatwerk</label>
 	</td>
 </tr>
 <tr>

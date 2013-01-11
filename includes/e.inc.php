@@ -19,7 +19,7 @@ if (!empty($_GET['id'])) {
 
 if ($edit === TRUE) {
 	//load values
-	$title = 'Werkzaamheden bewerken';
+	$title = 'Evenement bewerken';
 	$data = mysqli_fetch_assoc($res);
 	
 	$date_start = date('d-m-Y', strtotime($data['datetime_start']));
@@ -32,9 +32,9 @@ if ($edit === TRUE) {
 }
 else {
 	//default values
-	$title = 'Werkzaamheden toevoegen';
-	$time_start = '07:00';
-	$time_end = '17:00';
+	$title = 'Evenement toevoegen';
+	$time_start = '00:00';
+	$time_end = '23:59';
 }
 ?>
 
@@ -71,6 +71,30 @@ $(function() {
 		delay: 0,
 		minLength: <?php echo floor(count($autocomplete)/$max_autocomplete); ?>
 	});
+	
+	$(document).ready( function () {
+		if ($('#scenario').val() == 'maatwerk') {
+			$('#maatwerk').attr('checked', 'checked');
+			$('#scenario').attr('readonly', 'readonly');
+		}
+	});
+	$('#maatwerk').change( function (){
+		if ($('#maatwerk').is(':checked') == true) {
+			$('#scenario').val('maatwerk');
+			$('#scenario').attr('readonly', 'readonly');
+		}
+		else {
+			$('#scenario').val('');
+			$('#scenario').removeAttr('readonly');
+		}
+	});
+	$('#scenario').change( function (){
+		if ($('#scenario').val() == 'maatwerk') {
+			$('#maatwerk').attr('checked', 'checked');
+			$('#scenario').attr('readonly', 'readonly');
+		}
+	});
+	
 });
 </script>
 
@@ -94,7 +118,7 @@ $(function() {
 	<td>
 		<label for="scenario">scenario:</label>
 	</td><td>
-		<input class="m" name="scenario" id="scenario" type="text" value="<?php echo $scenario; ?>" /> (laat leeg in geval van maatwerk)
+		<input class="m" name="scenario" id="scenario" type="text" value="<?php echo $scenario; ?>" /> <input type="checkbox" name="maatwerk" id="maatwerk" value="true" /> <label for="maatwerk">maatwerk</label>
 	</td>
 </tr>
 <tr>
