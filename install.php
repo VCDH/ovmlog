@@ -71,7 +71,7 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_e']."` 
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
 
-//create table "evenementen"
+//create table "users"
 $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_users']."` (
 		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		`username` VARCHAR(64),

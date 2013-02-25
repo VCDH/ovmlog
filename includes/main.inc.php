@@ -89,7 +89,7 @@ if (mysqli_num_rows($res)) {
 <p><a href="?p=e">nieuw</a> | <a href="?p=e_hist">historie</a></p>
 
 <?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name` 
+$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name`, `scenario` 
 	FROM `".$sql['database']."`.`".$sql['table_e']."`
 	WHERE `datetime_end` > NOW()
 	AND `datetime_start` < NOW()
@@ -98,17 +98,19 @@ $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<h3>Nu</h3>';
 	echo '<table class="grid">';
-	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th></tr>';
+	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
 		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
 		if (empty($row[3])) echo '(leeg)';
 		else echo htmlspecialchars($row[3]);
-		echo '</a></td></tr>';
+		echo '</a></td><td>';
+		if (!empty($row[4])) echo 'ja';
+		echo '</td></tr>';
 	}
 	echo '</table>';
 }
 
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name` 
+$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name`, `scenario` 
 	FROM `".$sql['database']."`.`".$sql['table_e']."`
 	WHERE `datetime_start` > NOW()
 	ORDER BY `datetime_start`";
@@ -116,12 +118,14 @@ $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<h3>Gepland</h3>';
 	echo '<table class="grid">';
-	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th></tr>';
+	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
 		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
 		if (empty($row[3])) echo '(leeg)';
 		else echo htmlspecialchars($row[3]);
-		echo '</a></td></tr>';
+		echo '</a></td><td>';
+		if (!empty($row[4])) echo 'ja';
+		echo '</td></tr>';
 	}
 	echo '</table>';
 }
