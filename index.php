@@ -25,6 +25,7 @@ if (!empty($_GET['s']) && file_exists('includes/'.urlencode($_GET['s']).'_save.i
 <head>
 <title>OVM logging systeem</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
 <link rel="stylesheet" href="jquery/jquery-ui.css" />
 <script src="jquery/jquery-1.8.3.js"></script>
 <script src="jquery/jquery-ui.js"></script>
@@ -37,7 +38,7 @@ if (!empty($_GET['s']) && file_exists('includes/'.urlencode($_GET['s']).'_save.i
 <div id="container">
 <div id="content">
 <div id="logo"></div>
-<p>Welkom <b><?php echo getuser('name'); ?></b> | <a href="login.php">wissel gebruiker</a></p>
+<p class="noprint">Welkom <b><?php echo getuser('name'); ?></b> | <a href="login.php">wissel gebruiker</a></p>
 
 <?php
 //include messages

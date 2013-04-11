@@ -3,10 +3,11 @@
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
 */
 ?>
-
+<div class="noprint">
+<p class="noprint"><a href="?">Vernieuwen</a></p>
 <h1>Op dit moment</h1>
 <h2>Incidenten</h2>
-<p><a href="?p=i">nieuw</a> | <a href="?p=i_hist">historie</a></p>
+<p class="noprint"><a href="?p=i">nieuw</a> | <a href="?p=i_hist">historie</a></p>
 
 <?php
 $qry = "SELECT `id`, `date`, `road`, `location` 
@@ -42,11 +43,12 @@ else {
 ?>
 
 <hr />
+</div>
 <h2>Werkzaamheden</h2>
-<p><a href="?p=w">nieuw</a> | <a href="?p=w_hist">historie</a></p>
+<p class="noprint"><a href="?p=w">nieuw</a> | <a href="?p=w_hist">historie</a></p>
 
 <?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location` 
+$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario` 
 	FROM `".$sql['database']."`.`".$sql['table_w']."`
 	WHERE `datetime_end` > NOW()
 	AND `datetime_start` < NOW()
@@ -55,17 +57,19 @@ $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<h3>Nu</h3>';
 	echo '<table class="grid">';
-	echo '<tr><th>start</th><th>eind</th><th>locatie</th></tr>';
+	echo '<tr><th>start</th><th>eind</th><th>locatie</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
 		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
 		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4]);
-		echo '</a></td></tr>';
+		echo '</a></td><td>';
+		if (!empty($row[5])) echo 'ja';
+		echo '</td></tr>';
 	}
 	echo '</table>';
 }
 
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location` 
+$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario` 
 	FROM `".$sql['database']."`.`".$sql['table_w']."`
 	WHERE `datetime_start` > NOW()
 	ORDER BY `datetime_start`";
@@ -73,12 +77,14 @@ $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<h3>Gepland</h3>';
 	echo '<table class="grid">';
-	echo '<tr><th>start</th><th>eind</th><th>locatie</th></tr>';
+	echo '<tr><th>start</th><th>eind</th><th>locatie</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
 		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
 		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4]);
-		echo '</a></td></tr>';
+		echo '</a></td><td>';
+		if (!empty($row[5])) echo 'ja';
+		echo '</td></tr>';
 	}
 	echo '</table>';
 }
@@ -86,7 +92,7 @@ if (mysqli_num_rows($res)) {
 
 <hr />
 <h2>Evenementen</h2>
-<p><a href="?p=e">nieuw</a> | <a href="?p=e_hist">historie</a></p>
+<p class="noprint"><a href="?p=e">nieuw</a> | <a href="?p=e_hist">historie</a></p>
 
 <?php
 $qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name`, `scenario` 
