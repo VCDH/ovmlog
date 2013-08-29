@@ -188,4 +188,5 @@ foreach ($content as $count => $values) {
 
 <div style="text-align: center; margin-top: 32px;">
 <img src="ongevalscenarios.png" height="525" width="676" alt="overzicht ongevalscenario's" />
+<img src="GOCAR.png" height="582" width="933" alt="overzicht ongevalscenario's" />
 </div>
