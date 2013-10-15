@@ -70,7 +70,7 @@ if ($edit === TRUE) {
 	</tr>
 	</table>
 	
-	<p><a href="?p=i_hist">Terug naar overzicht</a></p>
+	<p><a href="?p=w_hist">Terug naar overzicht</a></p>
 	<?php
 }
 else {
