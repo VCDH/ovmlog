@@ -52,7 +52,7 @@ $qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scen
 	FROM `".$sql['database']."`.`".$sql['table_w']."`
 	WHERE `datetime_end` > NOW()
 	AND `datetime_start` < NOW()
-	ORDER BY `datetime_start`";
+	ORDER BY `datetime_end`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<h3>Nu</h3>';
