@@ -63,7 +63,7 @@ if (mysqli_num_rows($res)) {
 		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4]);
 		echo '</a></td><td>';
-		if (!empty($row[5])) echo 'ja';
+		echo htmlspecialchars($row[5]);
 		echo '</td></tr>';
 	}
 	echo '</table>';
@@ -83,7 +83,7 @@ if (mysqli_num_rows($res)) {
 		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4]);
 		echo '</a></td><td>';
-		if (!empty($row[5])) echo 'ja';
+		echo htmlspecialchars($row[5]);
 		echo '</td></tr>';
 	}
 	echo '</table>';
@@ -110,7 +110,7 @@ if (mysqli_num_rows($res)) {
 		if (empty($row[3])) echo '(leeg)';
 		else echo htmlspecialchars($row[3]);
 		echo '</a></td><td>';
-		if (!empty($row[4])) echo 'ja';
+		echo htmlspecialchars($row[4]);
 		echo '</td></tr>';
 	}
 	echo '</table>';
@@ -130,7 +130,7 @@ if (mysqli_num_rows($res)) {
 		if (empty($row[3])) echo '(leeg)';
 		else echo htmlspecialchars($row[3]);
 		echo '</a></td><td>';
-		if (!empty($row[4])) echo 'ja';
+		echo htmlspecialchars($row[4]);
 		echo '</td></tr>';
 	}
 	echo '</table>';

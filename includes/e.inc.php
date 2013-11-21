@@ -71,30 +71,6 @@ $(function() {
 		delay: 0,
 		minLength: <?php echo floor(count($autocomplete)/$max_autocomplete); ?>
 	});
-	
-	$(document).ready( function () {
-		if ($('#scenario').val() == 'maatwerk') {
-			$('#maatwerk').attr('checked', 'checked');
-			$('#scenario').attr('readonly', 'readonly');
-		}
-	});
-	$('#maatwerk').change( function (){
-		if ($('#maatwerk').is(':checked') == true) {
-			$('#scenario').val('maatwerk');
-			$('#scenario').attr('readonly', 'readonly');
-		}
-		else {
-			$('#scenario').val('');
-			$('#scenario').removeAttr('readonly');
-		}
-	});
-	$('#scenario').change( function (){
-		if ($('#scenario').val() == 'maatwerk') {
-			$('#maatwerk').attr('checked', 'checked');
-			$('#scenario').attr('readonly', 'readonly');
-		}
-	});
-	
 });
 </script>
 
@@ -118,7 +94,10 @@ $(function() {
 	<td>
 		<label for="scenario">scenario:</label>
 	</td><td>
-		<input class="m" name="scenario" id="scenario" type="text" value="<?php echo $scenario; ?>" /> <input type="checkbox" name="maatwerk" id="maatwerk" value="true" /> <label for="maatwerk">maatwerk</label>
+		<input type="radio" name="scenario" id="scenario_nieuw" value="nieuw"<?php if ($scenario == 'nieuw') echo 'checked="checked"'; ?> /><label for="scenario_nieuw">nieuw</label>
+		<input type="radio" name="scenario" id="scenario_hergebruik" value="hergebruik"<?php if ($scenario == 'hergebruik') echo 'checked="checked"'; ?> /><label for="scenario_hergebruik">hergebruik</label>
+		<input type="radio" name="scenario" id="scenario_nee" value="nee"<?php if ($scenario == 'nee') echo 'checked="checked"'; ?> /><label for="scenario_nee">nee</label>
+		<input type="radio" name="scenario" id="scenario_ntb" value="ntb"<?php if (($scenario != 'nieuw') && ($scenario != 'nee') && ($scenario != 'hergebruik')) echo 'checked="checked"'; ?> /><label for="scenario_ntb">ntb</label>
 	</td>
 </tr>
 <tr>
