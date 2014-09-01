@@ -111,33 +111,39 @@ $(function() {
 	});
 	
 	$(document).ready( function () {
+ 		$('#formulier').submit( function (event) {
+			if ($('#scenario').val() == 'geen') {
+				alert('Er bestaat geen scenario met de naam "geen". Laat het veld leeg als er geen scenario is ingezet.');
+				event.preventDefault();
+			}
+		});
 		if ($('#scenario').val() == 'maatwerk') {
-			$('#maatwerk').attr('checked', 'checked');
-			$('#scenario').attr('readonly', 'readonly');
-		}
-	});
-	$('#maatwerk').change( function (){
-		if ($('#maatwerk').is(':checked') == true) {
-			$('#scenario').val('maatwerk');
-			$('#scenario').attr('readonly', 'readonly');
-		}
-		else {
-			$('#scenario').val('');
-			$('#scenario').removeAttr('readonly');
-		}
-	});
-	$('#scenario').change( function (){
-		if ($('#scenario').val() == 'maatwerk') {
-			$('#maatwerk').attr('checked', 'checked');
-			$('#scenario').attr('readonly', 'readonly');
-		}
-	});
+ 			$('#maatwerk').attr('checked', 'checked');
+ 			$('#scenario').attr('readonly', 'readonly');
+ 		}
+ 	});
+ 	$('#maatwerk').change( function (){
+ 		if ($('#maatwerk').is(':checked') == true) {
+ 			$('#scenario').val('maatwerk');
+ 			$('#scenario').attr('readonly', 'readonly');
+ 		}
+ 		else {
+ 			$('#scenario').val('');
+ 			$('#scenario').removeAttr('readonly');
+ 		}
+ 	});
+ 	$('#scenario').change( function (){
+ 		if ($('#scenario').val() == 'maatwerk') {
+ 			$('#maatwerk').attr('checked', 'checked');
+ 			$('#scenario').attr('readonly', 'readonly');
+ 		}
+ 	});
 });
 </script>
 
 <h1><?php echo $title; ?></h1>
 
-<form action="?s=i" method="post">
+<form id="formulier" action="?s=i" method="post">
 <input type="hidden" name="id" value="<?php echo htmlspecialchars($id) ?>" />
 
 <table>
