@@ -87,7 +87,7 @@ table.grid tr.sub td {
 label {
 	font-weight: bold;
 }
-input.m {
+input.m, select {
 	border: none;
 	border-bottom: 1px solid #000;
 	background-color: #EEE;
@@ -103,7 +103,7 @@ input.l {
 	border: none;
 	border-bottom: 1px solid #000;
 	background-color: #EEE;
-	width: 800px;
+	width: 720px;
 }
 input.time {
 	border: none;
@@ -119,7 +119,7 @@ textarea {
 	height: 80px;
 }
 textarea.l {
-	width: 800px;
+	width: 720px;
 	height: 200px;
 }
 div.right {

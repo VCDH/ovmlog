@@ -94,10 +94,20 @@ $(function() {
 	<td>
 		<label for="scenario">scenario:</label>
 	</td><td>
-		<input type="radio" name="scenario" id="scenario_nieuw" value="nieuw"<?php if ($scenario == 'nieuw') echo 'checked="checked"'; ?> /><label for="scenario_nieuw">nieuw</label>
-		<input type="radio" name="scenario" id="scenario_hergebruik" value="hergebruik"<?php if ($scenario == 'hergebruik') echo 'checked="checked"'; ?> /><label for="scenario_hergebruik">hergebruik</label>
-		<input type="radio" name="scenario" id="scenario_nee" value="nee"<?php if ($scenario == 'nee') echo 'checked="checked"'; ?> /><label for="scenario_nee">nee</label>
-		<input type="radio" name="scenario" id="scenario_ntb" value="ntb"<?php if (($scenario != 'nieuw') && ($scenario != 'nee') && ($scenario != 'hergebruik')) echo 'checked="checked"'; ?> /><label for="scenario_ntb">ntb</label>
+		<?php
+		$scenario_status = array('ntb', 'nee', 'hergebruik', 'nieuw', 'voorbereid', 'geprogrammeerd', 'geactiveerd');
+		echo '<select name="scenario" id="scenario">';
+		foreach ($scenario_status as $status) {
+			echo '<option value="';
+			echo $status;
+			echo '"';
+			if ($scenario == $status) echo ' selected="selected"';
+			echo '>';
+			echo $status;
+			echo '</option>';
+		}
+		echo '</select>';
+		?>
 	</td>
 </tr>
 <tr>
