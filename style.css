@@ -83,6 +83,15 @@ table.grid td.expand {
 table.grid tr.sub td {
 	border-top: 1px solid #EEE;
 }
+table.grid tr.low td {
+    color: #CCC;
+}
+table.grid tr.low td a {
+    color: #666;
+}
+table.grid tr.upcoming td {
+    background-color: #F5F5F5;
+}
 
 label {
 	font-weight: bold;

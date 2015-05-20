@@ -60,7 +60,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>locatie</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.
+		echo '<tr'.(($row[5]=='nee')?' class="low"':'').'><td>'.
         ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
         '</td><td>'.
         ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
@@ -84,7 +84,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>locatie</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.
+		echo '<tr'.((strtotime($row[1])<time()+604800)?' class="upcoming"':'').'><td>'.
         ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
         '</td><td>'.
         ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
@@ -115,7 +115,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.
+		echo '<tr'.(($row[5]=='nee')?' class="low"':'').'><td>'.
         ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
         '</td><td>'.
         ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
@@ -139,7 +139,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.
+		echo '<tr'.((strtotime($row[1])<time()+604800)?' class="upcoming"':'').'><td>'.
         ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
         '</td><td>'.
         ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
