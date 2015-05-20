@@ -2,6 +2,7 @@
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
 */
+setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 ?>
 <div class="noprint">
 <p class="noprint"><a href="?">Vernieuwen</a></p>
@@ -20,7 +21,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>datum</th><th>tijd</th><th>locatie/omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td><a href="?p=i&amp;id='.$row[0].'">'.date('d-m-Y', strtotime($row[1])).'</a></td><td>&nbsp;</td><td><a href="?p=i&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3]).'</a></td></tr>';
+		echo '<tr><td><a href="?p=i&amp;id='.$row[0].'">'.((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G", strtotime($row[1]))))).'</a></td><td>&nbsp;</td><td><a href="?p=i&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3]).'</a></td></tr>';
 		$qry2 = "SELECT `time`, `description`
 		FROM `".$sql['database']."`.`".$sql['table_id']."`
 		WHERE `parent_id` = ".$row[0]."
@@ -59,7 +60,11 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>locatie</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
+		echo '<tr><td>'.
+        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
+        '</td><td>'.
+        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
+        '</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
 		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4]);
 		echo '</a></td><td>';
@@ -79,7 +84,11 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>locatie</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
+		echo '<tr><td>'.
+        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
+        '</td><td>'.
+        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
+        '</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
 		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4]);
 		echo '</a></td><td>';
@@ -106,7 +115,11 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
+		echo '<tr><td>'.
+        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
+        '</td><td>'.
+        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
+        '</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
 		if (empty($row[3])) echo '(leeg)';
 		else echo htmlspecialchars($row[3]);
 		echo '</a></td><td>';
@@ -126,7 +139,11 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
+		echo '<tr><td>'.
+        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
+        '</td><td>'.
+        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
+        '</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
 		if (empty($row[3])) echo '(leeg)';
 		else echo htmlspecialchars($row[3]);
 		echo '</a></td><td>';
