@@ -29,7 +29,7 @@ if ($edit === TRUE) {
 	$datetime_end = date('d-m-Y H:i', strtotime($data['datetime_end']));
 	$road = htmlspecialchars($data['road']);
 	$location = htmlspecialchars($data['location']);
-	$description = htmlspecialchars($data['description']);
+	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
 	$scenario = htmlspecialchars($data['scenario']);
 	
 	?>

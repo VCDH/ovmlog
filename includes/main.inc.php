@@ -30,7 +30,7 @@ if (mysqli_num_rows($res)) {
 		if (mysqli_num_rows($res2)) {
 			while ($row2 = mysqli_fetch_row($res2)) {
 				//nog iets toevoegen van string afbreken na bepaalde lengte
-				echo '<tr class="sub"><td>&nbsp;</td><td>'.date('H:i', strtotime($row2[0])).'</td><td class="expand">'.htmlspecialchars(str_replace('<br />', ' ', $row2[1])).'</td></tr>';
+				echo '<tr class="sub"><td>&nbsp;</td><td>'.date('H:i', strtotime($row2[0])).'</td><td class="expand">'.htmlspecialchars(str_replace('<br />', ' ', $row2[1]), NULL, 'ISO-8859-15').'</td></tr>';
 			}
 		}
 	}

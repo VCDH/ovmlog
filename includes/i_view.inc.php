@@ -39,7 +39,7 @@ if ($edit === TRUE) {
 		while ($data = mysqli_fetch_assoc($res)) {
 			$content[] = array(	'id' => $data['id'], 
 								'time' => date('H:i', strtotime($data['time'])), 
-								'description' => htmlspecialchars($data['description']), 
+								'description' => htmlspecialchars($data['description'], NULL, 'ISO-8859-15'), 
 								'contact' => htmlspecialchars($data['contact']));
 		}
 	}

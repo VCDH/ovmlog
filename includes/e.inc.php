@@ -27,7 +27,7 @@ if ($edit === TRUE) {
 	$time_start = date('H:i', strtotime($data['datetime_start']));
 	$time_end = date('H:i', strtotime($data['datetime_end']));
 	$name = htmlspecialchars($data['name']);
-	$description = htmlspecialchars($data['description']);
+	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
 	$scenario = htmlspecialchars($data['scenario']);
 }
 else {
