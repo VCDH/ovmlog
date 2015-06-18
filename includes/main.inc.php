@@ -17,7 +17,6 @@ $qry = "SELECT `id`, `date`, `road`, `location`
 	ORDER BY `date` DESC";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
-	echo '<h3>Nu</h3>';
 	echo '<table class="grid">';
 	echo '<tr><th>datum</th><th>tijd</th><th>locatie/omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
@@ -55,7 +54,6 @@ $qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name`, `scenario`
 	ORDER BY `datetime_start`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
-	echo '<h3>Nu</h3>';
 	echo '<table class="grid">';
 	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
