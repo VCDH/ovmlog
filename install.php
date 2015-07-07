@@ -77,7 +77,8 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_users']
 		`username` VARCHAR(64),
 		`password` VARCHAR(32),
 		`accesscode` TEXT,
-		`email` VARCHAR(255)
+		`email` VARCHAR(255),
+        `disabled` BOOLEAN DEFAULT FALSE
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);

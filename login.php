@@ -77,6 +77,7 @@ if ($login === FALSE) {
 			//get users from database
 			$qry = "SELECT `username` 
 				FROM `".$sql['database']."`.`".$sql['table_users']."`
+                WHERE `disabled` = FALSE
 				ORDER BY `username`";
 			$res = mysqli_query($sql['link'], $qry);
 			if (mysqli_num_rows($res)) {
