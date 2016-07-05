@@ -149,15 +149,18 @@ $(function() {
 <table>
 <tr>
 	<td><label for="date">datum:</label></td>
-	<td><input class="date s" name="date" id="date" type="text" value="<?php echo $date; ?>" /></td>
-	<td><label for="scenario">scenario:</label></td>
-	<td><input class="m" name="scenario" id="scenario" type="text" value="<?php echo $scenario; ?>" /> <input type="checkbox" name="maatwerk" id="maatwerk" value="true" /> <label for="maatwerk">maatwerk</label></td>
+	<td><input tabindex="1" class="date s" name="date" id="date" type="text" value="<?php echo $date; ?>" /></td>
+    <td><label for="road">wegnr:</label></td>
+	<td><input tabindex="2" class="s" name="road" id="road" type="text" value="<?php echo $road; ?>" /></td>
 </tr>
 <tr>
-	<td><label for="road">wegnr:</label></td>
-	<td><input class="s" name="road" id="road" type="text" value="<?php echo $road; ?>" /></td>
+	<td><label for="scenario">scenario:</label></td>
+	<td><input tabindex="4" class="m" name="scenario" id="scenario" type="text" value="<?php echo $scenario; ?>" /> </td>
 	<td><label for="location">locatie:</label></td>
-	<td><input class="m" name="location" id="location" type="text" value="<?php echo $location; ?>" /></td>
+	<td><input tabindex="3" class="m" name="location" id="location" type="text" value="<?php echo $location; ?>" /></td>
+</tr>
+<tr>
+	<td colspan="4"><input type="checkbox" name="maatwerk" id="maatwerk" value="true" /> <label for="maatwerk">maatwerk</label></td>
 </tr>
 </table>
 

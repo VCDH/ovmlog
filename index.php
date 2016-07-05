@@ -38,7 +38,7 @@ if (!empty($_GET['s']) && file_exists('includes/'.urlencode($_GET['s']).'_save.i
 <div id="container">
 <div id="content">
 <div id="logo"></div>
-<p class="noprint">Welkom <b><?php echo getuser('name'); ?></b> | <a href="login.php">wissel gebruiker</a></p>
+<p class="noprint">Welkom <b><?php echo getuser('name'); ?></b> | <a href="login.php" tabindex="-1">wissel gebruiker</a></p>
 
 <?php
 //include messages
