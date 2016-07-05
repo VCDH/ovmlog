@@ -31,6 +31,7 @@ if ($edit === TRUE) {
 	$location = htmlspecialchars($data['location']);
 	$scenario = htmlspecialchars($data['scenario']);
 	$open = $data['open'];
+    $review = $data['review'];
 	
 	$qry = "SELECT * 
 	FROM `".$sql['database']."`.`".$sql['table_id']."`
@@ -55,6 +56,7 @@ else {
 $title = 'Incident toevoegen';
 $date = date('d-m-Y');
 $open = 1;
+$review = 0;
 $content[] = array(	'id' => '0', 
 					'time' => date('H:i'), 
 					'description' => null, 
@@ -160,7 +162,7 @@ $(function() {
 	<td><input tabindex="3" class="m" name="location" id="location" type="text" value="<?php echo $location; ?>" /></td>
 </tr>
 <tr>
-	<td colspan="4"><input type="checkbox" name="maatwerk" id="maatwerk" value="true" /> <label for="maatwerk">maatwerk</label></td>
+	<td colspan="4"><input type="checkbox" name="maatwerk" id="maatwerk" value="true" /> <label for="maatwerk">maatwerk</label> <input type="checkbox" name="review" id="review" value="true"<?php if ($review == 1) echo ' checked="checked"'; ?> /> <label for="review">evaluatie</label></td>
 </tr>
 </table>
 

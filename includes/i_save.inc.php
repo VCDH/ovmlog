@@ -29,6 +29,8 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 		`user_id_edit` = '".getuser()."'";
 		if ($_POST['closed'] == 'true') $qry .= ", `open` = 0 ";
 		else $qry .= ", `open` = 1 ";
+        if ($_POST['review'] == 'true') $qry .= ", `review` = 1 ";
+		else $qry .= ", `review` = 0 ";
 		$qry .= "WHERE `id` = '".$_POST['id']."'";
 		if (mysqli_query($sql['link'], $qry)) {
 			
@@ -80,6 +82,8 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 		`user_id_edit` = '".getuser()."'";
 		if ($_POST['closed'] == 'true') $qry .= ", `open` = 0";
 		else $qry .= ", `open` = 1";
+        if ($_POST['review'] == 'true') $qry .= ", `review` = 1 ";
+		else $qry .= ", `review` = 0 ";
 		if (mysqli_query($sql['link'], $qry)) {
 			
 			$id = mysqli_insert_id($sql['link']);
