@@ -10,9 +10,19 @@
 
 //decide edit or add
 if (!empty($_GET['id'])) {
-	$qry = "SELECT * 
+    $qry = "SELECT `".$sql['table_i']."`.`date` AS `date`,
+    `".$sql['table_i']."`.`road` AS `road`,
+    `".$sql['table_i']."`.`location` AS `location`,
+    `".$sql['table_i']."`.`scenario` AS `scenario`,
+    `".$sql['table_i']."`.`open` AS `open`,
+    `C`.`username` AS `username_create`,
+    `E`.`username` AS `username_edit`
 	FROM `".$sql['database']."`.`".$sql['table_i']."`
-	WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'
+    LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."` AS `C`
+    ON `".$sql['table_i']."`.`user_id_create` = `C`.`id`
+    LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."` AS `E`
+    ON `".$sql['table_i']."`.`user_id_edit` = `E`.`id`
+	WHERE `".$sql['table_i']."`.`id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'
 	LIMIT 1";
 	$res = mysqli_query($sql['link'], $qry);
 	if (mysqli_num_rows($res)) {
@@ -29,18 +39,32 @@ if ($edit === TRUE) {
 	$location = htmlspecialchars($data['location']);
 	$scenario = htmlspecialchars($data['scenario']);
 	$open = $data['open'];
+    $username_create = htmlspecialchars($data['username_create']);
+    $username_edit = htmlspecialchars($data['username_edit']);
 	
-	$qry = "SELECT * 
+	$qry = "SELECT 
+    `".$sql['table_id']."`.`id`,
+    `".$sql['table_id']."`.`time`,
+    `".$sql['table_id']."`.`description`,
+    `".$sql['table_id']."`.`contact`,
+    `C`.`username` AS `username_create`,
+    `E`.`username` AS `username_edit` 
 	FROM `".$sql['database']."`.`".$sql['table_id']."`
-	WHERE `parent_id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'
-	ORDER BY `time`";
+    LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."` AS `C`
+    ON `".$sql['table_id']."`.`user_id_create` = `C`.`id`
+    LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."` AS `E`
+    ON `".$sql['table_id']."`.`user_id_edit` = `E`.`id`
+	WHERE `".$sql['table_id']."`.`parent_id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'
+	ORDER BY `".$sql['table_id']."`.`time`";
 	$res = mysqli_query($sql['link'], $qry);
 	if (mysqli_num_rows($res)) {
 		while ($data = mysqli_fetch_assoc($res)) {
 			$content[] = array(	'id' => $data['id'], 
 								'time' => date('H:i', strtotime($data['time'])), 
 								'description' => htmlspecialchars($data['description'], NULL, 'ISO-8859-15'), 
-								'contact' => htmlspecialchars($data['contact']));
+								'contact' => htmlspecialchars($data['contact']),
+                                'username_create' => htmlspecialchars($data['username_create']),
+                                'username_edit' => htmlspecialchars($data['username_edit']));
 		}
 	}
 	
@@ -61,12 +85,20 @@ if ($edit === TRUE) {
 		<td><?php echo $location; ?></td>
 	</tr>
 	</table>
+    
+    <?php 
+    echo '<p class="small">Gelogd door: <strong>'.$username_create.'</strong>';
+    if ($username_create != $username_edit) {
+        echo ' Laatst bewerkt door: <strong>'.$username_edit.'</strong>';
+    }
+    echo '</p>'; 
+    ?>
 
-	<table>
+	<table class="grid">
 	<tr>
 		<td>&nbsp;</td>
 		<td><label>tijd</label></td>
-		<td><label>beschrijving</label></td>
+		<td class="expand"><label>beschrijving</label></td>
 		<td><label>gesproken met</label></td>
 	</tr>
 
@@ -76,7 +108,18 @@ if ($edit === TRUE) {
 		<tr>
 			<td class="count"><?php echo $count+1; ?></td>
 			<td><?php echo $values['time']; ?></td>
-			<td><?php echo nl2br($values['description']); ?></td>
+			<td class="expand">
+            <?php 
+            echo nl2br($values['description']); 
+            if (($values['username_create'] != $username_create) || ($values['username_edit'] != $username_edit)) {
+                echo '<p class="small">Gelogd door: <strong>'.$values['username_create'].'</strong>';
+                if ($values['username_create'] != $values['username_edit']) {
+                    echo ' Laatst bewerkt door: <strong>'.$values['username_edit'].'</strong>';
+                }
+                echo '</p>'; 
+            }
+            ?>
+            </td>
 			<td><?php echo $values['contact']; ?></td>
 		</tr>
 		<?php
@@ -88,7 +131,7 @@ if ($edit === TRUE) {
 		<td colspan="3"><?php if ($open == 0) echo '<label>melding afgesloten</label>'; else echo '<label>melding open</label>'; ?></td>
 	</tr>
 	</table>
-
+    
 	<p><a href="?p=i_hist">Terug naar overzicht</a></p>
 	<?php
 }

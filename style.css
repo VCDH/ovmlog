@@ -32,6 +32,9 @@ p {
 	margin-top: 8px;
 	margin-bottom: 8px;
 }
+p.small {
+    font-size: x-small;
+}
 p.error {
 	display: block;
 	margin: 8px;
