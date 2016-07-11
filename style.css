@@ -153,3 +153,9 @@ div#logo {
 	background-repeat: no-repeat;
 	background-position: left top;
 }
+
+/* JQuery UI */
+.ui-datepicker, .ui-dialog {
+    font-family: Calibri, Arial, Helvetica, sans-serif;
+	font-size: medium;
+}
