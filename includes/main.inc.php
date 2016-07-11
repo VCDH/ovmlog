@@ -1,13 +1,13 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016
 */
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 ?>
 <div class="noprint">
 <p class="noprint"><a href="?">Vernieuwen</a></p>
-<h1>Op dit moment</h1>
-<h2>Incidenten</h2>
+<h1>Incidenten</h1>
 <p class="noprint"><a href="?p=i">nieuw</a> | <a href="?p=i_hist">historie</a></p>
 
 <?php
@@ -44,56 +44,29 @@ else {
 
 </div>
 
-<h2>Evenementen</h2>
+<hr />
+<h1>Actuele werkzaamheden en evenementen</h1>
 
 <?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name`, `scenario` 
-	FROM `".$sql['database']."`.`".$sql['table_e']."`
-	WHERE `datetime_end` > NOW()
-	AND `datetime_start` < NOW()
-	ORDER BY `datetime_start`";
-$res = mysqli_query($sql['link'], $qry);
-if (mysqli_num_rows($res)) {
-	echo '<table class="grid">';
-	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th><th>scn</th></tr>';
-	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr'.(($row[5]=='nee')?' class="low"':'').'><td>'.
-        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
-        '</td><td>'.
-        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
-        '</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
-		if (empty($row[3])) echo '(leeg)';
-		else echo htmlspecialchars($row[3]);
-		echo '</a></td><td>';
-		echo htmlspecialchars($row[4]);
-		echo '</td></tr>';
-	}
-	echo '</table>';
-}
-else {
-    echo '<p>Er zijn geen evenementen.</p>';
-}
-?>
-
-<h2>Werkzaamheden</h2>
-
-<?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario` 
-	FROM `".$sql['database']."`.`".$sql['table_w']."`
+$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name` 
+	FROM `".$sql['database']."`.`".$sql['table_p']."`
 	WHERE `datetime_end` > NOW()
 	AND `datetime_start` < NOW()
 	ORDER BY `datetime_end`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
-	echo '<tr><th>start</th><th>eind</th><th>locatie</th><th>scn</th></tr>';
+	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie/naam</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr'.(($row[5]=='nee')?' class="low"':'').'><td>'.
+		echo '<tr'.(($row[5]=='nee')?' class="low"':'').'>';
+        echo '<td><img src="'.(($row[6] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" /></td>';
+        echo '<td>'.
         ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
         '</td><td>'.
         ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
-        '</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
-		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
+        '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
+		if (!empty($row[7])) echo htmlspecialchars($row[7]);
+        elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4]);
 		echo '</a></td><td>';
 		echo htmlspecialchars($row[5]);
@@ -102,61 +75,33 @@ if (mysqli_num_rows($res)) {
 	echo '</table>';
 }
 else {
-    echo '<p>Er zijn geen werkzaamheden.</p>';
+    echo '<p>Er zijn geen werkzaamheden of evenementen.</p>';
 }
 ?>
 
 <hr />
-<h1>Gepland</h1>
-
-<h2>Evenementen<span class="noprint"> | <a href="?p=e">nieuw</a> | <a href="?p=e_hist">historie</a></span></h2>
+<h1>Geplande werkzaamheden en evenementen</h1>
+<p class="noprint"><a href="?p=p">nieuw</a> | <a href="?p=p_hist">historie</a></p>
 
 <?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `name`, `scenario` 
-	FROM `".$sql['database']."`.`".$sql['table_e']."`
+$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`  
+	FROM `".$sql['database']."`.`".$sql['table_p']."`
 	WHERE `datetime_start` > NOW()
 	ORDER BY `datetime_start`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
-	echo '<tr><th>start</th><th>eind</th><th>omschrijving</th><th>scn</th></tr>';
+	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th>scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr'.((strtotime($row[1])<time()+604800)?' class="upcoming"':'').'><td>'.
+		echo '<tr'.((strtotime($row[1])<time()+604800)?' class="upcoming"':'').'>';
+        echo '<td><img src="'.(($row[6] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" /></td>';
+        echo '<td>'.
         ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
         '</td><td>'.
         ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
-        '</td><td class="expand"><a href="?p=e_view&amp;id='.$row[0].'">';
-		if (empty($row[3])) echo '(leeg)';
-		else echo htmlspecialchars($row[3]);
-		echo '</a></td><td>';
-		echo htmlspecialchars($row[4]);
-		echo '</td></tr>';
-	}
-	echo '</table>';
-}
-else {
-    echo '<p>Er zijn geen geplande evenementen.</p>';
-}
-?>
-
-<h2>Werkzaamheden<span class="noprint"> | <a href="?p=w">nieuw</a> | <a href="?p=w_hist">historie</a></span></h2>
-
-<?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario` 
-	FROM `".$sql['database']."`.`".$sql['table_w']."`
-	WHERE `datetime_start` > NOW()
-	ORDER BY `datetime_start`";
-$res = mysqli_query($sql['link'], $qry);
-if (mysqli_num_rows($res)) {
-	echo '<table class="grid">';
-	echo '<tr><th>start</th><th>eind</th><th>locatie</th><th>scn</th></tr>';
-	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr'.((strtotime($row[1])<time()+604800)?' class="upcoming"':'').'><td>'.
-        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
-        '</td><td>'.
-        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
-        '</td><td class="expand"><a href="?p=w_view&amp;id='.$row[0].'">';
-		if (empty($row[3]) && empty($row[4])) echo '(leeg)';
+        '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
+		if (!empty($row[7])) echo htmlspecialchars($row[7]);
+        elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4]);
 		echo '</a></td><td>';
 		echo htmlspecialchars($row[5]);
@@ -165,6 +110,6 @@ if (mysqli_num_rows($res)) {
 	echo '</table>';
 }
 else {
-    echo '<p>Er zijn geen geplande werkzaamheden.</p>';
+    echo '<p>Er zijn geen geplande werkzaamheden of evenementen.</p>';
 }
 ?>

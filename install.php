@@ -43,27 +43,15 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_id']."`
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
 
-//create table "werkzaamheden"
-$qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_w']."` (
+//create table "gepland"
+$qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_p']."` (
 		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `type` ENUM( 'w', 'e' ) NOT NULL,
+        `name` VARCHAR( 255 ) NULL,
 		`datetime_start` DATETIME NOT NULL,
 		`datetime_end` DATETIME NOT NULL,
 		`road` TINYTEXT,
 		`location` TINYTEXT,
-		`description` TEXT,
-		`scenario` TINYTEXT,
-		`user_id_create` INT UNSIGNED DEFAULT 0,
-		`user_id_edit` INT UNSIGNED DEFAULT 0
-	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-mysqli_query($sql['link'], $qry);
-echo mysqli_error($sql['link']);
-
-//create table "evenementen"
-$qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_e']."` (
-		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		`datetime_start` DATETIME NOT NULL,
-		`datetime_end` DATETIME NOT NULL,
-		`name` TINYTEXT,
 		`description` TEXT,
 		`scenario` TINYTEXT,
 		`user_id_create` INT UNSIGNED DEFAULT 0,

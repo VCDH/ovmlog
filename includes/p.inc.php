@@ -1,6 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016
 */
 
 $max_autocomplete = 50;
@@ -8,7 +9,7 @@ $max_autocomplete = 50;
 //decide edit or add
 if (!empty($_GET['id'])) {
 	$qry = "SELECT * 
-	FROM `".$sql['database']."`.`".$sql['table_e']."`
+	FROM `".$sql['database']."`.`".$sql['table_p']."`
 	WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'
 	LIMIT 1";
 	$res = mysqli_query($sql['link'], $qry);
@@ -19,35 +20,38 @@ if (!empty($_GET['id'])) {
 
 if ($edit === TRUE) {
 	//load values
-	$title = 'Evenement bewerken';
+	$title = 'Werkzaamheden/evenement bewerken';
 	$data = mysqli_fetch_assoc($res);
 	
 	$date_start = date('d-m-Y', strtotime($data['datetime_start']));
 	$date_end = date('d-m-Y', strtotime($data['datetime_end']));
 	$time_start = date('H:i', strtotime($data['datetime_start']));
 	$time_end = date('H:i', strtotime($data['datetime_end']));
-	$name = htmlspecialchars($data['name']);
+	$road = htmlspecialchars($data['road']);
+	$location = htmlspecialchars($data['location']);
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
 	$scenario = htmlspecialchars($data['scenario']);
+    $name = htmlspecialchars($data['name']); 
+    $type = $data['type'];
 }
 else {
 	//default values
-	$title = 'Evenement toevoegen';
-	$time_start = '00:00';
-	$time_end = '23:59';
+	$title = 'Werkzaamheden/evenement toevoegen';
+	$time_start = '07:00';
+	$time_end = '17:00';
 }
 ?>
 
 <script>
 $(function() {
-	$( "#date_start" ).datetimepicker({altField: "#time_start", stepMinute: 10});
-	$( "#date_end" ).datetimepicker({altField: "#time_end", stepMinute: 10});
+	$( "#date_start" ).datetimepicker({altField: "#time_start", stepMinute: 5});
+	$( "#date_end" ).datetimepicker({altField: "#time_end", stepMinute: 5});
 	
 	$( "#scenario" ).autocomplete({
 		source: [<?php
 			$autocomplete = array();
 			$qry = "SELECT DISTINCT `scenario` 
-			FROM `".$sql['database']."`.`".$sql['table_e']."`";
+			FROM `".$sql['database']."`.`".$sql['table_w']."`";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
 				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0]).'"';
@@ -57,11 +61,11 @@ $(function() {
 		delay: 0,
 		minLength: <?php echo floor(count($autocomplete)/$max_autocomplete); ?>
 	});
-	$( "#name" ).autocomplete({
+	$( "#road" ).autocomplete({
 		source: [<?php
 			$autocomplete = array();
-			$qry = "SELECT DISTINCT `name` 
-			FROM `".$sql['database']."`.`".$sql['table_e']."`";
+			$qry = "SELECT DISTINCT `road` 
+			FROM `".$sql['database']."`.`".$sql['table_w']."`";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
 				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0]).'"';
@@ -76,10 +80,30 @@ $(function() {
 
 <h1><?php echo $title; ?></h1>
 
-<form action="?s=e" method="post">
+<form action="?s=p" method="post">
 <input type="hidden" name="id" value="<?php echo htmlspecialchars($_GET['id']) ?>" />
 
 <table>
+<tr>
+	<td>
+		<label for="type">type:</label>
+	</td><td>
+		<?php
+		$type_list = array('w' => 'werkzaamheden', 'e' => 'evenement');
+		echo '<select name="type" id="type">';
+		foreach ($type_list as $type_id => $type_name) {
+			echo '<option value="';
+			echo $type_id;
+			echo '"';
+			if ($type_id == $type) echo ' selected="selected"';
+			echo '>';
+			echo $type_name;
+			echo '</option>';
+		}
+		echo '</select>';
+		?>
+	</td>
+</tr>
 <tr>
 	<td>
 		<label for="date_start">van:</label>
@@ -92,7 +116,23 @@ $(function() {
 </tr>
 <tr>
 	<td>
-		<label for="scenario">scenario:</label>
+		<label for="road">wegnr:</label>
+	</td><td>
+		<input class="s" name="road" id="road" type="text" value="<?php echo $road; ?>" />
+		<label for="location">locatie:</label>
+		<input class="m" name="location" id="location" type="text" value="<?php echo $location; ?>" />
+	</td>
+</tr>
+<tr>
+	<td>
+		<label for="name">naam:</label>
+	</td><td>
+		<input class="l" name="name" id="name" type="text" value="<?php echo $name; ?>" />
+	</td>
+</tr>
+<tr>
+	<td>
+		<label for="scenario">scenario status:</label>
 	</td><td>
 		<?php
 		$scenario_status = array('ntb', 'nee', 'hergebruik', 'nieuw', 'voorbereid', 'geprogrammeerd', 'geactiveerd');
@@ -108,13 +148,6 @@ $(function() {
 		}
 		echo '</select>';
 		?>
-	</td>
-</tr>
-<tr>
-	<td>
-		<label for="name">naam:</label>
-	</td><td>
-		<input class="l" name="name" id="name" type="text" value="<?php echo $name; ?>" />
 	</td>
 </tr>
 <tr>

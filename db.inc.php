@@ -5,12 +5,13 @@
 
 //database credentials and settings
 $sql['server'] = 'localhost';
-$sql['database'] = 'ovm';
+$sql['database'] = 'ovmlog';
 $sql['table_prefix'] = 'ovm_';
 $sql['table_i'] = $sql['table_prefix'].'incidenten';
 $sql['table_id'] = $sql['table_prefix'].'incidenten_details';
 $sql['table_w'] = $sql['table_prefix'].'werkzaamheden';
 $sql['table_e'] = $sql['table_prefix'].'evenementen';
+$sql['table_p'] = $sql['table_prefix'].'gepland';
 $sql['table_users'] = $sql['table_prefix'].'users';
 $sql['user'] = 'root';
 $sql['password'] = '';

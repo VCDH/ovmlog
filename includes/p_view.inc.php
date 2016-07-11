@@ -1,18 +1,18 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016
 */
-
 ?>
 
-<h1>Werkzaamheden</h1>
+
 
 <?php
 
 //decide edit or add
 if (!empty($_GET['id'])) {
 	$qry = "SELECT * 
-	FROM `".$sql['database']."`.`".$sql['table_e']."`
+	FROM `".$sql['database']."`.`".$sql['table_p']."`
 	WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'
 	LIMIT 1";
 	$res = mysqli_query($sql['link'], $qry);
@@ -27,12 +27,18 @@ if ($edit === TRUE) {
 	
 	$datetime_start = date('d-m-Y H:i', strtotime($data['datetime_start']));
 	$datetime_end = date('d-m-Y H:i', strtotime($data['datetime_end']));
-	$name = htmlspecialchars($data['name']);
+	$road = htmlspecialchars($data['road']);
+	$location = htmlspecialchars($data['location']);
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
 	$scenario = htmlspecialchars($data['scenario']);
-	
+    $name = htmlspecialchars($data['name']);
+    $type = $data['type'];
+    
+    if ($type == 'e') echo '<h1>Evenement</h1>';
+    else echo '<h1>Werkzaamheden</h1>';
+    
 	?>
-	<div class="right"><a href="?p=e&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a></div>
+	<div class="right"><a href="?p=p&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a></div>
 
 	<table>
 	<tr>
@@ -45,6 +51,15 @@ if ($edit === TRUE) {
 		</td>
 	</tr>
 	<tr>
+		<td>
+			<label>wegnr:</label>
+		</td><td>
+			<?php echo $road; ?>
+			<label>locatie:</label>
+			<?php echo $location; ?>
+		</td>
+	</tr>
+    <tr>
 		<td>
 			<label>naam:</label>
 		</td><td>
@@ -67,10 +82,10 @@ if ($edit === TRUE) {
 	</tr>
 	</table>
 	
-	<p><a href="?p=e_hist">Terug naar overzicht</a></p>
+	<p><a href="?p=p_hist">Terug naar overzicht</a></p>
 	<?php
 }
 else {
-	echo '<p class="error">Geen werkzaamheden met dit id.</p>';
+	echo '<p class="error">Geen werkzaamheden of evenement met dit id.</p>';
 }
 ?>
