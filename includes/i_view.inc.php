@@ -108,7 +108,7 @@ if ($edit === TRUE) {
 		<tr>
 			<td class="count"><?php echo $count+1; ?></td>
 			<td><?php echo $values['time']; ?></td>
-			<td class="expand">
+			<td class="expand" style="white-space: normal">
             <?php 
             echo nl2br($values['description']); 
             if (($values['username_create'] != $username_create) || ($values['username_edit'] != $username_edit)) {

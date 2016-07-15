@@ -80,7 +80,6 @@ table.grid td {
 	white-space: nowrap;
 }
 table.grid td.expand {
-	white-space: wrap;
 	width: 99%;
 }
 table.grid tr.sub td {

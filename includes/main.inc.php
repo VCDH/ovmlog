@@ -6,9 +6,8 @@
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 ?>
 <div class="noprint">
-<p class="noprint"><a href="?">Vernieuwen</a></p>
 <h1>Incidenten</h1>
-<p class="noprint"><a href="?p=i">nieuw</a> | <a href="?p=i_hist">historie</a></p>
+<p><a href="?p=i">nieuw</a> | <a href="?p=i_hist">historie</a> | <a href="?">vernieuwen</a></p>
 
 <?php
 $qry = "SELECT `id`, `date`, `road`, `location` 
@@ -113,3 +112,5 @@ else {
     echo '<p>Er zijn geen geplande werkzaamheden of evenementen.</p>';
 }
 ?>
+
+<p class="noprint"><a href="?p=kce">KCE printweergave genereren</a></p>
