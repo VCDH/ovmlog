@@ -83,6 +83,7 @@ if (!empty($incident_details)) {
         `".$sql['table_i']."`.`location` AS `location`,
         `".$sql['table_i']."`.`scenario` AS `scenario`,
         `".$sql['table_i']."`.`open` AS `open`,
+        `".$sql['table_i']."`.`review` AS `review`,
         `C`.`username` AS `username_create`,
         `E`.`username` AS `username_edit`
         FROM `".$sql['database']."`.`".$sql['table_i']."`
@@ -100,6 +101,7 @@ if (!empty($incident_details)) {
         $location = htmlspecialchars($data['location']);
         $scenario = htmlspecialchars($data['scenario']);
         $open = $data['open'];
+        $review = $data['review'];
         $username_create = htmlspecialchars($data['username_create']);
         $username_edit = htmlspecialchars($data['username_edit']);
         
@@ -138,13 +140,17 @@ if (!empty($incident_details)) {
             <td><label>datum:</label></td>
             <td><?php echo $date; ?></td>
             <td><label>scenario:</label></td>
-            <td><?php echo $scenario; ?></td>
+            <td<?php if ($review == '1') echo ' colspan="3"'; ?>><?php echo $scenario; ?></td>
         </tr>
         <tr>
             <td><label>wegnr:</label></td>
             <td><?php echo $road; ?></td>
             <td><label>locatie:</label></td>
             <td><?php echo $location; ?></td>
+            <?php if ($review == '1') { ?>
+            <td><label>evaluatie:</label></td>
+            <td>Ja</td>
+            <?php } ?>
         </tr>
         </table>
         
