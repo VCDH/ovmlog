@@ -33,8 +33,8 @@ $(function() {
 <form method="post">
 <table>
 <tr><th colspan="2">Terugkijken</th><th colspan="2">Vooruitkijken</th></tr>
-<tr><td>Van:</td><td><input class="s" name="review_date_start" id="review_date_start" type="text" value="<?php echo date('d-m-Y', $review_date_start); ?>" /></td><td>Van:</td><td><input class="s" name="upcoming_date_start" id="upcoming_date_start" type="text" value="<?php echo date('d-m-Y', $upcoming_date_start); ?>" /></td></tr>
-<tr><td>Tot:</td><td><input class="s" name="review_date_end" id="review_date_end" type="text" value="<?php echo date('d-m-Y', $review_date_end); ?>" /></td><td>Tot:</td><td><input class="s" name="upcoming_date_end" id="upcoming_date_end" type="text" value="<?php echo date('d-m-Y',$upcoming_date_end); ?>" /></td></tr>
+<tr><td>van:</td><td><input class="s" name="review_date_start" id="review_date_start" type="text" value="<?php echo date('d-m-Y', $review_date_start); ?>" /></td><td>van:</td><td><input class="s" name="upcoming_date_start" id="upcoming_date_start" type="text" value="<?php echo date('d-m-Y', $upcoming_date_start); ?>" /></td></tr>
+<tr><td>t/m:</td><td><input class="s" name="review_date_end" id="review_date_end" type="text" value="<?php echo date('d-m-Y', $review_date_end); ?>" /></td><td>t/m:</td><td><input class="s" name="upcoming_date_end" id="upcoming_date_end" type="text" value="<?php echo date('d-m-Y',$upcoming_date_end); ?>" /></td></tr>
 </table>
 <p class="noprint"><input type="submit" value="OK" /></p>
 </form>
@@ -119,7 +119,8 @@ if (!empty($incident_details)) {
         ORDER BY `".$sql['table_id']."`.`time`";
         $res = mysqli_query($sql['link'], $qry);
         if (mysqli_num_rows($res)) {
-            while ($data = mysqli_fetch_assoc($res)) {
+           $content = array();
+           while ($data = mysqli_fetch_assoc($res)) {
                 $content[] = array(	'id' => $data['id'], 
                                     'time' => date('H:i', strtotime($data['time'])), 
                                     'description' => htmlspecialchars($data['description'], NULL, 'ISO-8859-15'), 
