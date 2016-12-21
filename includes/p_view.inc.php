@@ -47,7 +47,7 @@ if ($edit === TRUE) {
     else echo '<h1>Werkzaamheden</h1>';
     
 	?>
-	<div class="right"><a href="?p=p&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a></div>
+	<div class="right"><a href="?p=p&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a><br /><a href="?p=p&amp;copyfrom=<?php echo htmlspecialchars($_GET['id']); ?>">dupliceer</a></div>
 
 	<table>
 	<tr>

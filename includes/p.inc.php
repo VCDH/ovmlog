@@ -17,6 +17,16 @@ if (!empty($_GET['id'])) {
 		$edit = TRUE;
 	}
 }
+elseif (is_numeric($_GET['copyfrom'])) {
+	$qry = "SELECT * 
+	FROM `".$sql['database']."`.`".$sql['table_p']."`
+	WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_GET['copyfrom'])."'
+	LIMIT 1";
+	$res = mysqli_query($sql['link'], $qry);
+	if (mysqli_num_rows($res)) {
+		$edit = TRUE;
+	}
+}
 
 if ($edit === TRUE) {
 	//load values
@@ -159,6 +169,6 @@ $(function() {
 </tr>
 </table>
 
-<p><input type="submit" name"save" value="opslaan en naar overzicht"> <a href="?">Annuleren</a></p>
+<p><input type="submit" name"save" value="opslaan en naar overzicht"> <?php if (empty($_GET['id'])) { ?><input type="submit" name="saveandcopy" value="opslaan en ga verder"><?php } ?> <a href="?">Annuleren</a></p>
 
 </form>

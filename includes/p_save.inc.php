@@ -55,5 +55,10 @@ if (($_GET['s'] == 'p') && !empty($_POST)) {
 		else $msg = 'e001';
 		echo mysqli_error($sql['link']);
 	}
+	
+	if (isset($_POST['saveandcopy'])) {
+		$id = mysqli_insert_id($sql['link']);
+		header('Location: ?p=p&copyfrom='.$id);
+	}
 }
 ?>
