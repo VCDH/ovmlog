@@ -3,6 +3,7 @@
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016
 */
+setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 
 //decide edit or add
 if (!empty($_GET['id'])) {
@@ -34,8 +35,8 @@ if ($edit === TRUE) {
 	//load values
 	$data = mysqli_fetch_assoc($res);
 	
-	$datetime_start = date('d-m-Y H:i', strtotime($data['datetime_start']));
-	$datetime_end = date('d-m-Y H:i', strtotime($data['datetime_end']));
+	$datetime_start = strtolower(strftime("%a %d-%m-%G %H:%M", strtotime($data['datetime_start'])));
+	$datetime_end = strtolower(strftime("%a %d-%m-%G %H:%M", strtotime($data['datetime_end'])));
 	$road = htmlspecialchars($data['road']);
 	$location = htmlspecialchars($data['location']);
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');

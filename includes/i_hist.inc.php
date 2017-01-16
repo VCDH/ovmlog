@@ -1,7 +1,9 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2017
 */
+setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 ?>
 
 <h2>Incidenten</h2>
@@ -45,7 +47,7 @@ if ($num) {
 		if (mysqli_num_rows($res2)) {
 			$row2 = mysqli_fetch_row($res2);
 		}
-		echo '<tr><td>'.date('d-m-Y', strtotime($row[1])).'</td><td>'.date('H:i', strtotime($row2[0])).'</td><td class="expand"><a href="?p=i_view&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3]).'</a></td><td>'.htmlspecialchars($row[4]).'</td><td>'.(($row[5] == '1') ? 'Ja' : '').'</td></tr>';
+		echo '<tr><td>'.strtolower(strftime("%a %e %b %G", strtotime($row[1]))).'</td><td>'.date('H:i', strtotime($row2[0])).'</td><td class="expand"><a href="?p=i_view&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3]).'</a></td><td>'.htmlspecialchars($row[4]).'</td><td>'.(($row[5] == '1') ? 'Ja' : '').'</td></tr>';
 	}
 	echo '</table>';
 	echo $pag;
