@@ -145,7 +145,7 @@ $(function() {
 		<label for="scenario">scenario status:</label>
 	</td><td>
 		<?php
-		$scenario_status = array('ntb', 'nee', 'hergebruik', 'nieuw', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange');
+		$scenario_status = array('ntb', 'nee', 'hergebruik', 'nieuw', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario');
 		echo '<select name="scenario" id="scenario">';
 		foreach ($scenario_status as $status) {
 			echo '<option value="';
