@@ -172,3 +172,18 @@ $(function() {
 <p><input type="submit" name"save" value="opslaan en naar overzicht"> <?php if (empty($_GET['id'])) { ?><input type="submit" name="saveandcopy" value="opslaan en ga verder"><?php } ?> <a href="?">Annuleren</a></p>
 
 </form>
+<p><br /></p>
+<h2>Verklaring scenario status:</h2>
+<table>
+<tr><td>Ntb             </td><td>= nader te bepalen of een scenario nodig is                </td></tr>
+<tr><td>Nee             </td><td>= er is geen scenario nodig                                 </td></tr>
+<tr><td>Reserve         </td><td>= Een reserve-datum                                             </td></tr>
+<tr><td>Hergebruik      </td><td>= er is al een scenario in de scenariobrowser dat nog een keer gebruikt kan worden</td></tr>
+<tr><td>Nieuw           </td><td>= er moet nog een nieuw scenario gemaakt worden                </td></tr>
+<tr><td>Voorbereid      </td><td> = Een scenario is voorbereid in de scenariobrowser, maar staat nog niet in MM</td></tr>
+<tr><td>Geprogrammeerd  </td><td>= Staat gereed in MM om geactiveerd te worden                         </td></tr>
+<tr><td>Geactiveerd     </td><td>= Is geactiveerd in MM                                               </td></tr>
+<tr><td>DVM-exchange    </td><td>= Staat in MM en wordt door de partner in en uitgezet      </td></tr>
+<tr><td>PZH-Deelscenario</td><td>= Deelscenario voor PZH. Staat in MM en kan door PZH ingezet worden                     </td></tr>
+</table>
+
