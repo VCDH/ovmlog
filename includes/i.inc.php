@@ -81,7 +81,7 @@ $(function() {
 			echo implode(',', $autocomplete);
 		?>],
 		delay: 0,
-		minLength: <?php echo floor(count($autocomplete)/$max_autocomplete); ?>
+		minLength: 2
 	});
 	$( "#road" ).autocomplete({
 		source: [<?php
@@ -95,13 +95,15 @@ $(function() {
 			echo implode(',', $autocomplete);
 		?>],
 		delay: 0,
-		minLength: <?php echo floor(count($autocomplete)/$max_autocomplete); ?>
+		minLength: 2
 	});
 	$( ".contact" ).autocomplete({
 		source: [<?php
 			$autocomplete = array();
-			$qry = "SELECT DISTINCT `contact` 
-			FROM `".$sql['database']."`.`".$sql['table_id']."`";
+			$qry = "SELECT `contact` 
+			FROM `".$sql['database']."`.`".$sql['table_id']."`
+			GROUP BY `contact`
+			ORDER BY count(*) DESC";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
 				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0]).'"';
@@ -109,7 +111,7 @@ $(function() {
 			echo implode(',', $autocomplete);
 		?>],
 		delay: 0,
-		minLength: <?php echo floor(count($autocomplete)/$max_autocomplete); ?>
+		minLength: 3
 	});
 	
 	$(document).ready( function () {
