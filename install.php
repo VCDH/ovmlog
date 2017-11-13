@@ -60,6 +60,12 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_p']."` 
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
 
+$qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_p']."` (
+		ADD `scenario_naam` TINYTEXT,
+		AFTER `scenario`";
+mysqli_query($sql['link'], $qry);
+echo mysqli_error($sql['link']);
+
 //create table "users"
 $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_users']."` (
 		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
