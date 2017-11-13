@@ -32,6 +32,7 @@ if ($edit === TRUE) {
 	$scenario = htmlspecialchars($data['scenario']);
 	$open = $data['open'];
     $review = $data['review'];
+    $regelaanpak = $data['regelaanpak'];
 	
 	$qry = "SELECT * 
 	FROM `".$sql['database']."`.`".$sql['table_id']."`
@@ -57,6 +58,7 @@ $title = 'Incident toevoegen';
 $date = date('d-m-Y');
 $open = 1;
 $review = 0;
+$regelaanpak = 0;
 $content[] = array(	'id' => '0', 
 					'time' => date('H:i'), 
 					'description' => null, 
@@ -164,7 +166,7 @@ $(function() {
 	<td><input tabindex="3" class="m" name="location" id="location" type="text" value="<?php echo $location; ?>" /></td>
 </tr>
 <tr>
-	<td colspan="4"><input type="checkbox" name="maatwerk" id="maatwerk" value="true" /> <label for="maatwerk">maatwerk</label> <input type="checkbox" name="review" id="review" value="true"<?php if ($review == 1) echo ' checked="checked"'; ?> /> <label for="review">evaluatie</label></td>
+	<td colspan="4"><input type="checkbox" name="maatwerk" id="maatwerk" value="true" /> <label for="maatwerk">maatwerk</label> <input type="checkbox" name="review" id="review" value="true"<?php if ($review == 1) echo ' checked="checked"'; ?> /> <label for="review">evaluatie</label> <input type="checkbox" name="regelaanpak" id="regelaanpak" value="true"<?php if ($regelaanpak == 1) echo ' checked="checked"'; ?> /> <label for="regelaanpak">regelaanpak</label></td>
 </tr>
 </table>
 

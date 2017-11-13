@@ -41,6 +41,7 @@ if ($edit === TRUE) {
 	$scenario = htmlspecialchars($data['scenario']);
 	$open = $data['open'];
     $review = $data['review'];
+    $regelaanpak = $data['regelaanpak'];
     $username_create = htmlspecialchars($data['username_create']);
     $username_edit = htmlspecialchars($data['username_edit']);
 	
@@ -78,17 +79,17 @@ if ($edit === TRUE) {
         <td><label>datum:</label></td>
         <td><?php echo $date; ?></td>
         <td><label>scenario:</label></td>
-        <td<?php if ($review == '1') echo ' colspan="3"'; ?>><?php echo $scenario; ?></td>
+        <td colspan="5"><?php echo $scenario; ?></td>
     </tr>
     <tr>
         <td><label>wegnr:</label></td>
         <td><?php echo $road; ?></td>
         <td><label>locatie:</label></td>
         <td><?php echo $location; ?></td>
-        <?php if ($review == '1') { ?>
         <td><label>evaluatie:</label></td>
-        <td>Ja</td>
-        <?php } ?>
+        <td><?php echo ($review == '1') ? 'Ja' : 'Nee'; ?></td>
+        <td><label>regelaanpak:</label></td>
+        <td><?php echo ($regelaanpak == '1') ? 'Ja' : 'Nee'; ?></td>
     </tr>
     </table>
     

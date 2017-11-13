@@ -1,6 +1,6 @@
 <?php
 /*
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013-2017
 */
 
 include('db.inc.php');
@@ -27,6 +27,12 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_i']."` 
 		`user_id_create` INT UNSIGNED DEFAULT 0,
 		`user_id_edit` INT UNSIGNED DEFAULT 0
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+mysqli_query($sql['link'], $qry);
+echo mysqli_error($sql['link']);
+
+$qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_i']."`
+		ADD `regelaanpak` BOOLEAN DEFAULT 0
+		AFTER `review`";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
 
@@ -60,8 +66,8 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_p']."` 
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
 
-$qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_p']."` (
-		ADD `scenario_naam` TINYTEXT,
+$qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_p']."`
+		ADD `scenario_naam` TINYTEXT
 		AFTER `scenario`";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
