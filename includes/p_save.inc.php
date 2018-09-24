@@ -31,6 +31,7 @@ if (($_GET['s'] == 'p') && !empty($_POST)) {
 		`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'])."',
 		`spare` = '".mysqli_real_escape_string($sql['link'], $_POST['spare'])."',
 		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."',
+		`scenario_naam` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario_naam'])."',
 		`type` = '".mysqli_real_escape_string($sql['link'], $_POST['type'])."',
 		`user_id_edit` = '".getuser()."'
 		WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_POST['id'])."'";
@@ -50,6 +51,7 @@ if (($_GET['s'] == 'p') && !empty($_POST)) {
 		`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'])."',
 		`spare` = '".mysqli_real_escape_string($sql['link'], $_POST['spare'])."',
 		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."',
+		`scenario_naam` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario_naam'])."',
 		`type` = '".mysqli_real_escape_string($sql['link'], $_POST['type'])."',
 		`user_id_create` = '".getuser()."',
 		`user_id_edit` = '".getuser()."'";

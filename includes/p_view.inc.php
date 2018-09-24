@@ -14,6 +14,7 @@ if (!empty($_GET['id'])) {
     `".$sql['table_p']."`.`location` AS `location`,
     `".$sql['table_p']."`.`description` AS `description`,
     `".$sql['table_p']."`.`scenario` AS `scenario`,
+    `".$sql['table_p']."`.`scenario_naam` AS `scenario_naam`,
     `".$sql['table_p']."`.`name` AS `name`,
     `".$sql['table_p']."`.`type` AS `type`,
     `".$sql['table_p']."`.`spare` AS `spare`,
@@ -43,6 +44,7 @@ if ($edit === TRUE) {
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
 	$spare = $data['spare'];
 	$scenario = htmlspecialchars($data['scenario']);
+	$scenario_naam = htmlspecialchars($data['scenario_naam']);
     $name = htmlspecialchars($data['name']);
     $type = $data['type'];
     
@@ -81,9 +83,16 @@ if ($edit === TRUE) {
 	</tr>
 	<tr>
 		<td>
-			<label>scenario:</label>
+			<label>scenario&nbsp;status:</label>
 		</td><td>
 			<?php echo $scenario; ?>
+		</td>
+	</tr>
+    <tr>
+		<td>
+			<label>scenario&nbsp;naam:</label>
+		</td><td>
+			<?php echo $scenario_naam; ?>
 		</td>
 	</tr>
 	<tr>

@@ -42,6 +42,7 @@ if ($edit === TRUE) {
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
 	$spare = $data['spare'];
 	$scenario = htmlspecialchars($data['scenario']);
+	$scenario_naam = htmlspecialchars($data['scenario_naam']);
     $name = htmlspecialchars($data['name']); 
     $type = $data['type'];
 }
@@ -137,7 +138,7 @@ $(function() {
 </tr>
 <tr>
 	<td>
-		<label for="name">naam:</label>
+		<label for="name">naam*:</label>
 	</td><td>
 		<input class="l" name="name" id="name" type="text" value="<?php echo $name; ?>" />
 	</td>
@@ -164,6 +165,13 @@ $(function() {
 </tr>
 <tr>
 	<td>
+		<label for="scenario_naam">scenario naam:</label>
+	</td><td>
+		<input class="m" name="scenario_naam" id="scenario_naam" type="text" value="<?php echo $scenario_naam; ?>" />
+	</td>
+</tr>
+<tr>
+	<td>
 		<label for="description">beschrijving:</label>
 	</td><td>
 		<textarea class="l" name="description" id="description" rows="4" cols="40"><?php echo $description; ?></textarea>
@@ -175,6 +183,7 @@ $(function() {
 
 </form>
 <p><br /></p>
+<p>*) <i>naam</i> is de naam van het evenement/werkzaamheden als dit niet met een wegnummer/locatie te omschrijven is. Anders leeg laten.</p>
 <h2>Verklaring scenario status:</h2>
 <table>
 <tr><td>Ntb             </td><td>= nader te bepalen of een scenario nodig is                </td></tr>
