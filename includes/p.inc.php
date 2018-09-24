@@ -49,8 +49,8 @@ if ($edit === TRUE) {
 else {
 	//default values
 	$title = 'Werkzaamheden/evenement toevoegen';
-	$time_start = '07:00';
-	$time_end = '17:00';
+	$time_start = '21:00';
+	$time_end = '06:00';
 }
 ?>
 
