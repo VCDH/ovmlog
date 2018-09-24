@@ -29,6 +29,7 @@ if (($_GET['s'] == 'p') && !empty($_POST)) {
 		`location` = '".mysqli_real_escape_string($sql['link'], $_POST['location'])."',
 		`name` = '".mysqli_real_escape_string($sql['link'], $_POST['name'])."',
 		`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'])."',
+		`spare` = '".mysqli_real_escape_string($sql['link'], $_POST['spare'])."',
 		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."',
 		`type` = '".mysqli_real_escape_string($sql['link'], $_POST['type'])."',
 		`user_id_edit` = '".getuser()."'
@@ -47,6 +48,7 @@ if (($_GET['s'] == 'p') && !empty($_POST)) {
 		`location` = '".mysqli_real_escape_string($sql['link'], $_POST['location'])."',
 		`name` = '".mysqli_real_escape_string($sql['link'], $_POST['name'])."',
 		`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'])."',
+		`spare` = '".mysqli_real_escape_string($sql['link'], $_POST['spare'])."',
 		`scenario` = '".mysqli_real_escape_string($sql['link'], $_POST['scenario'])."',
 		`type` = '".mysqli_real_escape_string($sql['link'], $_POST['type'])."',
 		`user_id_create` = '".getuser()."',

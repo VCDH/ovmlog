@@ -40,6 +40,7 @@ if ($edit === TRUE) {
 	$road = htmlspecialchars($data['road']);
 	$location = htmlspecialchars($data['location']);
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
+	$spare = $data['spare'];
 	$scenario = htmlspecialchars($data['scenario']);
     $name = htmlspecialchars($data['name']); 
     $type = $data['type'];
@@ -121,7 +122,8 @@ $(function() {
 		<input class="s" name="date_start" id="date_start" type="text" value="<?php echo $date_start; ?>" /> 
 		<input class="time" name="time_start" id="time_start" type="text" value="<?php echo $time_start; ?>" />
 		<label for="date_end">tot:</label>
-		<input class="s" name="date_end" id="date_end" type="text" value="<?php echo $date_end; ?>" /> <input class="time" name="time_end" id="time_end" type="text" value="<?php echo $time_end; ?>" />
+		<input class="s" name="date_end" id="date_end" type="text" value="<?php echo $date_end; ?>" /> <input class="time" name="time_end" id="time_end" type="text" value="<?php echo $time_end; ?>" /> 
+		Reserve: <input type="radio" name="spare" value="0" id="spare_0"<?php if ($spare != '1') echo ' checked="checked"'; ?>><label for="spare_0">Nee</label> <input type="radio" name="spare" value="1" id="spare_1"<?php if ($spare == '1') echo ' checked="checked"'; ?>><label for="spare_1">Ja</label>
 	</td>
 </tr>
 <tr>
@@ -145,7 +147,7 @@ $(function() {
 		<label for="scenario">scenario status:</label>
 	</td><td>
 		<?php
-		$scenario_status = array('ntb', 'nee', 'reserve', 'hergebruik', 'nieuw', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario');
+		$scenario_status = array('ntb', 'nee', 'hergebruik', 'nieuw', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario');
 		echo '<select name="scenario" id="scenario">';
 		foreach ($scenario_status as $status) {
 			echo '<option value="';

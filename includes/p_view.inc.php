@@ -16,6 +16,7 @@ if (!empty($_GET['id'])) {
     `".$sql['table_p']."`.`scenario` AS `scenario`,
     `".$sql['table_p']."`.`name` AS `name`,
     `".$sql['table_p']."`.`type` AS `type`,
+    `".$sql['table_p']."`.`spare` AS `spare`,
     `C`.`username` AS `username_create`,
     `E`.`username` AS `username_edit`
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
@@ -40,6 +41,7 @@ if ($edit === TRUE) {
 	$road = htmlspecialchars($data['road']);
 	$location = htmlspecialchars($data['location']);
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
+	$spare = $data['spare'];
 	$scenario = htmlspecialchars($data['scenario']);
     $name = htmlspecialchars($data['name']);
     $type = $data['type'];
@@ -57,7 +59,8 @@ if ($edit === TRUE) {
 		</td><td>
 			<?php echo $datetime_start; ?>
 			<label>tot:</label>
-			<?php echo $datetime_end; ?>
+			<?php echo $datetime_end; ?> 
+			Reserve: <?php echo (($spare == '1') ? 'ja' : 'nee'); ?>
 		</td>
 	</tr>
 	<tr>

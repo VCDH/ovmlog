@@ -59,6 +59,7 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_p']."` 
 		`road` TINYTEXT,
 		`location` TINYTEXT,
 		`description` TEXT,
+		`spare` BOOLEAN NOT NULL DEFAULT 0,
 		`scenario` TINYTEXT,
 		`user_id_create` INT UNSIGNED DEFAULT 0,
 		`user_id_edit` INT UNSIGNED DEFAULT 0
