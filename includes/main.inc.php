@@ -57,7 +57,15 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie/naam</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr'.(($row[5]=='nee')?' class="low"':'').'>';
+		if ($row[5]=='nee') {
+            echo '<tr class="low">';
+        }
+        elseif (!in_array($row[5], array('geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario'))) {
+            echo '<tr class="attention">';
+        }
+        else {
+            echo '<tr>';
+        }
         echo '<td><img src="'.(($row[6] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" /></td>';
         echo '<td>'.
         ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
@@ -94,7 +102,20 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr'.((strtotime($row[1])<time()+604800)?' class="upcoming"':'').'>';
+        if ($row[5]=='nee') {
+            echo '<tr class="low">';
+        }
+        elseif (strtotime($row[1])<time()+604800) {
+            if (!in_array($row[5], array('geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario'))) {
+                echo '<tr class="attention">';
+            }
+            else {
+                echo '<tr class="upcoming">';
+            }
+        }
+        else {
+            echo '<tr>';
+        }        
         echo '<td><img src="'.(($row[6] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" /></td>';
         echo '<td>'.
         ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).

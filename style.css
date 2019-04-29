@@ -94,6 +94,9 @@ table.grid tr.low td a {
 table.grid tr.upcoming td {
     background-color: #F5F5F5;
 }
+table.grid tr.attention td {
+    background-color: #ffcdc1;
+}
 
 label {
 	font-weight: bold;
