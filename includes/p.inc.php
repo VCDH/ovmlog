@@ -149,7 +149,7 @@ $(function() {
 		<label for="scenario">scenario status:</label>
 	</td><td>
 		<?php
-		$scenario_status = array('nieuw', 'hergebruik', 'reserve', 'nee', 'ntb', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario', 'handmatig');
+		$scenario_status = array('nieuw', 'hergebruik', 'derden-nieuw', 'derden-review', 'derden-definitief', 'reserve', 'nee', 'ntb', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario', 'handmatig');
 		echo '<select name="scenario" id="scenario">';
 		foreach ($scenario_status as $status) {
 			echo '<option value="';
@@ -180,7 +180,7 @@ $(function() {
 </tr>
 </table>
 
-<p><input type="submit" name"save" value="opslaan en naar overzicht"> <?php if (empty($_GET['id'])) { ?><input type="submit" name="saveandcopy" value="opslaan en ga verder"><?php } ?> <a href="?">Annuleren</a></p>
+<p><input type="submit" name="save" value="opslaan en naar overzicht"> <?php if (empty($_GET['id'])) { ?><input type="submit" name="saveandcopy" value="opslaan en ga verder"><?php } ?> <a href="?">Annuleren</a></p>
 
 </form>
 <p><br /></p>
@@ -190,6 +190,9 @@ $(function() {
 <tr><td>                </td><td><b>Fase 1</b>                </td></tr>
 <tr><td>Nieuw           </td><td>= er moet een nieuw scenario gemaakt worden                </td></tr>
 <tr><td>Hergebruik      </td><td>= er is al een scenario in de scenariobrowser dat misschien nog een beetje aangepast moet worden</td></tr>
+<tr><td>Derden-nieuw    </td><td>= er wordt een nieuw scenario gemaakt door een externe partij</td></tr>
+<tr><td>Derden-review   </td><td>= scenario door externe partij is in review</td></tr>
+<tr><td>Derden-definitief</td><td>= scenario door externe partij is gereed, maar moet nog in scenariobrowser worden gezet</td></tr>
 <tr><td>Nee             </td><td>= er is geen scenario nodig                                 </td></tr>
 <tr><td>Reserve         </td><td>= Een reserve-datum                                             </td></tr>
 <tr><td>Ntb             </td><td>= nader te bepalen of een scenario nodig is, alleen als je het echt niet weet                </td></tr>
