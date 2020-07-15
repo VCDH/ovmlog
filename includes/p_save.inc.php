@@ -64,5 +64,9 @@ if (($_GET['s'] == 'p') && !empty($_POST)) {
 		$id = mysqli_insert_id($sql['link']);
 		header('Location: ?p=p&copyfrom='.$id);
 	}
+	else {
+		//fix browser back button
+		header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php?msg=' . $msg, TRUE, 303);
+	}
 }
 ?>

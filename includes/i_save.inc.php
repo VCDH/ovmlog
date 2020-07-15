@@ -14,6 +14,7 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 		$res = mysqli_query($sql['link'], $qry);
 		if (mysqli_num_rows($res)) {
 			$edit = TRUE;
+			$id = $_POST['id'];
 		}
 	}
 	
@@ -36,14 +37,14 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 		$qry .= "WHERE `id` = '".$_POST['id']."'";
 		if (mysqli_query($sql['link'], $qry)) {
 			
-			foreach ($_POST['time'] as $id => $time) {
+			foreach ($_POST['time'] as $i => $time) {
 				$qry = "UPDATE `".$sql['database']."`.`".$sql['table_id']."`
 				SET
 				`time` = '".date('H:i:s', strtotime($time))."',
-				`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'][$id])."',
-				`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'][$id])."',
+				`description` = '".mysqli_real_escape_string($sql['link'], $_POST['description'][$i])."',
+				`contact` = '".mysqli_real_escape_string($sql['link'], $_POST['contact'][$i])."',
 				`user_id_edit` = '".getuser()."'
-				WHERE `id` = '".mysqli_real_escape_string($sql['link'], $id)."'";
+				WHERE `id` = '".mysqli_real_escape_string($sql['link'], $i)."'";
 				if (mysqli_query($sql['link'], $qry)) {
 					$msg = 's001';
 				}
@@ -110,7 +111,14 @@ if (($_GET['s'] == 'i') && !empty($_POST)) {
 	}
 	
 	//decide return to main page or continue editing
-	if (!empty($_POST['add'])) $p = 'i';
+	if (!empty($_POST['add'])) {
+		//fix browser back button
+		header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php?p=i&id=' . $id . '&msg=' . $msg, TRUE, 303);
+	}
+	else {
+		//fix browser back button
+		header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php?msg=' . $msg, TRUE, 303);
+	}
 }
 
 ?>
