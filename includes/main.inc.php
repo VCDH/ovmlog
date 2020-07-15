@@ -19,7 +19,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>datum</th><th>tijd</th><th>locatie/omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td><a href="?p=i&amp;id='.$row[0].'">'.((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G", strtotime($row[1]))))).'</a></td><td>&nbsp;</td><td><a href="?p=i&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3]).'</a></td></tr>';
+		echo '<tr><td><a href="?p=i&amp;id='.$row[0].'">'.((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G", strtotime($row[1]))))).'</a></td><td>&nbsp;</td><td><a href="?p=i&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3], ENT_SUBSTITUTE).'</a></td></tr>';
 		$qry2 = "SELECT `time`, `description`
 		FROM `".$sql['database']."`.`".$sql['table_id']."`
 		WHERE `parent_id` = ".$row[0]."
@@ -75,13 +75,13 @@ if (mysqli_num_rows($res)) {
         '</td><td>'.
         ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
         '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
-		if (!empty($row[7])) echo htmlspecialchars($row[7]);
+		if (!empty($row[7])) echo htmlspecialchars($row[7], ENT_SUBSTITUTE);
         elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
-		else echo htmlspecialchars($row[3].' - '.$row[4]);
+		else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
 		echo '</a></td><td>';
 		echo (($row[8] == '1') ? 'ja' : '');
 		echo '</td><td>';
-		echo htmlspecialchars($row[5]);
+		echo htmlspecialchars($row[5], ENT_SUBSTITUTE);
 		echo '</td></tr>';
 	}
 	echo '</table>';
@@ -125,13 +125,13 @@ if (mysqli_num_rows($res)) {
         '</td><td>'.
         ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
         '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
-		if (!empty($row[7])) echo htmlspecialchars($row[7]);
+		if (!empty($row[7])) echo htmlspecialchars($row[7], ENT_SUBSTITUTE);
         elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
-		else echo htmlspecialchars($row[3].' - '.$row[4]);
+		else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
 		echo '</a></td><td>';
 		echo (($row[8] == '1') ? 'ja' : '');
 		echo '</td><td>';
-		echo htmlspecialchars($row[5]);
+		echo htmlspecialchars($row[5], ENT_SUBSTITUTE);
 		echo '</td></tr>';
 	}
 	echo '</table>';

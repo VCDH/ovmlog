@@ -47,7 +47,7 @@ if ($num) {
 		if (mysqli_num_rows($res2)) {
 			$row2 = mysqli_fetch_row($res2);
 		}
-		echo '<tr><td>'.strtolower(strftime("%a %e %b %G", strtotime($row[1]))).'</td><td>'.date('H:i', strtotime($row2[0])).'</td><td class="expand"><a href="?p=i_view&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3]).'</a></td><td>'.htmlspecialchars($row[4]).'</td><td>'.(($row[5] == '1') ? 'Ja' : '').'</td></tr>';
+		echo '<tr><td>'.strtolower(strftime("%a %e %b %G", strtotime($row[1]))).'</td><td>'.date('H:i', strtotime($row2[0])).'</td><td class="expand"><a href="?p=i_view&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3], ENT_SUBSTITUTE).'</a></td><td>'.htmlspecialchars($row[4], ENT_SUBSTITUTE).'</td><td>'.(($row[5] == '1') ? 'Ja' : '').'</td></tr>';
 	}
 	echo '</table>';
 	echo $pag;

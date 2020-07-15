@@ -1,7 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2019
 */
 
 $max_autocomplete = 50;
@@ -37,13 +37,13 @@ if ($edit === TRUE) {
 	$date_end = date('d-m-Y', strtotime($data['datetime_end']));
 	$time_start = date('H:i', strtotime($data['datetime_start']));
 	$time_end = date('H:i', strtotime($data['datetime_end']));
-	$road = htmlspecialchars($data['road']);
-	$location = htmlspecialchars($data['location']);
+	$road = htmlspecialchars($data['road'], ENT_SUBSTITUTE);
+	$location = htmlspecialchars($data['location'], ENT_SUBSTITUTE);
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
 	$spare = $data['spare'];
-	$scenario = htmlspecialchars($data['scenario']);
-	$scenario_naam = htmlspecialchars($data['scenario_naam']);
-    $name = htmlspecialchars($data['name']); 
+	$scenario = htmlspecialchars($data['scenario'], ENT_SUBSTITUTE);
+	$scenario_naam = htmlspecialchars($data['scenario_naam'], ENT_SUBSTITUTE);
+    $name = htmlspecialchars($data['name'], ENT_SUBSTITUTE); 
     $type = $data['type'];
 }
 else {
@@ -51,6 +51,7 @@ else {
 	$title = 'Werkzaamheden/evenement toevoegen';
 	$time_start = '21:00';
 	$time_end = '06:00';
+    $scenario = 'ntb';
 }
 ?>
 
@@ -66,7 +67,7 @@ $(function() {
 			FROM `".$sql['database']."`.`".$sql['table_w']."`";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
-				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0]).'"';
+				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0], ENT_SUBSTITUTE).'"';
 			}
 			echo implode(',', $autocomplete);
 		?>],
@@ -80,7 +81,7 @@ $(function() {
 			FROM `".$sql['database']."`.`".$sql['table_w']."`";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
-				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0]).'"';
+				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0], ENT_SUBSTITUTE).'"';
 			}
 			echo implode(',', $autocomplete);
 		?>],

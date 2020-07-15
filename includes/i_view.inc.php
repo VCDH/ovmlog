@@ -36,14 +36,14 @@ if ($edit === TRUE) {
 	$data = mysqli_fetch_assoc($res);
 	
 	$date = date('d-m-Y', strtotime($data['date']));
-	$road = htmlspecialchars($data['road']);
-	$location = htmlspecialchars($data['location']);
-	$scenario = htmlspecialchars($data['scenario']);
+	$road = htmlspecialchars($data['road'], ENT_SUBSTITUTE);
+	$location = htmlspecialchars($data['location'], ENT_SUBSTITUTE);
+	$scenario = htmlspecialchars($data['scenario'], ENT_SUBSTITUTE);
 	$open = $data['open'];
     $review = $data['review'];
     $regelaanpak = $data['regelaanpak'];
-    $username_create = htmlspecialchars($data['username_create']);
-    $username_edit = htmlspecialchars($data['username_edit']);
+    $username_create = htmlspecialchars($data['username_create'], ENT_SUBSTITUTE);
+    $username_edit = htmlspecialchars($data['username_edit'], ENT_SUBSTITUTE);
 	
 	$qry = "SELECT 
     `".$sql['table_id']."`.`id`,
@@ -65,9 +65,9 @@ if ($edit === TRUE) {
 			$content[] = array(	'id' => $data['id'], 
 								'time' => date('H:i', strtotime($data['time'])), 
 								'description' => htmlspecialchars($data['description'], NULL, 'ISO-8859-15'), 
-								'contact' => htmlspecialchars($data['contact']),
-                                'username_create' => htmlspecialchars($data['username_create']),
-                                'username_edit' => htmlspecialchars($data['username_edit']));
+								'contact' => htmlspecialchars($data['contact'], ENT_SUBSTITUTE),
+                                'username_create' => htmlspecialchars($data['username_create'], ENT_SUBSTITUTE),
+                                'username_edit' => htmlspecialchars($data['username_edit'], ENT_SUBSTITUTE));
 		}
 	}
 	

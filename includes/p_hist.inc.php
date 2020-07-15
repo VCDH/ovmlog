@@ -20,9 +20,9 @@ if (mysqli_num_rows($res)) {
 		echo '<tr>';
         echo '<td><img src="'.(($row[5] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[5] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[5] == 'w') ? 'werk' : 'evenement').'" /></td>';
         echo '<td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
-		if (!empty($row[6])) echo htmlspecialchars($row[6]);
+		if (!empty($row[6])) echo htmlspecialchars($row[6], ENT_SUBSTITUTE);
         elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
-		else echo htmlspecialchars($row[3].' - '.$row[4]);
+		else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
 		echo '</a></td><td>';
 		echo (($row[7] == '1') ? 'ja' : '');
 		echo '</td></tr>';

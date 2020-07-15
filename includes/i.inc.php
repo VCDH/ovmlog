@@ -27,9 +27,9 @@ if ($edit === TRUE) {
 	$data = mysqli_fetch_assoc($res);
 	
 	$date = date('d-m-Y', strtotime($data['date']));
-	$road = htmlspecialchars($data['road']);
-	$location = htmlspecialchars($data['location']);
-	$scenario = htmlspecialchars($data['scenario']);
+	$road = htmlspecialchars($data['road'], ENT_SUBSTITUTE);
+	$location = htmlspecialchars($data['location'], ENT_SUBSTITUTE);
+	$scenario = htmlspecialchars($data['scenario'], ENT_SUBSTITUTE);
 	$open = $data['open'];
     $review = $data['review'];
     $regelaanpak = $data['regelaanpak'];
@@ -44,7 +44,7 @@ if ($edit === TRUE) {
 			$content[] = array(	'id' => $data['id'], 
 								'time' => date('H:i', strtotime($data['time'])), 
 								'description' => htmlspecialchars($data['description'], NULL, 'ISO-8859-15'), 
-								'contact' => htmlspecialchars($data['contact']));
+								'contact' => htmlspecialchars($data['contact'], ENT_SUBSTITUTE));
 		}
 	}
 	$content[] = array(	'id' => '0', 
@@ -78,7 +78,7 @@ $(function() {
 			FROM `".$sql['database']."`.`".$sql['table_i']."`";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
-				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0]).'"';
+				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0], ENT_SUBSTITUTE).'"';
 			}
 			echo implode(',', $autocomplete);
 		?>],
@@ -92,7 +92,7 @@ $(function() {
 			FROM `".$sql['database']."`.`".$sql['table_i']."`";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
-				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0]).'"';
+				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0], ENT_SUBSTITUTE).'"';
 			}
 			echo implode(',', $autocomplete);
 		?>],
@@ -108,7 +108,7 @@ $(function() {
 			ORDER BY count(*) DESC";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
-				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0]).'"';
+				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0], ENT_SUBSTITUTE).'"';
 			}
 			echo implode(',', $autocomplete);
 		?>],
@@ -150,7 +150,7 @@ $(function() {
 <h1><?php echo $title; ?></h1>
 
 <form id="formulier" action="?s=i" method="post">
-<input type="hidden" name="id" value="<?php echo htmlspecialchars($id) ?>" />
+<input type="hidden" name="id" value="<?php echo htmlspecialchars($id, ENT_SUBSTITUTE) ?>" />
 
 <table>
 <tr>

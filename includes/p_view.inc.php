@@ -39,13 +39,13 @@ if ($edit === TRUE) {
 	
 	$datetime_start = strtolower(strftime("%a %d-%m-%G %H:%M", strtotime($data['datetime_start'])));
 	$datetime_end = strtolower(strftime("%a %d-%m-%G %H:%M", strtotime($data['datetime_end'])));
-	$road = htmlspecialchars($data['road']);
-	$location = htmlspecialchars($data['location']);
+	$road = htmlspecialchars($data['road'], ENT_SUBSTITUTE);
+	$location = htmlspecialchars($data['location'], ENT_SUBSTITUTE);
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
 	$spare = $data['spare'];
-	$scenario = htmlspecialchars($data['scenario']);
-	$scenario_naam = htmlspecialchars($data['scenario_naam']);
-    $name = htmlspecialchars($data['name']);
+	$scenario = htmlspecialchars($data['scenario'], ENT_SUBSTITUTE);
+	$scenario_naam = htmlspecialchars($data['scenario_naam'], ENT_SUBSTITUTE);
+    $name = htmlspecialchars($data['name'], ENT_SUBSTITUTE);
     $type = $data['type'];
     
     if ($type == 'e') echo '<h1>Evenement</h1>';
