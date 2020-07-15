@@ -92,7 +92,14 @@ if ($edit === TRUE) {
 		<td>
 			<label>scenario&nbsp;naam:</label>
 		</td><td>
-			<?php echo $scenario_naam; ?>
+			<?php 
+            if (is_numeric($scenario_naam)) {
+                echo '<a href="http://scenariobrowser.vcdh.nl/scenario.php?id=' . $scenario_naam . '" target="_blank">' . $scenario_naam . '</a>';
+                }
+            else {
+                echo $scenario_naam; 
+            }
+            ?>
 		</td>
 	</tr>
 	<tr>
