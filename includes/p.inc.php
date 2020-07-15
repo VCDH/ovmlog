@@ -148,7 +148,7 @@ $(function() {
 		<label for="scenario">scenario status:</label>
 	</td><td>
 		<?php
-		$scenario_status = array('ntb', 'nee', 'hergebruik', 'nieuw', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario');
+		$scenario_status = array('nieuw', 'hergebruik', 'reserve', 'nee', 'ntb', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario', 'handmatig');
 		echo '<select name="scenario" id="scenario">';
 		foreach ($scenario_status as $status) {
 			echo '<option value="';
@@ -186,15 +186,20 @@ $(function() {
 <p>*) <i>naam</i> is de naam van het evenement/werkzaamheden als dit niet met een wegnummer/locatie te omschrijven is. Anders leeg laten.</p>
 <h2>Verklaring scenario status:</h2>
 <table>
-<tr><td>Ntb             </td><td>= nader te bepalen of een scenario nodig is                </td></tr>
+<tr><td>                </td><td><b>Fase 1</b>                </td></tr>
+<tr><td>Nieuw           </td><td>= er moet een nieuw scenario gemaakt worden                </td></tr>
+<tr><td>Hergebruik      </td><td>= er is al een scenario in de scenariobrowser dat misschien nog een beetje aangepast moet worden</td></tr>
 <tr><td>Nee             </td><td>= er is geen scenario nodig                                 </td></tr>
 <tr><td>Reserve         </td><td>= Een reserve-datum                                             </td></tr>
-<tr><td>Hergebruik      </td><td>= er is al een scenario in de scenariobrowser dat nog een keer gebruikt kan worden</td></tr>
-<tr><td>Nieuw           </td><td>= er moet nog een nieuw scenario gemaakt worden                </td></tr>
-<tr><td>Voorbereid      </td><td> = Een scenario is voorbereid in de scenariobrowser, maar staat nog niet in MM</td></tr>
+<tr><td>Ntb             </td><td>= nader te bepalen of een scenario nodig is, alleen als je het echt niet weet                </td></tr>
+<tr><td>                </td><td><b>Fase 2</b>                </td></tr>
+<tr><td>Voorbereid      </td><td>= Een scenario is voorbereid in de scenariobrowser, maar staat nog niet in MM</td></tr>
+<tr><td>                </td><td><b>Fase 3</b>                </td></tr>
 <tr><td>Geprogrammeerd  </td><td>= Staat gereed in MM om geactiveerd te worden                         </td></tr>
+<tr><td>                </td><td><b>Fase 4</b>                </td></tr>
 <tr><td>Geactiveerd     </td><td>= Is geactiveerd in MM                                               </td></tr>
-<tr><td>DVM-exchange    </td><td>= Staat in MM en wordt door de partner in en uitgezet      </td></tr>
+<tr><td>DVM-exchange    </td><td>= Staat in MM en DVM-Exchange service is beschikbaar gesteld aan RWS om ingezet te worden door RWS</td></tr>
 <tr><td>PZH-Deelscenario</td><td>= Deelscenario voor PZH. Staat in MM en kan door PZH ingezet worden                     </td></tr>
+<tr><td>Handmatig       </td><td>= Staat in MM en wordt handmatig door WVL in/uitgeschakeld</td></tr>
 </table>
 

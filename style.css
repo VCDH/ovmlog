@@ -97,6 +97,9 @@ table.grid tr.upcoming td {
 table.grid tr.attention td {
     background-color: #ffcdc1;
 }
+table.grid tr.manual td {
+    background-color: #a3def7;
+}
 
 label {
 	font-weight: bold;

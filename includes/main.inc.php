@@ -57,10 +57,13 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie/naam</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		if ($row[5]=='nee') {
+		if (in_array($row[5], array('nee', 'reserve'))) {
             echo '<tr class="low">';
         }
-        elseif (!in_array($row[5], array('geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario'))) {
+        elseif (in_array($row[5], array('handmatig'))) {
+            echo '<tr class="manual">';
+        }
+        elseif (!in_array($row[5], array('geactiveerd', 'handmatig', 'DVM-Exchange', 'PZH-Deelscenario'))) {
             echo '<tr class="attention">';
         }
         else {
@@ -102,11 +105,11 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-        if ($row[5]=='nee') {
+        if (in_array($row[5], array('nee', 'reserve'))) {
             echo '<tr class="low">';
         }
         elseif (strtotime($row[1])<time()+604800) {
-            if (!in_array($row[5], array('geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario'))) {
+            if (!in_array($row[5], array('geactiveerd', 'handmatig', 'DVM-Exchange', 'PZH-Deelscenario'))) {
                 echo '<tr class="attention">';
             }
             else {

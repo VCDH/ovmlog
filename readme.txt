@@ -60,7 +60,7 @@ Met uitzondering van gebundelde libraries is voor assetwebsite het volgende van
 toepassing:
 
     assetwebsite - viewer en aanvraagformulier voor verkeersmanagementassets
-    Copyright (C) 2013, 2020 Gemeente Den Haag, Netherlands
+    Copyright (C) 2013, 2016, 2019-2020 Gemeente Den Haag, Netherlands
     Developed by Jasper Vries
  
     This program is free software: you can redistribute it and/or modify
