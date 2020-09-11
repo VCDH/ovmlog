@@ -130,7 +130,7 @@ if ($edit === TRUE) {
     echo '</p>'; 
     ?>
 	
-	<p><a href="?p=p_hist">Terug naar overzicht</a></p>
+	<p><a href="?">Terug naar overzicht</a> | <a href="?p=p_hist">Terug naar historielijst</a></p>
 	<?php
 }
 else {
