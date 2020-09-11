@@ -18,10 +18,13 @@ if (!empty($_GET['id'])) {
     `".$sql['table_p']."`.`name` AS `name`,
     `".$sql['table_p']."`.`type` AS `type`,
     `".$sql['table_p']."`.`spare` AS `spare`,
+    `A`.`username` AS `username_assigned`,
     `C`.`username` AS `username_create`,
     `E`.`username` AS `username_edit`
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
-    LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."` AS `C`
+    LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."` AS `A`
+    ON `".$sql['table_p']."`.`user_id_assigned` = `A`.`id`
+	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."` AS `C`
     ON `".$sql['table_p']."`.`user_id_create` = `C`.`id`
     LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."` AS `E`
     ON `".$sql['table_p']."`.`user_id_edit` = `E`.`id`
@@ -46,7 +49,8 @@ if ($edit === TRUE) {
 	$scenario = htmlspecialchars($data['scenario'], ENT_SUBSTITUTE);
 	$scenario_naam = htmlspecialchars($data['scenario_naam'], ENT_SUBSTITUTE);
     $name = htmlspecialchars($data['name'], ENT_SUBSTITUTE);
-    $type = $data['type'];
+	$type = $data['type'];
+	
     
     if ($type == 'e') echo '<h1>Evenement</h1>';
     else echo '<h1>Werkzaamheden</h1>';
@@ -100,6 +104,13 @@ if ($edit === TRUE) {
                 echo $scenario_naam; 
             }
             ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label>toegewezen&nbsp;aan:</label>
+		</td><td>
+			<?php echo htmlspecialchars($data['username_assigned']); ?>
 		</td>
 	</tr>
 	<tr>

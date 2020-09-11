@@ -61,6 +61,7 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_p']."` 
 		`description` TEXT,
 		`spare` BOOLEAN NOT NULL DEFAULT 0,
 		`scenario` TINYTEXT,
+		`user_id_assigned` INT UNSIGNED DEFAULT 0,
 		`user_id_create` INT UNSIGNED DEFAULT 0,
 		`user_id_edit` INT UNSIGNED DEFAULT 0
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";

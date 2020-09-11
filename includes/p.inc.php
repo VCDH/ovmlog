@@ -44,7 +44,8 @@ if ($edit === TRUE) {
 	$scenario = htmlspecialchars($data['scenario'], ENT_SUBSTITUTE);
 	$scenario_naam = htmlspecialchars($data['scenario_naam'], ENT_SUBSTITUTE);
     $name = htmlspecialchars($data['name'], ENT_SUBSTITUTE); 
-    $type = $data['type'];
+	$type = $data['type'];
+	$user_id_assigned = $data['user_id_assigned'];
 }
 else {
 	//default values
@@ -176,6 +177,34 @@ $(function() {
 		<label for="description">beschrijving:</label>
 	</td><td>
 		<textarea class="l" name="description" id="description" rows="4" cols="40"><?php echo $description; ?></textarea>
+	</td>
+</tr>
+<tr>
+	<td>
+		<label for="user_id_assigned">toegewezen aan:</label>
+	</td><td>
+		<?php
+		echo '<select name="user_id_assigned" id="user_id_assigned">';
+		echo '<option value="0">(niemand)</option>';
+		echo '<option value="' . getuser('id') . '">' . htmlspecialchars(getuser('name')) . '</option>';
+		echo '<option value="0" disabled>---------------</option>';
+		//get users from database
+		$qry = "SELECT `id`, `username` 
+		FROM `".$sql['database']."`.`".$sql['table_users']."`
+		WHERE `disabled` = FALSE
+		ORDER BY `username`";
+		$res = mysqli_query($sql['link'], $qry);
+		while ($row = mysqli_fetch_row($res)) {
+			echo '<option value="';
+			echo htmlspecialchars($row[0]);
+			echo '"';
+			if ($row[0] == $user_id_assigned) echo ' selected="selected"';
+			echo '>';
+			echo htmlspecialchars($row[1]);
+			echo '</option>';
+		}
+		echo '</select>';
+		?>
 	</td>
 </tr>
 </table>
