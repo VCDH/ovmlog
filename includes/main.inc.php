@@ -47,15 +47,17 @@ else {
 <h1>Actuele werkzaamheden en evenementen</h1>
 
 <?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare` 
+$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
+	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned`
 	WHERE `datetime_end` > NOW()
 	AND `datetime_start` < NOW()
 	ORDER BY `datetime_end`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
-	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie/naam</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
+	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie/naam</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
 		if (in_array($row[5], array('nee', 'reserve'))) {
             echo '<tr class="low">';
@@ -79,7 +81,9 @@ if (mysqli_num_rows($res)) {
         elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
 		echo '</a></td><td>';
-		echo (($row[8] == '1') ? 'ja' : '');
+		echo ((!empty($row[9])) ? htmlspecialchars($row[9], ENT_SUBSTITUTE) : ''); //toegewezen aan
+		echo '</td><td>';
+		echo (($row[8] == '1') ? 'ja' : ''); //reserve
 		echo '</td><td>';
 		echo htmlspecialchars($row[5], ENT_SUBSTITUTE);
 		echo '</td></tr>';
@@ -96,14 +100,16 @@ else {
 <p class="noprint"><a href="?p=p">nieuw</a> | <a href="?p=p_hist">historie</a></p>
 
 <?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`   
+$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`   
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
+	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned`
 	WHERE `datetime_start` > NOW()
 	ORDER BY `datetime_start`";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
-	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
+	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
         if (in_array($row[5], array('nee', 'reserve'))) {
             echo '<tr class="low">';
@@ -129,7 +135,9 @@ if (mysqli_num_rows($res)) {
         elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
 		else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
 		echo '</a></td><td>';
-		echo (($row[8] == '1') ? 'ja' : '');
+		echo ((!empty($row[9])) ? htmlspecialchars($row[9], ENT_SUBSTITUTE) : ''); //toegewezen aan
+		echo '</td><td>';
+		echo (($row[8] == '1') ? 'ja' : ''); //reserve
 		echo '</td><td>';
 		echo htmlspecialchars($row[5], ENT_SUBSTITUTE);
 		echo '</td></tr>';
