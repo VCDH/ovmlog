@@ -78,7 +78,7 @@ $(function() {
 			FROM `".$sql['database']."`.`".$sql['table_i']."`";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
-				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0], ENT_SUBSTITUTE).'"';
+				if (!empty($data[0])) $autocomplete[] = '"'.addslashes(htmlspecialchars($data[0], ENT_SUBSTITUTE)).'"';
 			}
 			echo implode(',', $autocomplete);
 		?>],
@@ -92,7 +92,7 @@ $(function() {
 			FROM `".$sql['database']."`.`".$sql['table_i']."`";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
-				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0], ENT_SUBSTITUTE).'"';
+				if (!empty($data[0])) $autocomplete[] = '"'.addslashes(htmlspecialchars($data[0], ENT_SUBSTITUTE)).'"';
 			}
 			echo implode(',', $autocomplete);
 		?>],
@@ -108,7 +108,7 @@ $(function() {
 			ORDER BY count(*) DESC";
 			$res = mysqli_query($sql['link'], $qry);
 			while ($data = mysqli_fetch_row($res)) {
-				if (!empty($data[0])) $autocomplete[] = '"'.htmlspecialchars($data[0], ENT_SUBSTITUTE).'"';
+				if (!empty($data[0])) $autocomplete[] = '"'.addslashes(htmlspecialchars($data[0], ENT_SUBSTITUTE)).'"';
 			}
 			echo implode(',', $autocomplete);
 		?>],
