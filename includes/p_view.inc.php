@@ -64,8 +64,8 @@ if ($edit === TRUE) {
 	?>
 	<div class="right"><a href="?p=p&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a><br /><a href="?p=p&amp;copyfrom=<?php echo htmlspecialchars($_GET['id']); ?>">dupliceer</a>
 	<?php
-	//delete only if item is in the future
-	if (strtotime($data['datetime_start']) > time()) {
+	//delete only if item is in the future or has no date
+	if ((strtotime($data['datetime_start']) > time()) || (date('Ymd', strtotime($data['datetime_start'])) == '19700101')) {
 		echo '<br /><a href="?p=p_delete&amp;id=' . htmlspecialchars($_GET['id']) . '">verwijder</a>';
 	}
 	?>
