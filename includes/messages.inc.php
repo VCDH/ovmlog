@@ -14,6 +14,7 @@ if ($msg_type == 'e') {
 		case 3: echo 'Gebruikersnaam/wachtwoord combinatie komt niet overeen.'; break;
 		case 4: echo 'Kan cookie niet zetten. Zorg ervoor dat je browser cookies accepteert.'; break;
 		case 5: echo 'Niet afgemeld. Kan cookie niet zetten. Zorg ervoor dat je browser cookies accepteert.'; break;
+		case 6: echo 'Kan niet verwijderen. Item bestaat niet (meer).'; break;
 	}
 	echo '</p>';
 }
@@ -23,6 +24,7 @@ elseif ($msg_type == 's') {
 	switch ( (int) substr($_GET['msg'], 1, 3)) {
 		case 1: echo 'Opgeslagen.'; break;
 		case 2: echo 'Afgemeld.'; break;
+		case 3: echo 'Verwijderd.'; break;
 	}
 	echo '</p>';
 }
