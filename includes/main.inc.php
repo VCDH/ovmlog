@@ -1,11 +1,38 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2021
 */
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 ?>
 <div class="noprint">
+<h1>Daglogging</h1>
+<p><a href="?p=d_view">bekijken</a></p>
+<?php
+//laatste entry
+$qry = "SELECT `datetime`, `description`, `".$sql['table_users']."`.`username`
+	FROM `".$sql['database']."`.`".$sql['table_d']."`
+	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_edit`
+	ORDER BY `".$sql['table_d']."`.`id` DESC
+	LIMIT 1";
+$res = mysqli_query($sql['link'], $qry);
+if (mysqli_num_rows($res)) {
+	echo '<table class="grid">';
+	$row = mysqli_fetch_row($res);
+	echo '<tr><td>';
+	echo strtolower(strftime("%a %e %b %H:%M", strtotime($row[0])));
+	echo '</td><td class="expand">';
+	echo htmlspecialchars($row[1], ENT_SUBSTITUTE);
+	echo '</td><td>';
+	echo ((!empty($row[2])) ? htmlspecialchars($row[2], ENT_SUBSTITUTE) : '');
+	echo '</td></tr>';
+	echo '</table>';
+}
+?>
+<form method="post" action="?s=d">
+<label for="entry">Nieuwe entry:</label> <input type="text" name="entry" id="entry" class="l"> <input type="submit" value="Toevoegen">
+</form>
 <h1>Incidenten</h1>
 <p><a href="?p=i">nieuw</a> | <a href="?p=i_hist">historie</a> | <a href="?">vernieuwen</a></p>
 
