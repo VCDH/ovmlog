@@ -35,6 +35,11 @@ if ($edit === TRUE) {
 	
 	$date_start = date('d-m-Y', strtotime($data['datetime_start']));
 	$date_end = date('d-m-Y', strtotime($data['datetime_end']));
+	//if dates are 01-01-1970, set to empty string
+	if ($date_start == '01-01-1970') {
+		$date_start = '';
+		$date_end = '';
+	}
 	$time_start = date('H:i', strtotime($data['datetime_start']));
 	$time_end = date('H:i', strtotime($data['datetime_end']));
 	$road = htmlspecialchars($data['road'], ENT_SUBSTITUTE);
@@ -89,6 +94,18 @@ $(function() {
 		delay: 0,
 		minLength: <?php echo floor(count($autocomplete)/$max_autocomplete); ?>
 	});
+	//no date
+	$("#date_start").change(function () {
+		if ($("#date_start").length > 0) {
+			$("#nodate").prop('checked', false);
+		}
+	});
+	$("#nodate").change(function () {
+		if ($("#nodate").prop('checked') == true) {
+			$("#date_start").val(null);
+			$("#date_end").val(null);
+		}
+	});
 });
 </script>
 
@@ -126,6 +143,7 @@ $(function() {
 		<input class="time" name="time_start" id="time_start" type="text" value="<?php echo $time_start; ?>" />
 		<label for="date_end">tot:</label>
 		<input class="s" name="date_end" id="date_end" type="text" value="<?php echo $date_end; ?>" /> <input class="time" name="time_end" id="time_end" type="text" value="<?php echo $time_end; ?>" /> 
+		<input type="checkbox" name="nodate" value="true" id="nodate"<?php if (empty($date_start)) echo ' checked="checked"'; ?>><label for="nodate">Datum onbekend</label>
 		Reserve: <input type="radio" name="spare" value="0" id="spare_0"<?php if ($spare != '1') echo ' checked="checked"'; ?>><label for="spare_0">Nee</label> <input type="radio" name="spare" value="1" id="spare_1"<?php if ($spare == '1') echo ' checked="checked"'; ?>><label for="spare_1">Ja</label>
 	</td>
 </tr>

@@ -100,6 +100,58 @@ else {
 <p class="noprint"><a href="?p=p">nieuw</a> | <a href="?p=p_hist">historie</a></p>
 
 <?php
+
+function display_planned_tablerow($row) {
+	//input is array with row data in order:
+	//`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `username_assigned`
+	if (in_array($row[5], array('nee', 'reserve'))) {
+		echo '<tr class="low">';
+	}
+	elseif ((strtotime($row[1])<time()+604800) && !empty($row[1])) {
+		if (!in_array($row[5], array('geactiveerd', 'handmatig', 'DVM-Exchange', 'PZH-Deelscenario'))) {
+			echo '<tr class="attention">';
+		}
+		else {
+			echo '<tr class="upcoming">';
+		}
+	}
+	else {
+		echo '<tr>';
+	}        
+	echo '<td><img src="'.(($row[6] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" /></td>';
+	echo '<td>';
+	if (empty($row[1])) {
+		echo '(onbekend)';
+	}
+	else {
+		$row[1] = strtotime($row[1]);
+		echo ((date('Y')==date('Y',$row[1]))?(strtolower(strftime("%a %e %b %H:%M", $row[1]))):(strtolower(strftime("%a %e %b %G %H:%M", $row[1]))));
+	}
+	echo '</td><td>';
+	if (empty($row[2])) {
+		echo '';
+	}
+	else {
+		$row[2] = strtotime($row[2]);
+		echo ((date('Y')==date('Y',$row[2]))?(strtolower(strftime("%a %e %b %H:%M", $row[2]))):(strtolower(strftime("%a %e %b %G %H:%M", $row[2]))));
+	}
+	echo '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
+	if (!empty($row[7])) echo htmlspecialchars($row[7], ENT_SUBSTITUTE);
+	elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
+	else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
+	echo '</a></td><td>';
+	echo ((!empty($row[9])) ? htmlspecialchars($row[9], ENT_SUBSTITUTE) : ''); //toegewezen aan
+	echo '</td><td>';
+	echo (($row[8] == '1') ? 'ja' : ''); //reserve
+	echo '</td><td>';
+	echo htmlspecialchars($row[5], ENT_SUBSTITUTE);
+	echo '</td></tr>';
+}
+
+
+echo '<table class="grid">';
+echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
+//planned with date
 $qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`   
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
@@ -107,46 +159,23 @@ $qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `ro
 	WHERE `datetime_start` > NOW()
 	ORDER BY `datetime_start`";
 $res = mysqli_query($sql['link'], $qry);
-if (mysqli_num_rows($res)) {
-	echo '<table class="grid">';
-	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
-	while ($row = mysqli_fetch_row($res)) {
-        if (in_array($row[5], array('nee', 'reserve'))) {
-            echo '<tr class="low">';
-        }
-        elseif (strtotime($row[1])<time()+604800) {
-            if (!in_array($row[5], array('geactiveerd', 'handmatig', 'DVM-Exchange', 'PZH-Deelscenario'))) {
-                echo '<tr class="attention">';
-            }
-            else {
-                echo '<tr class="upcoming">';
-            }
-        }
-        else {
-            echo '<tr>';
-        }        
-        echo '<td><img src="'.(($row[6] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" /></td>';
-        echo '<td>'.
-        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
-        '</td><td>'.
-        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
-        '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
-		if (!empty($row[7])) echo htmlspecialchars($row[7], ENT_SUBSTITUTE);
-        elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
-		else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
-		echo '</a></td><td>';
-		echo ((!empty($row[9])) ? htmlspecialchars($row[9], ENT_SUBSTITUTE) : ''); //toegewezen aan
-		echo '</td><td>';
-		echo (($row[8] == '1') ? 'ja' : ''); //reserve
-		echo '</td><td>';
-		echo htmlspecialchars($row[5], ENT_SUBSTITUTE);
-		echo '</td></tr>';
-	}
-	echo '</table>';
+while ($row = mysqli_fetch_row($res)) {
+	display_planned_tablerow($row);
 }
-else {
-    echo '<p>Er zijn geen geplande werkzaamheden of evenementen.</p>';
+//planned without date at the end
+$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`   
+	FROM `".$sql['database']."`.`".$sql['table_p']."`
+	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned`
+	WHERE DATE(`datetime_start`) = '1970-01-01'
+	ORDER BY `datetime_start`";
+$res = mysqli_query($sql['link'], $qry);
+while ($row = mysqli_fetch_row($res)) {
+	$row[1] = '';
+	$row[2] = '';
+	display_planned_tablerow($row);
 }
+echo '</table>';
 ?>
 
 <p class="noprint"><a href="?p=kce">KCE printweergave genereren</a></p>

@@ -17,10 +17,14 @@ if (($_GET['s'] == 'p') && !empty($_POST)) {
 			$edit = TRUE;
 		}
 	}
+	//check if no date is set and then set dates to 1970-01-01
+	if ($_POST['nodate'] == 'true') {
+		$_POST['date_start'] = '1970-01-01';
+		$_POST['date_end'] = '1970-01-01';
+	}
 	
 	//edit
 	if ($edit === TRUE) {
-		
 		$qry = "UPDATE `".$sql['database']."`.`".$sql['table_p']."`
 		SET
 		`datetime_start` = '".date('Y-m-d H:i:s', strtotime($_POST['date_start'].' '.$_POST['time_start']))."',

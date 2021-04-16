@@ -39,9 +39,15 @@ if (!empty($_GET['id'])) {
 if ($edit === TRUE) {
 	//load values
 	$data = mysqli_fetch_assoc($res);
-	
-	$datetime_start = strtolower(strftime("%a %d-%m-%G %H:%M", strtotime($data['datetime_start'])));
-	$datetime_end = strtolower(strftime("%a %d-%m-%G %H:%M", strtotime($data['datetime_end'])));
+	//no date
+	if (date('Ymd', strtotime($data['datetime_start'])) == '19700101') {
+		$datetime_start = '(onbekend)';
+		$datetime_end = '(onbekend)';
+	}
+	else {
+		$datetime_start = strtolower(strftime("%a %d-%m-%G %H:%M", strtotime($data['datetime_start'])));
+		$datetime_end = strtolower(strftime("%a %d-%m-%G %H:%M", strtotime($data['datetime_end'])));
+	}
 	$road = htmlspecialchars($data['road'], ENT_SUBSTITUTE);
 	$location = htmlspecialchars($data['location'], ENT_SUBSTITUTE);
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
@@ -66,7 +72,7 @@ if ($edit === TRUE) {
 			<?php echo $datetime_start; ?>
 			<label>tot:</label>
 			<?php echo $datetime_end; ?> 
-			Reserve: <?php echo (($spare == '1') ? 'ja' : 'nee'); ?>
+			<label>Reserve:</label> <?php echo (($spare == '1') ? 'ja' : 'nee'); ?>
 		</td>
 	</tr>
 	<tr>
