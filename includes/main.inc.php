@@ -22,18 +22,19 @@ $qry = "SELECT `datetime`, `description`, `".$sql['table_users']."`.`username`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
 	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_edit`
 	ORDER BY `".$sql['table_d']."`.`id` DESC
-	LIMIT 1";
+	LIMIT 5";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
-	$row = mysqli_fetch_row($res);
-	echo '<tr><td>';
-	echo strtolower(strftime("%a %e %b %H:%M", strtotime($row[0])));
-	echo '</td><td class="expand">';
-	echo htmlspecialchars($row[1], ENT_SUBSTITUTE);
-	echo '</td><td>';
-	echo ((!empty($row[2])) ? htmlspecialchars($row[2], ENT_SUBSTITUTE) : '');
-	echo '</td></tr>';
+	while ($row = mysqli_fetch_row($res)) {
+		echo '<tr><td>';
+		echo strtolower(strftime("%a %e %b %H:%M", strtotime($row[0])));
+		echo '</td><td class="expand">';
+		echo htmlspecialchars($row[1], ENT_SUBSTITUTE);
+		echo '</td><td>';
+		echo ((!empty($row[2])) ? htmlspecialchars($row[2], ENT_SUBSTITUTE) : '');
+		echo '</td></tr>';
+	}
 	echo '</table>';
 }
 ?>
