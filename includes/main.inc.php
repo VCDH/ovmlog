@@ -5,6 +5,13 @@
 */
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 ?>
+
+<script>
+$(function() {
+	$( "#time" ).timepicker();
+});
+</script>
+
 <div class="noprint">
 <h1>Daglogging</h1>
 <p><a href="?p=d_view">bekijken</a></p>
@@ -31,7 +38,7 @@ if (mysqli_num_rows($res)) {
 }
 ?>
 <form method="post" action="?s=d">
-<label for="entry">Nieuwe entry:</label> <input type="text" name="entry" id="entry" class="l"> <input type="submit" value="Toevoegen">
+<label for="entry">Nieuwe entry:</label> <input type="text" name="entry" id="entry" class="l"> <input type="text" name="time" id="time" class="time"> <input type="submit" value="Toevoegen">
 </form>
 <h1>Incidenten</h1>
 <p><a href="?p=i">nieuw</a> | <a href="?p=i_hist">historie</a> | <a href="?">vernieuwen</a></p>
