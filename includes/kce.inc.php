@@ -39,6 +39,35 @@ $(function() {
 <p class="noprint"><input type="submit" value="OK" /></p>
 </form>
 
+<h1>Daglogging</h1>
+
+<?php
+$qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_users']."`.`id` AS `user_id`
+	FROM `".$sql['database']."`.`".$sql['table_d']."`
+	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_create`
+    WHERE DATE(`datetime`) BETWEEN '".date('Y-m-d', $review_date_start)."' AND '".date('Y-m-d', $review_date_end)."'
+    AND `review` = TRUE
+	ORDER BY `datetime` ASC, `".$sql['table_d']."`.`id` ASC";
+$res = mysqli_query($sql['link'], $qry);
+if (mysqli_num_rows($res)) {
+	echo '<table class="grid">';
+    while ($row = mysqli_fetch_assoc($res)) {
+        echo '<tr><td>';
+        echo strtolower(strftime("%a %e %b %H:%M", strtotime($row['datetime'])));
+        echo '</td><td class="expand">';
+        echo htmlspecialchars($row['description'], ENT_SUBSTITUTE);
+        echo '</td><td>';
+        echo htmlspecialchars($row['username'], ENT_SUBSTITUTE);
+        echo '</td></tr>';
+    }
+	echo '</table>';
+}
+else {
+    echo '<p>Geen daglogging voor deze datum</p>';
+}
+?>
+
 <h1>Incidenten</h1>
 
 <?php

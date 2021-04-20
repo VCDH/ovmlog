@@ -38,6 +38,7 @@ $(function() {
         //hide all edit buttons
         $('.daglog-edit').hide();
         $('.daglog-sticky').hide();
+        $('.daglog-review').hide();
         //get contents of current td
         var id = $(this).attr('id').substr(12);
         var entry = $(this).parent().children('.entry');
@@ -52,6 +53,7 @@ $(function() {
         cancel_button.click(function() {
             $('.daglog-edit').show();
             $('.daglog-sticky').show();
+            $('.daglog-review').show();
             entry.show();
             editable_content.remove();
         });
@@ -78,7 +80,7 @@ $(function() {
 <h1>Daglogging <?php echo strtolower(strftime("%A %e %B %G", strtotime($date))); ?></h1>
 
 <?php
-$qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `sticky`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_users']."`.`id` AS `user_id`
+$qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `sticky`, `review`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_users']."`.`id` AS `user_id`
 	FROM `".$sql['database']."`.`".$sql['table_d']."`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
 	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_create`
@@ -97,6 +99,13 @@ if (mysqli_num_rows($res)) {
         //if ($row['user_id'] == getuser()) {
             echo '<span class="daglog-edit ui-icon ui-icon-pencil" id="daglog-edit-' . $row['id'] . '" title="Bewerken"></span>';
         //}
+        //review
+        if ($row['review'] == 1) {
+			echo '<a href="?s=d&amp;&amp;do=unreview&amp;id=' . $row['id'] . '" title="Niet meer markeren voor evaluatie"><span class="daglog-review ui-icon ui-icon-star"></span>';
+		}
+        else {
+            echo '<a href="?s=d&amp;&amp;do=review&amp;id=' . $row['id'] . '" title="Markeren voor evaluatie"><span class="daglog-review ui-icon ui-icon-plus"></span>';
+        }
         //sticky
 		if ($row['sticky'] != 1) {
 			echo '<a href="?s=d&amp;&amp;do=sticky&amp;id=' . $row['id'] . '" title="Vastmaken"><span class="daglog-sticky ui-icon ui-icon-pin-w"></span>';

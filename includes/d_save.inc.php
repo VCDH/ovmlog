@@ -20,6 +20,37 @@ if (($_GET['s'] == 'd') && (($_GET['do'] == 'sticky') || ($_GET['do'] == 'unstic
 	exit;
 }
 
+//review/unreview
+if (($_GET['s'] == 'd') && (($_GET['do'] == 'review') || ($_GET['do'] == 'unreview'))) {
+	//check if entry exists
+	$qry = "SELECT `id`, `datetime` FROM `".$sql['database']."`.`".$sql['table_d']."`
+	WHERE
+	`id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'";
+	$res = mysqli_query($sql['link'], $qry);
+	if (mysqli_num_rows($res) != 1) {
+		header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php?msg=e001', TRUE, 303);
+		exit;
+	}
+	$row = mysqli_fetch_assoc($res);
+	//get date from datetime
+	$date = date('d-m-Y', strtotime($row['datetime']));
+	
+	//decide state
+	$review = 'FALSE';
+	if ($_GET['do'] == 'review') {
+		$review = 'TRUE';
+	}
+	$qry = "UPDATE `".$sql['database']."`.`".$sql['table_d']."`
+	SET
+	`review` = " . $review . ",
+	`user_id_edit` = '".getuser()."'
+	WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'";
+	mysqli_query($sql['link'], $qry);
+	//goto main page
+	header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php?p=d_view&date='.$date, TRUE, 303);
+	exit;
+}
+
 //save and insert
 if (($_GET['s'] == 'd') && !empty($_POST)) {
 	//check if entry is not empty
