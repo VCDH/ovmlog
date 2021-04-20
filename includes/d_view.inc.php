@@ -83,7 +83,7 @@ $qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `s
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
 	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_create`
     WHERE DATE(`datetime`) = '" . $date . "'
-	ORDER BY `".$sql['table_d']."`.`id` ASC";
+	ORDER BY `datetime` ASC, `".$sql['table_d']."`.`id` ASC";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';

@@ -35,7 +35,7 @@ $qry = "SELECT * FROM (
 		ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_create`
 		WHERE `sticky` = TRUE
 	) AS `t2`
-	ORDER BY `id` ASC";
+	ORDER BY `datetime` ASC, `id` ASC";
 $res = mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
 if (mysqli_num_rows($res)) {
