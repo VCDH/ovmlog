@@ -17,12 +17,15 @@ $(function() {
 <p><a href="?p=d_view">bekijken</a></p>
 <?php
 //laatste entry
-$qry = "SELECT `datetime`, `description`, `".$sql['table_users']."`.`username`
+$qry = "SELECT * FROM (
+	SELECT `datetime`, `description`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_d']."`.`id` AS `id`
 	FROM `".$sql['database']."`.`".$sql['table_d']."`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
 	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_edit`
 	ORDER BY `".$sql['table_d']."`.`id` DESC
-	LIMIT 5";
+	LIMIT 5
+	) AS `t`
+	ORDER BY `id` ASC";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
