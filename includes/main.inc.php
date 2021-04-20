@@ -8,6 +8,7 @@ setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1'
 
 <script>
 $(function() {
+	//timepicker voor daglog
 	$( "#time" ).timepicker();
 });
 </script>
@@ -18,15 +19,25 @@ $(function() {
 <?php
 //laatste entry
 $qry = "SELECT * FROM (
-	SELECT `datetime`, `description`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_d']."`.`id` AS `id`
-	FROM `".$sql['database']."`.`".$sql['table_d']."`
-	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
-	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_edit`
-	ORDER BY `".$sql['table_d']."`.`id` DESC
-	LIMIT 5
-	) AS `t`
+		SELECT `datetime`, `description`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_d']."`.`id` AS `id`, `sticky`
+		FROM `".$sql['database']."`.`".$sql['table_d']."`
+		LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+		ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_edit`
+		WHERE `sticky` = FALSE
+		ORDER BY `".$sql['table_d']."`.`id` DESC
+		LIMIT 5
+	) AS `t1`
+	UNION
+	SELECT * FROM (
+		SELECT `datetime`, `description`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_d']."`.`id` AS `id`, `sticky`
+		FROM `".$sql['database']."`.`".$sql['table_d']."`
+		LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+		ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_create`
+		WHERE `sticky` = TRUE
+	) AS `t2`
 	ORDER BY `id` ASC";
 $res = mysqli_query($sql['link'], $qry);
+echo mysqli_error($sql['link']);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	while ($row = mysqli_fetch_row($res)) {
@@ -34,6 +45,10 @@ if (mysqli_num_rows($res)) {
 		echo strtolower(strftime("%a %e %b %H:%M", strtotime($row[0])));
 		echo '</td><td class="expand">';
 		echo htmlspecialchars($row[1], ENT_SUBSTITUTE);
+		//sticky
+		if ($row[4] == 1) {
+			echo '<a href="?s=d&amp;&amp;do=unsticky&amp;id=' . $row[3] . '" title="Losmaken"><span class="ui-icon ui-icon-pin-s"></span>';
+		}
 		echo '</td><td>';
 		echo ((!empty($row[2])) ? htmlspecialchars($row[2], ENT_SUBSTITUTE) : '');
 		echo '</td></tr>';
@@ -42,7 +57,7 @@ if (mysqli_num_rows($res)) {
 }
 ?>
 <form method="post" action="?s=d">
-<label for="entry">Nieuwe entry:</label> <input type="text" name="entry" id="entry" class="l"> <input type="text" name="time" id="time" class="time"> <input type="submit" value="Toevoegen">
+<label for="entry">Nieuwe entry:</label> <input type="text" name="time" id="time" class="time"> <input type="text" name="entry" id="entry" class="l"> <input type="checkbox" name="sticky" value="true" title="Vastzetten"> <input type="submit" value="Toevoegen">
 </form>
 <h1>Incidenten</h1>
 <p><a href="?p=i">nieuw</a> | <a href="?p=i_hist">historie</a> | <a href="?">vernieuwen</a></p>
@@ -65,7 +80,6 @@ if (mysqli_num_rows($res)) {
 		$res2 = mysqli_query($sql['link'], $qry2);
 		if (mysqli_num_rows($res2)) {
 			while ($row2 = mysqli_fetch_row($res2)) {
-				//nog iets toevoegen van string afbreken na bepaalde lengte
 				echo '<tr class="sub"><td>&nbsp;</td><td>'.date('H:i', strtotime($row2[0])).'</td><td class="expand">'.htmlspecialchars(str_replace('<br />', ' ', $row2[1]), NULL, 'ISO-8859-15').'</td></tr>';
 			}
 		}

@@ -3,6 +3,24 @@
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021
 */
 
+//sticky/unsticky
+if (($_GET['s'] == 'd') && (($_GET['do'] == 'sticky') || ($_GET['do'] == 'unsticky'))) {
+	$sticky = 'FALSE';
+	if ($_GET['do'] == 'sticky') {
+		$sticky = 'TRUE';
+	}
+	$qry = "UPDATE `".$sql['database']."`.`".$sql['table_d']."`
+	SET
+	`sticky` = " . $sticky . ",
+	`user_id_edit` = '".getuser()."'
+	WHERE `id` = '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'";
+	mysqli_query($sql['link'], $qry);
+	//goto main page
+	header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php', TRUE, 303);
+	exit;
+}
+
+//save and insert
 if (($_GET['s'] == 'd') && !empty($_POST)) {
 	//check if entry is not empty
 	if (empty($_POST['entry'])) {
@@ -57,12 +75,18 @@ if (($_GET['s'] == 'd') && !empty($_POST)) {
 		else {
 			$datetime = 'NOW()';
 		}
+		//decide sticky
+		$sticky = 'FALSE';
+		if ($_POST['sticky'] == 'true') {
+			$sticky = 'TRUE';
+		}
 
 		//save entry
 		$qry = "INSERT INTO `".$sql['database']."`.`".$sql['table_d']."`
 		SET
 		`datetime` = " . $datetime . ",
 		`description` = '".mysqli_real_escape_string($sql['link'], $_POST['entry'])."',
+		`sticky` = " . $sticky . ",
 		`user_id_create` = '".getuser()."',
 		`user_id_edit` = '".getuser()."'";
 		if (mysqli_query($sql['link'], $qry)) $msg = null;

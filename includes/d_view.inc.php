@@ -37,6 +37,7 @@ $(function() {
     $('.daglog-edit').click(function() {
         //hide all edit buttons
         $('.daglog-edit').hide();
+        $('.daglog-sticky').hide();
         //get contents of current td
         var id = $(this).attr('id').substr(12);
         var entry = $(this).parent().children('.entry');
@@ -50,6 +51,7 @@ $(function() {
         });
         cancel_button.click(function() {
             $('.daglog-edit').show();
+            $('.daglog-sticky').show();
             entry.show();
             editable_content.remove();
         });
@@ -78,10 +80,10 @@ $(function() {
 
 
 <?php
-$qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_users']."`.`id` AS `user_id`
+$qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `sticky`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_users']."`.`id` AS `user_id`
 	FROM `".$sql['database']."`.`".$sql['table_d']."`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
-	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_edit`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_create`
     WHERE DATE(`datetime`) = '" . $date . "'
 	ORDER BY `".$sql['table_d']."`.`id` ASC";
 $res = mysqli_query($sql['link'], $qry);
@@ -95,8 +97,12 @@ if (mysqli_num_rows($res)) {
         echo '</span>';
         //editable
         if ($row['user_id'] == getuser()) {
-            echo '<span class="daglog-edit ui-icon ui-icon-pencil" id="daglog-edit-' . $row['id'] . '" title="bewerken"></span>';
+            echo '<span class="daglog-edit ui-icon ui-icon-pencil" id="daglog-edit-' . $row['id'] . '" title="Bewerken"></span>';
         }
+        //sticky
+		if ($row['sticky'] != 1) {
+			echo '<a href="?s=d&amp;&amp;do=sticky&amp;id=' . $row['id'] . '" title="Vastmaken"><span class="daglog-sticky ui-icon ui-icon-pin-w"></span>';
+		}
         echo '</td><td>';
         echo ((!empty($row['username'])) ? htmlspecialchars($row['username'], ENT_SUBSTITUTE) : '');
         echo '</td></tr>';

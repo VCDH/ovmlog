@@ -86,6 +86,12 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_d']."` 
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
 
+$qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_d']."`
+		ADD `sticky` BOOLEAN DEFAULT 0
+		AFTER `description`";
+mysqli_query($sql['link'], $qry);
+echo mysqli_error($sql['link']);
+
 //create table "users"
 $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_users']."` (
 		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
