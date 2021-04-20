@@ -15,6 +15,7 @@ if ($msg_type == 'e') {
 		case 4: echo 'Kan cookie niet zetten. Zorg ervoor dat je browser cookies accepteert.'; break;
 		case 5: echo 'Niet afgemeld. Kan cookie niet zetten. Zorg ervoor dat je browser cookies accepteert.'; break;
 		case 6: echo 'Kan niet verwijderen. Item bestaat niet (meer).'; break;
+		case 7: echo 'Veld kan niet leeg zijn.'; break;
 	}
 	echo '</p>';
 }

@@ -33,6 +33,32 @@ setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1'
 <script>
 $(function() {
 	$( "#date" ).datepicker();
+
+    $('.daglog-edit').click(function() {
+        //hide all edit buttons
+        $('.daglog-edit').hide();
+        //get contents of current td
+        var id = $(this).attr('id').substr(12);
+        var entry = $(this).parent().children('.entry');
+        var text = entry.text();
+        //create edit form and buttons
+        var editable_content = $('<form method="post" action="?s=d&amp;id='+ id + '"><input type="text" name="entry" value="' + text + '" class="l"></form>');
+        var save_button = $('<span class="ui-icon ui-icon-disk" title="opslaan"></span>');
+        var cancel_button = $('<span class="ui-icon ui-icon-close" title="annuleren"></span>');
+        save_button.click(function() {
+            editable_content.submit();
+        });
+        cancel_button.click(function() {
+            $('.daglog-edit').show();
+            entry.show();
+            editable_content.remove();
+        });
+        //insert elements
+        entry.hide();
+        editable_content.append(save_button);
+        editable_content.append(cancel_button);
+        $(this).parent().append(editable_content);
+    });
 });
 </script>
 
@@ -52,7 +78,7 @@ $(function() {
 
 
 <?php
-$qry = "SELECT `datetime`, `description`, `".$sql['table_users']."`.`username`
+$qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_users']."`.`id` AS `user_id`
 	FROM `".$sql['database']."`.`".$sql['table_d']."`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
 	ON `".$sql['table_users']."`.`id` = `".$sql['table_d']."`.`user_id_edit`
@@ -61,13 +87,18 @@ $qry = "SELECT `datetime`, `description`, `".$sql['table_users']."`.`username`
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
-    while ($row = mysqli_fetch_row($res)) {
+    while ($row = mysqli_fetch_assoc($res)) {
         echo '<tr><td>';
-        echo date('H:i', strtotime($row[0]));
-        echo '</td><td class="expand">';
-        echo htmlspecialchars($row[1], ENT_SUBSTITUTE);
+        echo date('H:i', strtotime($row['datetime']));
+        echo '</td><td class="expand"><span class="entry">';
+        echo htmlspecialchars($row['description'], ENT_SUBSTITUTE);
+        echo '</span>';
+        //editable
+        if ($row['user_id'] == getuser()) {
+            echo '<span class="daglog-edit ui-icon ui-icon-pencil" id="daglog-edit-' . $row['id'] . '" title="bewerken"></span>';
+        }
         echo '</td><td>';
-        echo ((!empty($row[2])) ? htmlspecialchars($row[2], ENT_SUBSTITUTE) : '');
+        echo ((!empty($row['username'])) ? htmlspecialchars($row['username'], ENT_SUBSTITUTE) : '');
         echo '</td></tr>';
     }
 	echo '</table>';
