@@ -43,10 +43,10 @@ if (($_GET['s'] == 'd') && !empty($_POST)) {
 		//get date from datetime
 		$date = date('d-m-Y', strtotime($row['datetime']));
 		//check user
-		if ($row['user_id_create'] != getuser()) {
+		/*if ($row['user_id_create'] != getuser()) {
 			header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php?p=d_view&date='.$date.'&msg=e001', TRUE, 303);
 			exit;
-		}
+		}*/
 		//check if entry is not empty
 		if (empty($_POST['entry'])) {
 			header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php?p=d_view&date='.$date.'&msg=e007', TRUE, 303);

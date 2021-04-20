@@ -77,8 +77,6 @@ $(function() {
 
 <h1>Daglogging <?php echo strtolower(strftime("%A %e %B %G", strtotime($date))); ?></h1>
 
-
-
 <?php
 $qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `sticky`, `".$sql['table_users']."`.`username` AS `username`, `".$sql['table_users']."`.`id` AS `user_id`
 	FROM `".$sql['database']."`.`".$sql['table_d']."`
@@ -96,9 +94,9 @@ if (mysqli_num_rows($res)) {
         echo htmlspecialchars($row['description'], ENT_SUBSTITUTE);
         echo '</span>';
         //editable
-        if ($row['user_id'] == getuser()) {
+        //if ($row['user_id'] == getuser()) {
             echo '<span class="daglog-edit ui-icon ui-icon-pencil" id="daglog-edit-' . $row['id'] . '" title="Bewerken"></span>';
-        }
+        //}
         //sticky
 		if ($row['sticky'] != 1) {
 			echo '<a href="?s=d&amp;&amp;do=sticky&amp;id=' . $row['id'] . '" title="Vastmaken"><span class="daglog-sticky ui-icon ui-icon-pin-w"></span>';
