@@ -19,17 +19,16 @@ $sql['link'] = mysqli_connect($sql['server'], $sql['user'], $sql['password']);
 if (!empty($_GET['s']) && file_exists('includes/'.urlencode($_GET['s']).'_save.inc.php')) include('includes/'.urlencode($_GET['s']).'_save.inc.php');
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title>OVM logging systeem</title>
-<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
-<script src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+<script src="jquery/jquery.min.js"></script>
+<script src="jquery/jquery-ui.min.js"></script>
 <script src="jquery/jquery.ui.datepicker-nl.js"></script>
 <script src="jquery/jquery-ui-timepicker-addon.js"></script>
 <script src="jquery/jquery-ui-timepicker-addon-nl.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="jquery/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link rel="stylesheet" type="text/css" href="print.css" media="print" />
 </head>
