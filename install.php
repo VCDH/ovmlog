@@ -110,5 +110,32 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_users']
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
 
+$qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_bijlagen']."` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`parent_id` INT UNSIGNED NOT NULL,
+	`datum` DATETIME NOT NULL,
+	`user_id` INT UNSIGNED NOT NULL,
+	`bestandsnaam` TINYTEXT NOT NULL,
+	`grootte` INT NOT NULL,
+	`bestand` VARCHAR(40) NOT NULL,
+	PRIMARY KEY (`id`)
+	)
+	CHARACTER SET 'latin1' 
+	COLLATE 'latin1_general_ci' 
+	ENGINE=MyISAM";
+	mysqli_query($sql['link'], $qry);
+	echo mysqli_error($sql['link']);
+
+//create store
+if (!is_dir('attachments')) {
+	mkdir('attachments');
+	$subdirs = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
+	foreach ($subdirs as $subdir) {
+		mkdir('attachments/'.$subdir);
+	}
+	echo 'created attachments directories'.PHP_EOL;
+}
+file_put_contents('attachments/.htaccess', 'deny from all');
+
 echo '<p>done</p>';
 ?>

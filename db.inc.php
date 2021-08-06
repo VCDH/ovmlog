@@ -15,6 +15,7 @@ $sql['table_e'] = $sql['table_prefix'].'evenementen';
 $sql['table_p'] = $sql['table_prefix'].'gepland';
 $sql['table_d'] = $sql['table_prefix'].'daglog';
 $sql['table_users'] = $sql['table_prefix'].'users';
+$sql['table_bijlagen'] = $sql['table_prefix'].'bijlagen';
 $sql['user'] = 'root';
 $sql['password'] = '';
 ?>

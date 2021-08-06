@@ -168,3 +168,25 @@ div#logo {
     font-family: Calibri, Arial, Helvetica, sans-serif;
 	font-size: medium;
 }
+
+/*jquery fileupload*/
+.fileinput-button {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+	border: 1px solid #333;
+	border-radius: 4px;
+	padding: 4px;
+	background: linear-gradient(to bottom, #EEE, #CCC);
+	cursor: pointer;
+}
+.fileinput-button input {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	opacity: 0;
+	font-size: 200px !important;
+	direction: ltr;
+	cursor: pointer;
+}

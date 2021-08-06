@@ -7,7 +7,8 @@ setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1'
 
 //decide edit or add
 if (!empty($_GET['id'])) {
-	$qry = "SELECT `".$sql['table_p']."`.`datetime_start` AS `datetime_start`,
+	$qry = "SELECT `".$sql['table_p']."`.`id` AS `parent_id`,
+	`".$sql['table_p']."`.`datetime_start` AS `datetime_start`,
     `".$sql['table_p']."`.`datetime_start` AS `datetime_start`,
     `".$sql['table_p']."`.`datetime_end` AS `datetime_end`,
     `".$sql['table_p']."`.`road` AS `road`,
@@ -142,8 +143,31 @@ if ($edit === TRUE) {
     }
     echo '</p>'; 
     ?>
-	
+
 	<p><a href="?">Terug naar overzicht</a> | <a href="?p=p_hist">Terug naar historielijst</a></p>
+
+	<h2>Bijlagen</h2>
+	<ul id="bijlagen">
+	</ul>
+	<form method="post">
+	<div id="uploadarea" style="clear:both;">
+	<!-- The fileinput-button span is used to style the file input field as button -->
+	<span class="fileinput-button">
+		<span>Upload bestanden...</span>
+		<!-- The file input field used as target for the file upload widget -->
+		<input id="fileupload" type="file" name="files[]" multiple>
+	</span>
+	<!-- The container for the uploaded files -->
+	<div id="files" class="files"></div>
+	</div>
+
+	<input type="hidden" name="id" value="<?php echo $data['parent_id']; ?>">
+	</form>
+
+	<script src="jquery-file-upload/jquery.iframe-transport.js"></script>
+	<script src="jquery-file-upload/jquery.fileupload.js"></script>
+	<script src="bijlage.js"></script>
+	
 	<?php
 }
 else {
