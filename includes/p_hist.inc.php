@@ -16,6 +16,11 @@ $qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `ro
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
 	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned` ";
+if ($_GET['dvmx'] == '1') {
+	$qry .= "WHERE `scenario` = 'DVM-Exchange'
+	AND `datetime_end` < NOW() ";
+}
+$qry .= "ORDER BY `datetime_start` DESC";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
