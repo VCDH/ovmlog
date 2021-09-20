@@ -203,9 +203,9 @@ $(function() {
 	</td><td>
 		<?php
 		echo '<select name="user_id_assigned" id="user_id_assigned">';
-		echo '<option value="0">(niemand)</option>';
 		echo '<option value="' . getuser('id') . '">' . htmlspecialchars(getuser('name')) . '</option>';
 		echo '<option value="0" disabled>---------------</option>';
+		echo '<option value="0">(niemand)</option>';
 		//get users from database
 		$qry = "SELECT `id`, `username` 
 		FROM `".$sql['database']."`.`".$sql['table_users']."`
