@@ -151,12 +151,17 @@ if ($edit === TRUE) {
 	</ul>
 	<form method="post">
 	<div id="uploadarea" style="clear:both;">
+	<!-- progress bar -->
+	<div id="progress">
+		<div class="bar" style="width: 0%;"></div>
+	</div>
 	<!-- The fileinput-button span is used to style the file input field as button -->
 	<span class="fileinput-button">
 		<span>Upload bestanden...</span>
 		<!-- The file input field used as target for the file upload widget -->
 		<input id="fileupload" type="file" name="files[]" multiple>
 	</span>
+	
 	<!-- The container for the uploaded files -->
 	<div id="files" class="files"></div>
 	</div>

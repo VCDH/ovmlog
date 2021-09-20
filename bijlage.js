@@ -26,6 +26,16 @@ $(function () {
 		dataType: 'json',
 		start: function() {
 			clearTimeout(clear_upload_timeout);
+			//show progress bar
+			$('#progress').show();
+			$('#progress .bar').css('width', '0%');
+		},
+		progressall: function (e, data) {
+			var progress = parseInt(data.loaded / data.total * 100, 10);
+			$('#progress .bar').css(
+				'width',
+				progress + '%'
+			);
 		},
 		done: function (e, data) {
 			$.each(data.result.files, function (index, file) {
@@ -38,6 +48,7 @@ $(function () {
 			});
 			clear_upload_timeout = setTimeout(clear_upload_result, 5000);
 			load_attachments();
+			$('#progress').hide();
 		},
 		fail: function (e, data) {
 			$('<p/>').text('Kan bestand niet uploaden: ' + data.errorThrown).appendTo('#files');

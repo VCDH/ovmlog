@@ -41,10 +41,11 @@ $content_types = array(
 '.gif' => 'image/gif',
 '.bmp' => 'image/bmp',
 '.txt' => 'text/plain',
-'.csv' => 'text/csv'
+'.csv' => 'text/csv',
+'.zip' => 'application/zip'
 );
 
-$max_filesize = 25000*1024; //bytes
+$max_filesize = 180*1024*1024; //bytes
 
 include_once('convertfilesize.fct.php');
 

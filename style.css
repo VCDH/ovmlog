@@ -190,3 +190,14 @@ div#logo {
 	direction: ltr;
 	cursor: pointer;
 }
+#progress {
+	display: none;
+	width: 200px;
+	border: 1px solid #000;
+	padding: 1px;
+}
+.bar {
+    height: 18px;
+	width: 0%;
+    background-color:#155429;
+}
