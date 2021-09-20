@@ -6,26 +6,22 @@
 ?>
 
 <h2>Werkzaamheden en evenementen - historie</h2>
-<p><a href="?">&laquo; terug</a></p>
+<p><a href="?">&laquo; terug</a> | <a href="?p=p_hist&amp;dvmx=1">toon alleen afgelopen DVM-Exchange</a></p>
 
 <?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `type`, `name`, `spare` 
+
+include 'functions/generic.fct.php';
+
+$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
-	ORDER BY `datetime_start` DESC";
+	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned` ";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="reserve">res</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr>';
-        echo '<td><img src="'.(($row[5] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[5] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[5] == 'w') ? 'werk' : 'evenement').'" /></td>';
-        echo '<td>'.date('d-m-Y H:i', strtotime($row[1])).'</td><td>'.date('d-m-Y H:i', strtotime($row[2])).'</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
-		if (!empty($row[6])) echo htmlspecialchars($row[6], ENT_SUBSTITUTE);
-        elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
-		else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
-		echo '</a></td><td>';
-		echo (($row[7] == '1') ? 'ja' : '');
-		echo '</td></tr>';
+		display_planned_tablerow($row, TRUE);
 	}
 	echo '</table>';
 }

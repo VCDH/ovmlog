@@ -64,7 +64,7 @@ if (mysqli_num_rows($res)) {
 	echo '</table>';
 }
 else {
-    echo '<p>Geen daglogging voor deze datum</p>';
+    echo '<p>Geen daglogging voor deze periode.</p>';
 }
 ?>
 
@@ -232,8 +232,13 @@ if (!empty($incident_details)) {
 <h1>Werkzaamheden en evenementen afgelopen periode</h1>
 
 <?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare` 
+
+include 'functions/generic.fct.php';
+
+$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`  
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
+    LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned`
 	WHERE 
 	`datetime_start` BETWEEN '".date('Y-m-d', $review_date_start)."' AND '".date('Y-m-d', $review_date_end)."'
     OR `datetime_end` BETWEEN '".date('Y-m-d', $review_date_start)."' AND '".date('Y-m-d', $review_date_end)."'
@@ -242,23 +247,9 @@ $qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scen
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
-	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie/naam</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
+	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie/naam</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr'.(($row[5]=='nee')?' class="low"':'').'>';
-        echo '<td><img src="'.(($row[6] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" /></td>';
-        echo '<td>'.
-        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
-        '</td><td>'.
-        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
-        '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
-		if (!empty($row[7])) echo htmlspecialchars($row[7]);
-        elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
-		else echo htmlspecialchars($row[3].' - '.$row[4]);
-		echo '</a></td><td>';
-		echo (($row[8] == '1') ? 'ja' : '');
-		echo '</td><td>';
-		echo htmlspecialchars($row[5]);
-		echo '</td></tr>';
+		display_planned_tablerow($row);
 	}
 	echo '</table>';
 }
@@ -271,8 +262,10 @@ else {
 <h1>Geplande werkzaamheden en evenementen komende periode</h1>
 
 <?php
-$qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`  
+$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`    
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
+    LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned`
 	WHERE 
 	`datetime_start` BETWEEN '".date('Y-m-d', $upcoming_date_start)."' AND '".date('Y-m-d', $upcoming_date_end)."'
     OR `datetime_end` BETWEEN '".date('Y-m-d', $upcoming_date_start)."' AND '".date('Y-m-d', $upcoming_date_end)."'
@@ -281,23 +274,9 @@ $qry = "SELECT `id`, `datetime_start`, `datetime_end`, `road`, `location`, `scen
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
-	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
+	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr'.((strtotime($row[1])<time()+604800)?' class="upcoming"':'').'>';
-        echo '<td><img src="'.(($row[6] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" /></td>';
-        echo '<td>'.
-        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
-        '</td><td>'.
-        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
-        '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
-		if (!empty($row[7])) echo htmlspecialchars($row[7]);
-        elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
-		else echo htmlspecialchars($row[3].' - '.$row[4]);
-		echo '</a></td><td>';
-		echo (($row[8] == '1') ? 'ja' : '');
-		echo '</td><td>';
-		echo htmlspecialchars($row[5]);
-		echo '</td></tr>';
+		display_planned_tablerow($row);
 	}
 	echo '</table>';
 }
