@@ -33,7 +33,7 @@ $sql['link'] = mysqli_connect($sql['server'], $sql['user'], $sql['password'], $s
 $content_types = array(
 '.doc' => 'application/msword',
 '.docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-'.xls' => 'application/vnc.ms-excel',
+'.xls' => 'application/vnd.ms-excel',
 '.xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 '.pdf' => 'application/pdf',
 '.jpg' => 'image/jpeg',
@@ -42,7 +42,8 @@ $content_types = array(
 '.bmp' => 'image/bmp',
 '.txt' => 'text/plain',
 '.csv' => 'text/csv',
-'.zip' => 'application/zip'
+'.zip' => 'application/zip',
+'.eml' => 'message/rfc822'
 );
 
 $max_filesize = 180*1024*1024; //bytes
