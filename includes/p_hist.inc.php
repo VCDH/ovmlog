@@ -6,7 +6,15 @@
 ?>
 
 <h2>Werkzaamheden en evenementen - historie</h2>
-<p><a href="?">&laquo; terug</a> | <a href="?p=p_hist&amp;dvmx=1">toon alleen afgelopen DVM-Exchange</a></p>
+<p><a href="?">&laquo; terug</a> | <?php
+if ($_GET['dvmx'] == '1') {
+	echo '<a href="?p=p_hist&amp;dvmx=0">toon alles</a>';
+}
+else {
+	echo '<a href="?p=p_hist&amp;dvmx=1">toon alleen DVM-Exchange</a>';
+}
+?>
+</p>
 
 <?php
 
@@ -15,10 +23,10 @@ include 'functions/generic.fct.php';
 $qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
-	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned` ";
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned` 
+	WHERE `datetime_end` < NOW() ";
 if ($_GET['dvmx'] == '1') {
-	$qry .= "WHERE `scenario` = 'DVM-Exchange'
-	AND `datetime_end` < NOW() ";
+	$qry .= "AND `scenario` = 'DVM-Exchange'";
 }
 $qry .= "ORDER BY `datetime_start` DESC";
 $res = mysqli_query($sql['link'], $qry);
