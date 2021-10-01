@@ -1,7 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016-2021
 */
 
 if (($_GET['s'] == 'p') && !empty($_POST)) {
@@ -43,6 +43,7 @@ if (($_GET['s'] == 'p') && !empty($_POST)) {
 		if (mysqli_query($sql['link'], $qry)) $msg = 's001';
 		else $msg = 'e001';
 		echo mysqli_error($sql['link']);
+		$id = (int) $_POST['id'];
 	}
 	//add
 	else {
@@ -64,11 +65,14 @@ if (($_GET['s'] == 'p') && !empty($_POST)) {
 		if (mysqli_query($sql['link'], $qry)) $msg = 's001';
 		else $msg = 'e001';
 		echo mysqli_error($sql['link']);
+		$id = mysqli_insert_id($sql['link']);
 	}
 	
 	if (isset($_POST['saveandcopy'])) {
-		$id = mysqli_insert_id($sql['link']);
 		header('Location: ?p=p&copyfrom='.$id);
+	}
+	if (isset($_POST['saveandview'])) {
+		header('Location: ?p=p_view&id='.$id);
 	}
 	else {
 		//fix browser back button

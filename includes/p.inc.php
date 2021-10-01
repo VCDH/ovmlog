@@ -227,7 +227,7 @@ $(function() {
 </tr>
 </table>
 
-<p><input type="submit" name="save" value="opslaan en naar overzicht"> <?php if (empty($_GET['id'])) { ?><input type="submit" name="saveandcopy" value="opslaan en ga verder"><?php } ?> <a href="?">Annuleren</a></p>
+<p><input type="submit" name="saveandview" value="opslaan en bekijken"> <input type="submit" name="save" value="opslaan en naar overzicht"> <?php if (empty($_GET['id'])) { ?><input type="submit" name="saveandcopy" value="opslaan en kopie maken"><?php } ?> <a href="?">Annuleren</a></p>
 
 </form>
 <p><br /></p>
