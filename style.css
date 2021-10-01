@@ -101,6 +101,9 @@ table.grid tr.attention td {
 table.grid tr.manual td {
     background-color: #a3def7;
 }
+table.grid tr.monitor td {
+    background-color: #fdff93;
+}
 
 label {
 	font-weight: bold;

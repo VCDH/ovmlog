@@ -4,6 +4,8 @@
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2021
 */
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
+
+include 'functions/generic.fct.php';
 ?>
 
 <script>
@@ -15,7 +17,7 @@ $(function() {
 
 <div class="noprint">
 <h1>Daglogging</h1>
-<p><a href="?p=d_view">bekijken</a></p>
+<p><a href="?p=d_view">bekijken</a> | <a href="?">vernieuwen</a></p>
 <?php
 //laatste entry
 $qry = "SELECT * FROM (
@@ -111,34 +113,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie/naam</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		if (in_array($row[5], array('nee', 'reserve'))) {
-            echo '<tr class="low">';
-        }
-        elseif (in_array($row[5], array('handmatig'))) {
-            echo '<tr class="manual">';
-        }
-        elseif (!in_array($row[5], array('geactiveerd', 'handmatig', 'DVM-Exchange', 'PZH-Deelscenario'))) {
-            echo '<tr class="attention">';
-        }
-        else {
-            echo '<tr>';
-        }
-        echo '<td><img src="'.(($row[6] == 'w') ? 'werk' : 'evenement').'.png" width="16" height="16" alt="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" title="'.(($row[6] == 'w') ? 'werk' : 'evenement').'" /></td>';
-        echo '<td>'.
-        ((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[1]))))).
-        '</td><td>'.
-        ((date('Y')==date('Y',strtotime($row[2])))?(strtolower(strftime("%a %e %b %H:%M", strtotime($row[2])))):(strtolower(strftime("%a %e %b %G %H:%M", strtotime($row[2]))))).
-        '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
-		if (!empty($row[7])) echo htmlspecialchars($row[7], ENT_SUBSTITUTE);
-        elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
-		else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
-		echo '</a></td><td>';
-		echo ((!empty($row[9])) ? htmlspecialchars($row[9], ENT_SUBSTITUTE) : ''); //toegewezen aan
-		echo '</td><td>';
-		echo (($row[8] == '1') ? 'ja' : ''); //reserve
-		echo '</td><td>';
-		echo htmlspecialchars($row[5], ENT_SUBSTITUTE);
-		echo '</td></tr>';
+		display_planned_tablerow($row);
 	}
 	echo '</table>';
 }
@@ -152,8 +127,6 @@ else {
 <p class="noprint"><a href="?p=p">nieuw</a> | <a href="?p=p_hist">historie</a></p>
 
 <?php
-
-include 'functions/generic.fct.php';
 
 echo '<table class="grid">';
 echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';

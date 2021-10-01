@@ -1,10 +1,20 @@
-<?php 
+<?php
+/*
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016-2021
+*/
 
 function display_planned_tablerow($row, $date_short = FALSE) {
 	//input is array with row data in order:
 	//`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `username_assigned`
 	if (in_array($row[5], array('nee', 'reserve'))) {
 		echo '<tr class="low">';
+	}
+	elseif (in_array($row[5], array('handmatig'))) {
+		echo '<tr class="manual">';
+	}
+	elseif (in_array($row[5], array('monitoren'))) {
+		echo '<tr class="monitor">';
 	}
 	elseif ((strtotime($row[1])<time()+604800) && !empty($row[1])) {
 		if (!in_array($row[5], array('geactiveerd', 'handmatig', 'DVM-Exchange', 'PZH-Deelscenario'))) {

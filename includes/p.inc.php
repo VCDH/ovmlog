@@ -1,7 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2019
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016-2021
 */
 
 $max_autocomplete = 50;
@@ -168,7 +168,7 @@ $(function() {
 		<label for="scenario">scenario status:</label>
 	</td><td>
 		<?php
-		$scenario_status = array('nieuw', 'hergebruik', 'derden-nieuw', 'derden-review', 'derden-definitief', 'reserve', 'nee', 'ntb', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario', 'handmatig');
+		$scenario_status = array('nieuw', 'hergebruik', 'derden-nieuw', 'derden-review', 'derden-definitief', 'reserve', 'nee', 'ntb', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario', 'handmatig', 'monitoren');
 		echo '<select name="scenario" id="scenario">';
 		foreach ($scenario_status as $status) {
 			echo '<option value="';
@@ -252,5 +252,7 @@ $(function() {
 <tr><td>DVM-exchange    </td><td>= Staat in MM en DVM-Exchange service is beschikbaar gesteld aan RWS om ingezet te worden door RWS</td></tr>
 <tr><td>PZH-Deelscenario</td><td>= Deelscenario voor PZH. Staat in MM en kan door PZH ingezet worden                     </td></tr>
 <tr><td>Handmatig       </td><td>= Staat in MM en wordt handmatig door WVL in/uitgeschakeld</td></tr>
+<tr><td>                </td><td><b>Speciaal</b>                </td></tr>
+<tr><td>Monitoren       </td><td>= Er is geen scenario, maar de situatie moet door de WLV worden gemonitord. In de beschrijving staat waar op gelet moet worden en wie wanneer ge&iuml;nformeerd moet worden</td></tr>
 </table>
 
