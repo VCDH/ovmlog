@@ -97,7 +97,8 @@ if (($_GET['s'] == 'd') && !empty($_POST)) {
 	//new item
 	else {
 		//decide time
-		if (preg_match('/[01]?[0-9]{1}:[0-5]{1}[0-9]{1}/', $_POST['time'])) {
+		$_POST['time'] = trim($_POST['time']);
+		if (preg_match('/^[01]?[0-9]{1}:[0-5]{1}[0-9]{1}$/', $_POST['time'])) {
 			if (strlen($_POST['time']) == 4) {
 				$_POST['time'] = '0' . $_POST['time'];
 			}
