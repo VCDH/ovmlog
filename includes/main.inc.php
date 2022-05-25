@@ -130,18 +130,7 @@ else {
 
 echo '<table class="grid">';
 echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
-//planned with date
-$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`   
-	FROM `".$sql['database']."`.`".$sql['table_p']."`
-	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
-	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned`
-	WHERE `datetime_start` > NOW()
-	ORDER BY `datetime_start`";
-$res = mysqli_query($sql['link'], $qry);
-while ($row = mysqli_fetch_row($res)) {
-	display_planned_tablerow($row);
-}
-//planned without date at the end
+//planned without date
 $qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`   
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
@@ -152,6 +141,17 @@ $res = mysqli_query($sql['link'], $qry);
 while ($row = mysqli_fetch_row($res)) {
 	$row[1] = '';
 	$row[2] = '';
+	display_planned_tablerow($row);
+}
+//planned with date
+$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`   
+	FROM `".$sql['database']."`.`".$sql['table_p']."`
+	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned`
+	WHERE `datetime_start` > NOW()
+	ORDER BY `datetime_start`";
+$res = mysqli_query($sql['link'], $qry);
+while ($row = mysqli_fetch_row($res)) {
 	display_planned_tablerow($row);
 }
 echo '</table>';

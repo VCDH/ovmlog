@@ -262,6 +262,9 @@ else {
 <h1>Geplande werkzaamheden en evenementen komende periode</h1>
 
 <?php
+echo '<table class="grid">';
+echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
+//planned with date
 $qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`    
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
     LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
@@ -272,15 +275,21 @@ $qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `ro
     OR (`datetime_start` < '".date('Y-m-d', $upcoming_date_start)."' AND `datetime_end` > '".date('Y-m-d', $upcoming_date_end)."')
 	ORDER BY `datetime_start`";
 $res = mysqli_query($sql['link'], $qry);
-if (mysqli_num_rows($res)) {
-	echo '<table class="grid">';
-	echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
-	while ($row = mysqli_fetch_row($res)) {
-		display_planned_tablerow($row);
-	}
-	echo '</table>';
+while ($row = mysqli_fetch_row($res)) {
+	display_planned_tablerow($row);
 }
-else {
-    echo '<p>Er zijn geen geplande werkzaamheden of evenementen.</p>';
+//planned without date
+$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`   
+	FROM `".$sql['database']."`.`".$sql['table_p']."`
+	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned`
+	WHERE DATE(`datetime_start`) = '1970-01-01'
+	ORDER BY `datetime_start`";
+$res = mysqli_query($sql['link'], $qry);
+while ($row = mysqli_fetch_row($res)) {
+	$row[1] = '';
+	$row[2] = '';
+	display_planned_tablerow($row);
 }
+echo '</table>';
 ?>
