@@ -3,6 +3,22 @@
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021
 */
 
+//ovkvd/piket
+if (($_GET['s'] == 'd') && ($_GET['do'] == 'ovkvd')) {
+	//prepare json
+	$json = array(
+		'date'=> date('Ymd'),
+		'ovkvd' => $_POST['ovkvd'],
+		'piket' => $_POST['piket']
+	);
+	$json = json_encode($json);
+	//store json
+	file_put_contents('ovkvdpiket.json', $json);
+	//goto main page
+	header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php', TRUE, 303);
+	exit;
+}
+
 //sticky/unsticky
 if (($_GET['s'] == 'd') && (($_GET['do'] == 'sticky') || ($_GET['do'] == 'unsticky'))) {
 	$sticky = 'FALSE';

@@ -16,6 +16,25 @@ $(function() {
 </script>
 
 <div class="noprint">
+
+<p>
+<form method="post" action="?s=d&amp;do=ovkvd">
+<?php
+$ovkvd = '';
+$piket = '';
+$date = date('Ymd');
+if (file_exists('ovkvdpiket.json')) {
+	$json = file_get_contents('ovkvdpiket.json');
+	$json = json_decode($json, true);
+	if ($json['date'] == $date) {
+		$ovkvd = $json['ovkvd'];
+		$piket = $json['piket'];
+	}
+}?>
+<label for="ovkvd">OVK van Dienst:</label> <input type="text" name="ovkvd" id="ovkvd" class="m" value="<?php echo htmlspecialchars($ovkvd, ENT_SUBSTITUTE); ?>"> <label for="piket">Piket:</label> <input type="text" name="piket" id="piket" class="m" value="<?php echo htmlspecialchars($piket, ENT_SUBSTITUTE); ?>"> <input type="submit" value="Opslaan">
+</form>
+</p>
+
 <h1>Daglogging</h1>
 <p><a href="?p=d_view">bekijken</a> | <a href="?">vernieuwen</a></p>
 <?php
