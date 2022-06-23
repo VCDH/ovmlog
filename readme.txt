@@ -51,16 +51,16 @@ als via de commandline worden uitgevoerd.
 3. Licentie
 ================================================================================
 
-De broncode van assetwebsite is vrijgegeven onder de voorwaarde van de 
+De broncode van ovmlog is vrijgegeven onder de voorwaarde van de 
 GNU General Public License versie 3 of hoger. Voor gebundelde libraries kunnen 
 andere licentievoorwaarden van toepassing zijn. Zie hiervoor de documentatie in 
 de betreffende submappen.
 
-Met uitzondering van gebundelde libraries is voor assetwebsite het volgende van 
+Met uitzondering van gebundelde libraries is voor ovmlog het volgende van 
 toepassing:
 
-    assetwebsite - viewer en aanvraagformulier voor verkeersmanagementassets
-    Copyright (C) 2013, 2016, 2019-2020 Gemeente Den Haag, Netherlands
+    ovmlog - viewer en aanvraagformulier voor verkeersmanagementassets
+    Copyright (C) 2013-2021 Gemeente Den Haag, Netherlands
     Developed by Jasper Vries
  
     This program is free software: you can redistribute it and/or modify

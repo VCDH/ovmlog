@@ -2,6 +2,7 @@
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
 */
+exit;
 
 include('db.inc.php');
 

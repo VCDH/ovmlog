@@ -1,8 +1,22 @@
 <?php
 /*
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
+	ovmlog - logtool voor operationeel verkeersmanagement
+	Copyright (C) 2013, 2022 Gemeente Den Haag, Netherlands
+    Developed by Jasper Vries
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-
 
 include('functions/getuser.fct.php');
 //check login
@@ -37,7 +51,7 @@ if (!empty($_GET['s']) && file_exists('includes/'.urlencode($_GET['s']).'_save.i
 <div id="container">
 <div id="content">
 <div id="logo"></div>
-<p class="noprint">Welkom <b><?php echo getuser('name'); ?></b> | <a href="login.php" tabindex="-1">wissel gebruiker</a></p>
+<p class="noprint">Welkom <b><?php echo getuser('name'); ?></b> | <a href="account.php" tabindex="-2">account</a> | <a href="logout.php" tabindex="-1">afmelden</a></p>
 
 <?php
 //include messages

@@ -1,7 +1,9 @@
 <?php
 /*
-	ovmlog - logtool voor operationeel verkeersmanagement
-	Copyright (C) 2013, 2022 Gemeente Den Haag, Netherlands
+ 	scenariobrowser - viewer en editor voor verkeersmanagementscenario's
+    Copyright (C) 2016-2019 Gemeente Den Haag, Netherlands
+    ovmlog - logtool voor operationeel verkeersmanagement
+	Copyright (C) 2022 Gemeente Den Haag, Netherlands
     Developed by Jasper Vries
  
     This program is free software: you can redistribute it and/or modify
@@ -17,21 +19,9 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+$auth = array();
+$auth['beheer'] = 200;
 
-//function to get user id or name
-//var getuser ( [ str $type ] )
-//returns:
-//bool false if no user logged in
-//int $user_id if user is logged in, or
-//str $user_name if $type == 'name'
+$accesslevel_available = array(0 => 'Meekijker', 50 => 'Scenario bewerken', 100 => 'Scenario finalizeren', 200 => 'Beheerder', 255 => 'Superbeheerder');
 
-if (!function_exists('getuser')) { function getuser($type='id') {
-	include('logincheck.inc.php');
-	if ($type == 'name') {
-		return logincheck('username');
-	}
-	else {
-		return logincheck('id');
-	}
-}}
 ?>

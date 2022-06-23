@@ -1,7 +1,21 @@
 <?php
 /*
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013-2017
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021
+	ovmlog - logtool voor operationeel verkeersmanagement
+	Copyright (C) 2013-2017, 2021-2022 Gemeente Den Haag, Netherlands
+    Developed by Jasper Vries
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 include('db.inc.php');
@@ -30,13 +44,13 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_i']."` 
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
-
+/*
 $qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_i']."`
 		ADD `regelaanpak` BOOLEAN DEFAULT 0
 		AFTER `review`";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
-
+*/
 //create table "incidenten_details"
 $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_id']."` (
 		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -68,13 +82,13 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_p']."` 
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
-
+/*
 $qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_p']."`
 		ADD `scenario_naam` TINYTEXT
 		AFTER `scenario`";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
-
+*/
 //create table "daglog"
 $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_d']."` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -85,7 +99,7 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_d']."` 
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
-
+/*
 $qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_d']."`
 		ADD `sticky` BOOLEAN DEFAULT 0
 		AFTER `description`";
@@ -97,7 +111,7 @@ $qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_d']."`
 		AFTER `sticky`";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
-
+*/
 //create table "users"
 $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_users']."` (
 		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -107,6 +121,16 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_users']
 		`email` VARCHAR(255),
         `disabled` BOOLEAN DEFAULT FALSE
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+mysqli_query($sql['link'], $qry);
+echo mysqli_error($sql['link']);
+
+$qry = "ALTER TABLE `".$sql['database']."`.`".$sql['table_users']."`
+		ADD `token` MEDIUMTEXT AFTER `email`,
+		ADD `phone` TINYTEXT NULL DEFAULT NULL AFTER `email`,
+		ADD `organisation` INT UNSIGNED NOT NULL AFTER `email`,
+		ADD `accesslevel` TINYINT UNSIGNED NOT NULL DEFAULT 0 AFTER `email`,
+		DROP `accesscode`,
+		CHANGE `password` `password` VARCHAR(64)";
 mysqli_query($sql['link'], $qry);
 echo mysqli_error($sql['link']);
 
