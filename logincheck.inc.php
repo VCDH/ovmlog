@@ -36,6 +36,7 @@ if (!function_exists('logincheck')) { function logincheck($type='bool') {
 		`id`, `password`, `token`, `email`, `username`, `accesslevel`, `organisation`
 		FROM `".$db['prefix']."users`
 		WHERE `id` = '" . mysqli_real_escape_string($db['link'], $user_id) . "'
+		AND `disabled` = 0
 		LIMIT 1";
 		//voer query uit
 		$result = mysqli_query($db['link'], $sql);

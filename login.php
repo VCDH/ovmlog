@@ -66,6 +66,7 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
     FROM `".$db['prefix']."users`
     WHERE `email` = '" . mysqli_real_escape_string($db['link'], $_POST['username']) . "'
     AND `password` = '" . mysqli_real_escape_string($db['link'], $wachtwoord) . "'
+    AND `disabled` = 0
     LIMIT 1"; 
 	//voer query uit
     $result = mysqli_query($db['link'], $sql);
@@ -140,6 +141,7 @@ elseif (($_GET['do'] == 'lostpass') && !empty($_POST['email'])) {
     `id`, `username`, `email`
     FROM `".$db['prefix']."users`
     WHERE `email` = '" . mysqli_real_escape_string($db['link'], $_POST['email']) . "'
+    AND `disabled` = 0
     LIMIT 1"; 
 	//voer query uit
     $result = mysqli_query($db['link'], $sql);
