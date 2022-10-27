@@ -1,6 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2022
 */
 ?>
 
@@ -72,7 +73,15 @@ if ($edit === TRUE) {
 	}
 	
 	?>
-	<div class="right"><a href="?p=i&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a></div>
+	<div class="right">
+        <?php 
+        if (permissioncheck('bewerk')) {
+        ?>
+        <a href="?p=i&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a>
+        <?php
+        }
+        ?>
+    </div>
 	
 	<table>
     <tr>

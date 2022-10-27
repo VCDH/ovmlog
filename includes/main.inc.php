@@ -1,7 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2021
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2021-2022
 */
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 
@@ -31,7 +31,14 @@ if (file_exists('ovkvdpiket.json')) {
 		$piket = $json['piket'];
 	}
 }?>
-<label for="ovkvd">OVK van Dienst:</label> <input type="text" name="ovkvd" id="ovkvd" class="m" value="<?php echo htmlspecialchars($ovkvd, ENT_SUBSTITUTE); ?>"> <label for="piket">Piket:</label> <input type="text" name="piket" id="piket" class="m" value="<?php echo htmlspecialchars($piket, ENT_SUBSTITUTE); ?>"> <input type="submit" value="Opslaan">
+<label for="ovkvd">OVK van Dienst:</label> <input type="text" name="ovkvd" id="ovkvd" class="m" value="<?php echo htmlspecialchars($ovkvd, ENT_SUBSTITUTE); ?>"> <label for="piket">Piket:</label> <input type="text" name="piket" id="piket" class="m" value="<?php echo htmlspecialchars($piket, ENT_SUBSTITUTE); ?>"> 
+<?php
+if (permissioncheck('bewerk')) {
+?>
+<input type="submit" value="Opslaan">
+<?php
+}
+?>
 </form>
 </p>
 
@@ -76,12 +83,18 @@ if (mysqli_num_rows($res)) {
 	}
 	echo '</table>';
 }
+
+if (permissioncheck('bewerk')) {
 ?>
 <form method="post" action="?s=d">
 <label for="entry">Nieuwe entry:</label> <input type="text" name="time" id="time" class="time"> <input type="text" name="entry" id="entry" class="l"> <input type="checkbox" name="sticky" value="true" title="Vastzetten"> <input type="submit" value="Toevoegen">
 </form>
+<?php
+}
+?>
+
 <h1>Incidenten</h1>
-<p><a href="?p=i">nieuw</a> | <a href="?p=i_hist">historie</a> | <a href="?">vernieuwen</a></p>
+<p><?php if (permissioncheck('bewerk')) { ?><a href="?p=i">nieuw</a> | <?php } ?><a href="?p=i_hist">historie</a> | <a href="?">vernieuwen</a></p>
 
 <?php
 $qry = "SELECT `id`, `date`, `road`, `location` 
@@ -143,7 +156,7 @@ else {
 
 <hr />
 <h1>Geplande werkzaamheden en evenementen</h1>
-<p class="noprint"><a href="?p=p">nieuw</a> | <a href="?p=p_hist">historie</a></p>
+<p class="noprint"><?php if (permissioncheck('bewerk')) { ?><a href="?p=p">nieuw</a> | <?php } ?><a href="?p=p_hist">historie</a></p>
 
 <?php
 

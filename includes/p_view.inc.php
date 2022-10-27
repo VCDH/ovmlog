@@ -1,7 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2022
 */
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 
@@ -63,11 +63,16 @@ if ($edit === TRUE) {
     else echo '<h1>Werkzaamheden</h1>';
     
 	?>
-	<div class="right"><a href="?p=p&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a><br /><a href="?p=p&amp;copyfrom=<?php echo htmlspecialchars($_GET['id']); ?>">dupliceer</a>
-	<?php
-	//delete only if item is in the future or has no date
-	if ((strtotime($data['datetime_start']) > time()) || (date('Ymd', strtotime($data['datetime_start'])) == '19700101')) {
-		echo '<br /><a href="?p=p_delete&amp;id=' . htmlspecialchars($_GET['id']) . '">verwijder</a>';
+	<div class="right">
+	<?php 
+	if (permissioncheck('bewerk')) { 
+		?>
+		<a href="?p=p&amp;id=<?php echo htmlspecialchars($_GET['id']); ?>">bewerk</a><br /><a href="?p=p&amp;copyfrom=<?php echo htmlspecialchars($_GET['id']); ?>">dupliceer</a>
+		<?php
+		//delete only if item is in the future or has no date
+		if ((strtotime($data['datetime_start']) > time()) || (date('Ymd', strtotime($data['datetime_start'])) == '19700101')) {
+			echo '<br /><a href="?p=p_delete&amp;id=' . htmlspecialchars($_GET['id']) . '">verwijder</a>';
+		}
 	}
 	?>
 	</div>
@@ -149,31 +154,35 @@ if ($edit === TRUE) {
 	<h2>Bijlagen</h2>
 	<ul id="bijlagen">
 	</ul>
-	<form method="post">
-	<div id="uploadarea" style="clear:both;">
-	<!-- progress bar -->
-	<div id="progress">
-		<div class="bar" style="width: 0%;"></div>
-	</div>
-	<!-- The fileinput-button span is used to style the file input field as button -->
-	<span class="fileinput-button">
-		<span>Upload bestanden...</span>
-		<!-- The file input field used as target for the file upload widget -->
-		<input id="fileupload" type="file" name="files[]" multiple>
-	</span>
-	
-	<!-- The container for the uploaded files -->
-	<div id="files" class="files"></div>
-	</div>
+	<?php 
+	if (permissioncheck('bewerk')) { 
+		?>
+		<form method="post">
+		<div id="uploadarea" style="clear:both;">
+		<!-- progress bar -->
+		<div id="progress">
+			<div class="bar" style="width: 0%;"></div>
+		</div>
+		<!-- The fileinput-button span is used to style the file input field as button -->
+		<span class="fileinput-button">
+			<span>Upload bestanden...</span>
+			<!-- The file input field used as target for the file upload widget -->
+			<input id="fileupload" type="file" name="files[]" multiple>
+		</span>
+		
+		<!-- The container for the uploaded files -->
+		<div id="files" class="files"></div>
+		</div>
 
-	<input type="hidden" name="id" value="<?php echo $data['parent_id']; ?>">
-	</form>
+		<input type="hidden" name="id" value="<?php echo $data['parent_id']; ?>">
+		</form>
 
-	<script src="jquery-file-upload/jquery.iframe-transport.js"></script>
-	<script src="jquery-file-upload/jquery.fileupload.js"></script>
-	<script src="bijlage.js"></script>
-	
-	<?php
+		<script src="jquery-file-upload/jquery.iframe-transport.js"></script>
+		<script src="jquery-file-upload/jquery.fileupload.js"></script>
+		<script src="bijlage.js"></script>
+		
+		<?php
+	}
 }
 else {
 	echo '<p class="error">Geen werkzaamheden of evenement met dit id.</p>';

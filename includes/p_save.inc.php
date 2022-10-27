@@ -1,8 +1,14 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016-2021
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016-2022
 */
+
+//controleer of mag opslaan
+if (permissioncheck('bewerk') !== true) {
+	echo 'niet toegestaan';
+	exit;
+}
 
 if (($_GET['s'] == 'p') && !empty($_POST)) {
 	

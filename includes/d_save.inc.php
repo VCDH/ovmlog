@@ -1,7 +1,13 @@
 <?php
 /*
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021-2022
 */
+
+//controleer of mag opslaan
+if (permissioncheck('bewerk') !== true) {
+	echo 'niet toegestaan';
+	exit;
+}
 
 //ovkvd/piket
 if (($_GET['s'] == 'd') && ($_GET['do'] == 'ovkvd')) {

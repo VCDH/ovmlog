@@ -1,7 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021-2022
 */
 
 //als geen datum is gegeven, vind de datum van de laatste entry en gebruik die
@@ -91,26 +91,28 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
     while ($row = mysqli_fetch_assoc($res)) {
         echo '<tr><td style="vertical-align: middle; min-width: 32px;">';
-        //review
-        if ($row['review'] == 1) {
-			echo '<a href="?s=d&amp;&amp;do=unreview&amp;id=' . $row['id'] . '" title="Niet meer markeren voor evaluatie"><span class="daglog-review ui-icon ui-icon-star"></span>';
-		}
-        else {
-            echo '<a href="?s=d&amp;&amp;do=review&amp;id=' . $row['id'] . '" title="Markeren voor evaluatie"><span class="daglog-review ui-icon ui-icon-plus"></span>';
+        if (permissioncheck('bewerk')) {
+            //review
+            if ($row['review'] == 1) {
+                echo '<a href="?s=d&amp;&amp;do=unreview&amp;id=' . $row['id'] . '" title="Niet meer markeren voor evaluatie"><span class="daglog-review ui-icon ui-icon-star"></span>';
+            }
+            else {
+                echo '<a href="?s=d&amp;&amp;do=review&amp;id=' . $row['id'] . '" title="Markeren voor evaluatie"><span class="daglog-review ui-icon ui-icon-plus"></span>';
+            }
+            //sticky
+            if ($row['sticky'] != 1) {
+                echo '<a href="?s=d&amp;&amp;do=sticky&amp;id=' . $row['id'] . '" title="Vastmaken"><span class="daglog-sticky ui-icon ui-icon-pin-w"></span>';
+            }
         }
-        //sticky
-		if ($row['sticky'] != 1) {
-			echo '<a href="?s=d&amp;&amp;do=sticky&amp;id=' . $row['id'] . '" title="Vastmaken"><span class="daglog-sticky ui-icon ui-icon-pin-w"></span>';
-		}
         echo '</td><td>';
         echo date('H:i', strtotime($row['datetime']));
         echo '</td><td class="expand"><span class="entry">';
         echo htmlspecialchars($row['description'], ENT_SUBSTITUTE);
         echo '</span>';
         //editable
-        //if ($row['user_id'] == getuser()) {
+        if (permissioncheck('bewerk')) {
             echo '<span class="daglog-edit ui-icon ui-icon-pencil" id="daglog-edit-' . $row['id'] . '" title="Bewerken"></span>';
-        //}
+        }
         echo '</td><td>';
         echo ((!empty($row['username'])) ? htmlspecialchars($row['username'], ENT_SUBSTITUTE) : '');
         echo '</td></tr>';

@@ -19,7 +19,9 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+global $auth;
 $auth = array();
+$auth['bewerk'] = 100;
 $auth['beheer'] = 200;
 
 $accesslevel_available = array(0 => 'Meekijker', 50 => 'Scenario bewerken', 100 => 'Scenario finalizeren', 200 => 'Beheerder', 255 => 'Superbeheerder');
