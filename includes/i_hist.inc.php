@@ -1,7 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2017
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2017, 2022
 */
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 ?>
@@ -10,11 +10,11 @@ setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1'
 <p><a href="?">&laquo; terug</a> | <a href="?p=i_analyse">analyse</a></p>
 
 <?php
-$qry = "SELECT `id`, `date`, `road`, `location`, `scenario`, `review`  
-	FROM `".$sql['database']."`.`".$sql['table_i']."`
-	ORDER BY `date` DESC";
+$qry = "SELECT COUNT(*)  
+	FROM `".$sql['database']."`.`".$sql['table_i']."`";
 $res = mysqli_query($sql['link'], $qry);
-$num = mysqli_num_rows($res);
+$num = mysqli_fetch_row($res);
+$num = $num[0];
 $step = 100;
 if (is_numeric($_GET['start'])) $start = $_GET['start']; else $start = 0;
 if ($start > $num) $start = $num - $step;
