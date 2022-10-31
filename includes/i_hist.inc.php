@@ -4,6 +4,12 @@
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2017, 2022
 */
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
+
+//controleer of mag bekijken
+if (permissioncheck('bekijk_inc') !== true) {
+	echo 'niet toegestaan';
+	exit;
+}
 ?>
 
 <h2>Incidenten</h2>

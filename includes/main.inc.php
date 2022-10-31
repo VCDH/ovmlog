@@ -17,6 +17,10 @@ $(function() {
 
 <div class="noprint">
 
+<?php
+if (permissioncheck('bewerk')) {
+?>
+
 <p>
 <form method="post" action="?s=d&amp;do=ovkvd">
 <?php
@@ -41,6 +45,15 @@ if (permissioncheck('bewerk')) {
 ?>
 </form>
 </p>
+
+<?php
+//einde bewerk
+}
+?>
+
+<?php
+if (permissioncheck('bekijk_daglog')) {
+?>
 
 <h1>Daglogging</h1>
 <p><a href="?p=d_view">bekijken</a> | <a href="?">vernieuwen</a></p>
@@ -92,6 +105,14 @@ if (permissioncheck('bewerk')) {
 <?php
 }
 ?>
+<?php
+//einde bekijk_daglog
+}
+?>
+
+<?php
+if (permissioncheck('bekijk_inc')) {
+?>
 
 <h1>Incidenten</h1>
 <p><?php if (permissioncheck('bewerk')) { ?><a href="?p=i">nieuw</a> | <?php } ?><a href="?p=i_hist">historie</a> | <a href="?">vernieuwen</a></p>
@@ -127,9 +148,18 @@ else {
 }
 ?>
 
-</div>
+<?php
+//einde bekijk_inc
+}
+?>
 
+</div>
 <hr />
+
+<?php
+if (permissioncheck('bekijk_werk_evn')) {
+?>
+
 <h1>Actuele werkzaamheden en evenementen</h1>
 
 <?php
@@ -156,7 +186,10 @@ else {
 
 <hr />
 <h1>Geplande werkzaamheden en evenementen</h1>
-<p class="noprint"><?php if (permissioncheck('bewerk')) { ?><a href="?p=p">nieuw</a> | <?php } ?><a href="?p=p_hist">historie</a></p>
+
+<?php if (permissioncheck('bewerk')) { ?>
+<p class="noprint"><a href="?p=p">nieuw</a> | <a href="?p=p_hist">historie</a></p>
+<?php } ?>
 
 <?php
 
@@ -189,4 +222,18 @@ while ($row = mysqli_fetch_row($res)) {
 echo '</table>';
 ?>
 
+<?php
+//einde bekijk_werk_evn
+}
+?>
+
+<?php
+if (permissioncheck('bekijk_kce')) {
+?>
+
 <p class="noprint"><a href="?p=kce">KCE printweergave genereren</a></p>
+
+<?php
+//einde bekijk_kce
+}
+?>

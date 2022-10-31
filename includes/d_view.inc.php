@@ -4,6 +4,12 @@
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021-2022
 */
 
+//controleer of mag bekijken
+if (permissioncheck('bekijk_daglog') !== true) {
+	echo 'niet toegestaan';
+	exit;
+}
+
 //als geen datum is gegeven, vind de datum van de laatste entry en gebruik die
 if (empty($_GET['date'])) {
     $qry = "SELECT `datetime`

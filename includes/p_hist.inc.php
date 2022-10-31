@@ -1,8 +1,14 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2022
 */
+
+//controleer of mag bekijken
+if (permissioncheck('bewerk') !== true) {
+	echo 'niet toegestaan';
+	exit;
+}
 ?>
 
 <h2>Werkzaamheden en evenementen - historie</h2>

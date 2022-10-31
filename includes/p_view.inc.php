@@ -3,6 +3,13 @@
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2022
 */
+
+//controleer of mag bekijken
+if (permissioncheck('bekijk_werk_evn') !== true) {
+	echo 'niet toegestaan';
+	exit;
+}
+
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 
 //decide edit or add
@@ -149,7 +156,7 @@ if ($edit === TRUE) {
     echo '</p>'; 
     ?>
 
-	<p><a href="?">Terug naar overzicht</a> | <a href="?p=p_hist">Terug naar historielijst</a></p>
+	<p><a href="?">Terug naar overzicht</a><?php if (permissioncheck('bewerk')) { ?> | <a href="?p=p_hist">Terug naar historielijst</a><?php } ?></p>
 
 	<h2>Bijlagen</h2>
 	<ul id="bijlagen">

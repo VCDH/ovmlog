@@ -21,6 +21,10 @@
 */
 global $auth;
 $auth = array();
+$auth['bekijk_werk_evn'] = 10;
+$auth['bekijk_inc'] = 20;
+$auth['bekijk_daglog'] = 30;
+$auth['bekijk_kce'] = 40;
 $auth['bewerk'] = 100;
 $auth['beheer'] = 200;
 
