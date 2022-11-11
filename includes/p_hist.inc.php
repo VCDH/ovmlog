@@ -30,9 +30,14 @@ $qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `ro
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
 	LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
 	ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned` 
-	WHERE `datetime_end` < NOW() ";
+	WHERE ";
 if ($_GET['dvmx'] == '1') {
-	$qry .= "AND `scenario` = 'DVM-Exchange'";
+	//bij dvmx, toon ook toekomstige entries
+	$qry .= "`scenario` = 'DVM-Exchange' ";
+}
+else {
+	//bij weergave van alles, toon alleen historische entries
+	$qry .= "`datetime_end` < NOW() ";
 }
 $qry .= "ORDER BY `datetime_start` DESC";
 $res = mysqli_query($sql['link'], $qry);
