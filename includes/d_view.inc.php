@@ -49,25 +49,33 @@ $(function() {
         var id = $(this).attr('id').substr(12);
         var entry = $(this).parent().children('.entry');
         var text = entry.text();
+        var time = $(this).parent().parent().children('.time');
+        var timetext = time.text();
+        console.log(timetext);
         //create edit form and buttons
-        var editable_content = $('<form method="post" action="?s=d&amp;id='+ id + '"><input type="text" name="entry" value="' + text + '" class="l"></form>');
+        var form_action = '?s=d&id='+ id;
+        var editable_time = $('<input type="text" name="time" value="' + timetext + '" class="s">');
+        var editable_content = $('<span><input type="text" name="entry" value="' + text + '" class="l"></span>');
         var save_button = $('<span class="ui-icon ui-icon-disk" title="opslaan"></span>');
         var cancel_button = $('<span class="ui-icon ui-icon-close" title="annuleren"></span>');
         save_button.click(function() {
-            editable_content.submit();
+            $('form#edit').submit();
         });
         cancel_button.click(function() {
             $('.daglog-edit').show();
             $('.daglog-sticky').show();
             $('.daglog-review').show();
             entry.show();
+            time.html(timetext);
             editable_content.remove();
         });
         //insert elements
         entry.hide();
+        $('form#edit').attr('action', form_action);
         editable_content.append(save_button);
         editable_content.append(cancel_button);
         $(this).parent().append(editable_content);
+        time.html(editable_time);
     });
 });
 </script>
@@ -94,6 +102,7 @@ $qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `s
 	ORDER BY `datetime` ASC, `".$sql['table_d']."`.`id` ASC";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
+    echo '<form method="post" id="edit">';
 	echo '<table class="grid">';
     while ($row = mysqli_fetch_assoc($res)) {
         echo '<tr><td style="vertical-align: middle; min-width: 32px;">';
@@ -110,7 +119,7 @@ if (mysqli_num_rows($res)) {
                 echo '<a href="?s=d&amp;&amp;do=sticky&amp;id=' . $row['id'] . '" title="Vastmaken"><span class="daglog-sticky ui-icon ui-icon-pin-w"></span>';
             }
         }
-        echo '</td><td>';
+        echo '</td><td class="time">';
         echo date('H:i', strtotime($row['datetime']));
         echo '</td><td class="expand"><span class="entry">';
         echo htmlspecialchars($row['description'], ENT_SUBSTITUTE);
@@ -124,6 +133,7 @@ if (mysqli_num_rows($res)) {
         echo '</td></tr>';
     }
 	echo '</table>';
+    echo '</form>';
 }
 else {
     echo '<p>Geen daglogging voor deze datum</p>';

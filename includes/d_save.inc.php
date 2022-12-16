@@ -105,9 +105,18 @@ if (($_GET['s'] == 'd') && !empty($_POST)) {
 			header('Location: http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/index.php?p=d_view&date='.$date.'&msg=e007', TRUE, 303);
 			exit;
 		}
+		//set new datetime
+		$datetime = '';
+		if (preg_match('/^[01]?[0-9]{1}:[0-5]{1}[0-9]{1}$/', $_POST['time'])) {
+			if (strlen($_POST['time']) == 4) {
+				$_POST['time'] = '0' . $_POST['time'];
+			}
+			$datetime = "`datetime` = '" . date('Y-m-d', strtotime($row['datetime'])) . " " . $_POST['time'] .":00',";
+		}
 		//update entry
 		$qry = "UPDATE `".$sql['database']."`.`".$sql['table_d']."`
 		SET
+		" . $datetime . "
 		`description` = '".mysqli_real_escape_string($sql['link'], $_POST['entry'])."',
 		`user_id_edit` = '".getuser()."'
 		WHERE `id` = '".$row['id']."'";
