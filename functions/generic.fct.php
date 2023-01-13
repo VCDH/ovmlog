@@ -7,7 +7,7 @@
 function display_planned_tablerow($row, $date_short = FALSE) {
 	//input is array with row data in order:
 	//`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `username_assigned`
-	if (in_array($row[5], array('nee', 'reserve'))) {
+	if (($row[8] == '1') || in_array($row[5], array('nee', 'reserve'))) {
 		echo '<tr class="low">';
 	}
 	elseif (in_array($row[5], array('handmatig'))) {
