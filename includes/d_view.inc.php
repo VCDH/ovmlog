@@ -1,7 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021-2022
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2021-2023
 */
 
 //controleer of mag bekijken
@@ -40,6 +40,14 @@ setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1'
 $(function() {
 	$( "#date" ).datepicker();
 
+    //enable submit by enter key on edit form
+    $('form#edit').on('keyup', 'input', function(e) {
+        if (e.which == 13) {
+            $(this).parents('form').submit();
+            return false;
+        }
+    });
+
     $('.daglog-edit').click(function() {
         //hide all edit buttons
         $('.daglog-edit').hide();
@@ -51,7 +59,6 @@ $(function() {
         var text = entry.text();
         var time = $(this).parent().parent().children('.time');
         var timetext = time.text();
-        console.log(timetext);
         //create edit form and buttons
         var form_action = '?s=d&id='+ id;
         var editable_time = $('<input type="text" name="time" value="' + timetext + '" class="s">');
@@ -102,7 +109,7 @@ $qry = "SELECT `".$sql['table_d']."`.`id` AS `id`, `datetime`, `description`, `s
 	ORDER BY `datetime` ASC, `".$sql['table_d']."`.`id` ASC";
 $res = mysqli_query($sql['link'], $qry);
 if (mysqli_num_rows($res)) {
-    echo '<form method="post" id="edit">';
+    echo '<form id="edit" method="post" id="edit">';
 	echo '<table class="grid">';
     while ($row = mysqli_fetch_assoc($res)) {
         echo '<tr><td style="vertical-align: middle; min-width: 32px;">';
