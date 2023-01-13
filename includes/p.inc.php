@@ -1,7 +1,7 @@
 <?php
 /*
  * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016-2022
+ * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016-2023
 */
 
 //controleer of mag bekijken
@@ -53,6 +53,11 @@ if ($edit === TRUE) {
 	$description = htmlspecialchars($data['description'], NULL, 'ISO-8859-15');
 	$spare = $data['spare'];
 	$scenario = htmlspecialchars($data['scenario'], ENT_SUBSTITUTE);
+	//status 'reserve' is vervallen, hiermee wordt radiorondje gezet als dit niet al zo is.
+	if ($scenario == 'reserve') {
+		$spare = 1;
+		$scenario = 'ntb';
+	}
 	$scenario_naam = htmlspecialchars($data['scenario_naam'], ENT_SUBSTITUTE);
     $name = htmlspecialchars($data['name'], ENT_SUBSTITUTE); 
 	$type = $data['type'];
@@ -174,7 +179,7 @@ $(function() {
 		<label for="scenario">scenario status:</label>
 	</td><td>
 		<?php
-		$scenario_status = array('nieuw', 'hergebruik', 'derden-nieuw', 'derden-review', 'derden-definitief', 'reserve', 'nee', 'ntb', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario', 'handmatig', 'monitoren');
+		$scenario_status = array('nieuw', 'hergebruik', 'derden-nieuw', 'derden-review', 'derden-definitief', 'nee', 'ntb', 'voorbereid', 'geprogrammeerd', 'geactiveerd', 'DVM-Exchange', 'PZH-Deelscenario', 'handmatig', 'monitoren');
 		echo '<select name="scenario" id="scenario">';
 		foreach ($scenario_status as $status) {
 			echo '<option value="';
@@ -247,7 +252,6 @@ $(function() {
 <tr><td>Derden-review   </td><td>= scenario door externe partij is in review</td></tr>
 <tr><td>Derden-definitief</td><td>= scenario door externe partij is gereed, maar moet nog in scenariobrowser worden gezet</td></tr>
 <tr><td>Nee             </td><td>= er is geen scenario nodig                                 </td></tr>
-<tr><td>Reserve         </td><td>= Een reserve-datum                                             </td></tr>
 <tr><td>Ntb             </td><td>= nader te bepalen of een scenario nodig is, alleen als je het echt niet weet                </td></tr>
 <tr><td>                </td><td><b>Fase 2</b>                </td></tr>
 <tr><td>Voorbereid      </td><td>= Een scenario is voorbereid in de scenariobrowser, maar staat nog niet in MM</td></tr>
