@@ -58,7 +58,7 @@ function display_planned_tablerow($row, $date_short = FALSE) {
 	if (!empty($row[7])) echo htmlspecialchars($row[7], ENT_SUBSTITUTE);
 	elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
 	else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
-	echo '</a></td><td>';
+	echo '</a></td><td class="user">';
 	echo ((!empty($row[9])) ? htmlspecialchars($row[9], ENT_SUBSTITUTE) : ''); //toegewezen aan
 	echo '</td><td>';
 	echo (($row[8] == '1') ? 'ja' : ''); //reserve

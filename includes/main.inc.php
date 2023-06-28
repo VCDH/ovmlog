@@ -187,14 +187,26 @@ else {
 <hr />
 <h1>Geplande werkzaamheden en evenementen</h1>
 
+
+
+
+
+<div id="planned">
+
+<p class="noprint">
 <?php if (permissioncheck('bewerk')) { ?>
-<p class="noprint"><a href="?p=p">nieuw</a> | <a href="?p=p_hist">historie</a></p>
+<a href="?p=p">nieuw</a> | <a href="?p=p_hist">historie</a> | 
 <?php } ?>
+<input class="search" placeholder="Zoeken">
+</p>
+
+<table class="grid">
+<thead>
+<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>
+</thead>
+<tbody class="list">
 
 <?php
-
-echo '<table class="grid">';
-echo '<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>';
 //planned without date
 $qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`   
 	FROM `".$sql['database']."`.`".$sql['table_p']."`
@@ -219,8 +231,20 @@ $res = mysqli_query($sql['link'], $qry);
 while ($row = mysqli_fetch_row($res)) {
 	display_planned_tablerow($row);
 }
-echo '</table>';
 ?>
+
+</tbody>
+</table>
+</div>
+
+<script src="list.js/list.min.js"></script>
+
+<script>
+var userList = new List('planned', {
+  valueNames: [ 'expand', 'user' ]
+});
+</script>
+
 
 <?php
 //einde bekijk_werk_evn
