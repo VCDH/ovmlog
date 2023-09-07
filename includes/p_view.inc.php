@@ -126,6 +126,9 @@ if ($edit === TRUE) {
             if (is_numeric($scenario_naam)) {
                 echo '<a href="http://scenariobrowser.vcdh.nl/scenario.php?id=' . $scenario_naam . '" target="_blank">' . $scenario_naam . '</a>';
                 }
+			elseif (preg_match('/https:\/\/diego\.ndw\.nu\/regelscenarios\/versie\/.+\/.+\/FINAL/i', $scenario_naam)) {
+				echo '<a href="' . $scenario_naam . '" target="_blank">' . $scenario_naam . '</a>';
+			}
             else {
                 echo $scenario_naam; 
             }
