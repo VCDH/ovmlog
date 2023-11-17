@@ -12,6 +12,8 @@ if (permissioncheck('bekijk_werk_evn') !== true) {
 
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 
+include 'functions/generic.fct.php';
+
 //decide edit or add
 if (!empty($_GET['id'])) {
 	$qry = "SELECT `".$sql['table_p']."`.`id` AS `parent_id`,
@@ -192,6 +194,43 @@ if ($edit === TRUE) {
 		<script src="bijlage.js"></script>
 		
 		<?php
+	}
+
+	?>
+	<h2>Gelijktijdige werkzaamheden en evenementen</h2>
+	<?php
+
+	//planned with date
+	$qry = "SELECT `".$sql['table_p']."`.`id`, `datetime_start`, `datetime_end`, `road`, `location`, `scenario`, `type`, `name`, `spare`, `".$sql['table_users']."`.`username` AS `assigned`   
+		FROM `".$sql['database']."`.`".$sql['table_p']."`
+		LEFT JOIN `".$sql['database']."`.`".$sql['table_users']."`
+		ON `".$sql['table_users']."`.`id` = `".$sql['table_p']."`.`user_id_assigned`
+		WHERE (
+		`datetime_start` BETWEEN '" .$data['datetime_start'] . "' AND '" .$data['datetime_end'] . "'
+		OR `datetime_end` BETWEEN '" .$data['datetime_start'] . "' AND '" .$data['datetime_end'] . "'
+		OR (`datetime_start` <= '" .$data['datetime_start'] . "' AND `datetime_end` >= '" .$data['datetime_end'] . "')
+		)
+		AND `".$sql['table_p']."`.`id` != '".mysqli_real_escape_string($sql['link'], $_GET['id'])."'
+		ORDER BY `datetime_start`";
+	$res = mysqli_query($sql['link'], $qry);
+	if (mysqli_num_rows($res)) {
+		?>
+		<table class="grid">
+		<thead>
+		<tr><th></th><th>start</th><th>eind</th><th>locatie</th><th title="toegewezen aan">toeg.</th><th title="reserve">res</th><th title="scenario">scn</th></tr>
+		</thead>
+		<tbody class="list">
+		<?php
+		while ($row = mysqli_fetch_row($res)) {
+			display_planned_tablerow($row);
+		}
+		?>
+		</tbody>
+		</table>
+		<?php
+	}
+	else {
+		echo '<p>Geen gelijktijdige werkzaamheden en evenementen gevonden.</p>';
 	}
 }
 else {
