@@ -55,8 +55,8 @@ function display_planned_tablerow($row, $date_short = FALSE) {
         }
 	}
 	echo '</td><td class="expand"><a href="?p=p_view&amp;id='.$row[0].'">';
-	if (!empty($row[7])) echo htmlspecialchars($row[7], ENT_SUBSTITUTE);
-	elseif (empty($row[3]) && empty($row[4])) echo '(leeg)';
+	if (!empty(trim($row[7]))) echo htmlspecialchars($row[7], ENT_SUBSTITUTE);
+	elseif (empty(trim($row[3])) && empty(trim($row[4]))) echo '(leeg)';
 	else echo htmlspecialchars($row[3].' - '.$row[4], ENT_SUBSTITUTE);
 	echo '</a></td><td class="user">';
 	echo ((!empty($row[9])) ? htmlspecialchars($row[9], ENT_SUBSTITUTE) : ''); //toegewezen aan
