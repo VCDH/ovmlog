@@ -1,7 +1,21 @@
 <?php
 /*
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Bereikbaarheid en Verkeersmanagement, 2016, 2021-2022
+	ovmlog - logtool voor operationeel verkeersmanagement
+	Copyright (C) 2013, 2016, 2021-2022, 2025 Gemeente Den Haag, Netherlands
+    Developed by Jasper Vries
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 setlocale(LC_ALL, 'Dutch_Netherlands', 'Dutch', 'nl_NL', 'nl', 'nl_NL.ISO8859-1', 'nld_NLD', 'nl_NL.utf8');
 
@@ -83,7 +97,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	while ($row = mysqli_fetch_row($res)) {
 		echo '<tr><td>';
-		echo strtolower(strftime("%a %e %b %H:%M", strtotime($row[0])));
+		echo int_date_format(NULL, $row[0]);
 		echo '</td><td class="expand">';
 		echo htmlspecialchars($row[1], ENT_SUBSTITUTE);
 		//sticky
@@ -127,7 +141,7 @@ if (mysqli_num_rows($res)) {
 	echo '<table class="grid">';
 	echo '<tr><th>datum</th><th>tijd</th><th>locatie/omschrijving</th></tr>';
 	while ($row = mysqli_fetch_row($res)) {
-		echo '<tr><td><a href="?p=i&amp;id='.$row[0].'">'.((date('Y')==date('Y',strtotime($row[1])))?(strtolower(strftime("%a %e %b", strtotime($row[1])))):(strtolower(strftime("%a %e %b %G", strtotime($row[1]))))).'</a></td><td>&nbsp;</td><td><a href="?p=i&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3], ENT_SUBSTITUTE).'</a></td></tr>';
+		echo '<tr><td><a href="?p=i&amp;id='.$row[0].'">'.((date('Y')==date('Y',strtotime($row[1])))?(int_date_format('EEEEEE d MMM', $row[1])):(int_date_format('EEEEEE d MMM y', $row[1]))).'</a></td><td>&nbsp;</td><td><a href="?p=i&amp;id='.$row[0].'">'.htmlspecialchars($row[2].' - '.$row[3], ENT_SUBSTITUTE).'</a></td></tr>';
 		$qry2 = "SELECT `time`, `description`
 		FROM `".$sql['database']."`.`".$sql['table_id']."`
 		WHERE `parent_id` = ".$row[0]."

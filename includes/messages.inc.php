@@ -1,9 +1,26 @@
 <?php
 /*
- * Gemeente Den Haag, Dienst Stadsbeheer, Afdeling Verkeersmanagement en Openbare Verlichting, 2013
+	ovmlog - logtool voor operationeel verkeersmanagement
+	Copyright (C) 2013, 2025 Gemeente Den Haag, Netherlands
+    Developed by Jasper Vries
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+$msg_type = NULL;
+if (array_key_exists('msg', $_GET))
+	$msg_type = substr($_GET['msg'], 0, 1);
 
-$msg_type = substr($_GET['msg'], 0, 1);
 
 //error messages
 if ($msg_type == 'e') {

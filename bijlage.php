@@ -43,7 +43,8 @@ $content_types = array(
 '.txt' => 'text/plain',
 '.csv' => 'text/csv',
 '.zip' => 'application/zip',
-'.eml' => 'message/rfc822'
+'.eml' => 'message/rfc822',
+'.msg' => 'application/vnd.ms-outlook'
 );
 
 $max_filesize = 180*1024*1024; //bytes

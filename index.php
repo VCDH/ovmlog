@@ -1,7 +1,7 @@
 <?php
 /*
 	ovmlog - logtool voor operationeel verkeersmanagement
-	Copyright (C) 2013, 2022 Gemeente Den Haag, Netherlands
+	Copyright (C) 2013, 2022, 2025 Gemeente Den Haag, Netherlands
     Developed by Jasper Vries
  
     This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,8 @@ if (!empty($_GET['s']) && file_exists('includes/'.urlencode($_GET['s']).'_save.i
 //include messages
 include('includes/messages.inc.php');
 
-if (empty($p)) $p = $_GET['p'];
+$p = NULL;
+if (empty($p) && array_key_exists('p', $_GET)) $p = str_replace(array('/', '\\', '.'), '', $_GET['p']);
 if (empty($p)) include ('includes/main.inc.php');
 elseif (file_exists('includes/'.urlencode($p).'.inc.php')) include('includes/'.urlencode($p).'.inc.php');
 else include ('includes/404.inc.php');

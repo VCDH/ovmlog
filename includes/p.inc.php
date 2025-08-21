@@ -263,6 +263,6 @@ $(function() {
 <tr><td>PZH-Deelscenario</td><td>= Deelscenario voor PZH. Staat in MM en kan door PZH ingezet worden                     </td></tr>
 <tr><td>Handmatig       </td><td>= Staat in MM en wordt op verzoek door WVL in/uitgeschakeld. De WVL monitort niet actief of in/uitgeschakeld moet worden.</td></tr>
 <tr><td>                </td><td><b>Speciaal</b>                </td></tr>
-<tr><td>Monitoren       </td><td>= De situatie moet door de WLV worden gemonitord. In de beschrijving staat waar op gelet moet worden en wie wanneer ge&iuml;nformeerd moet worden en/of wanneer welk scenario wordt ingezet. Als er sprake is van een scenario, dan deze status pas toekennen wanneer het scenario Geprogrammeerd is.</td></tr>
+<tr><td>Monitoren       </td><td>= De situatie moet door de WVL worden gemonitord. In de beschrijving staat waar op gelet moet worden en wie wanneer ge&iuml;nformeerd moet worden en/of wanneer welk scenario wordt ingezet. Als er sprake is van een scenario, dan deze status pas toekennen wanneer het scenario Geprogrammeerd is.</td></tr>
 </table>
 

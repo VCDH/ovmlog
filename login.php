@@ -3,7 +3,7 @@
  	scenariobrowser - viewer en editor voor verkeersmanagementscenario's
     Copyright (C) 2016-2019 Gemeente Den Haag, Netherlands
     ovmlog - logtool voor operationeel verkeersmanagement
-	Copyright (C) 2022 Gemeente Den Haag, Netherlands
+	Copyright (C) 2022, 2025 Gemeente Den Haag, Netherlands
     Developed by Jasper Vries
  
     This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,13 @@
 */
 //include database gegevens
 include('dbconnect.inc.php');
+//init vars
+if (!array_key_exists('do', $_GET)) {
+    $_GET['do'] = NULL;
+}
+$login_error = NULL;
+$verzonden = NULL;
+$email_fout = NULL;
 
 //functie om nieuw wachtwoord te genereren
 function genereer_wachtwoord($len) {
