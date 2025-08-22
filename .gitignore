@@ -1,4 +1,4 @@
 *.sql
-mail.cfg.php
+mailconfig.inc.php
 attachments/
 ovkvdpiket.json

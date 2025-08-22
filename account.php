@@ -1,9 +1,9 @@
 <?php 
 /*
- 	scenariobrowser - viewer en editor voor verkeersmanagementscenario's
-    Copyright (C) 2016-2019 Gemeente Den Haag, Netherlands
+ 	assetwebsite - viewer en aanvraagformulier voor verkeersmanagementassets
+    Copyright (C) 2016-2022 Gemeente Den Haag, Netherlands
 	ovmlog - logtool voor operationeel verkeersmanagement
-	Copyright (C) 2022 Gemeente Den Haag, Netherlands
+	Copyright (C) 2025 Gemeente Den Haag, Netherlands
     Developed by Jasper Vries
  
     This program is free software: you can redistribute it and/or modify
@@ -19,67 +19,78 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-session_start();
-include_once('logincheck.inc.php');
-//redirect if not logged in
-if (!logincheck()) {
-	header('Location:http://'.$_SERVER["SERVER_NAME"].substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '/')).'/index.php');
-    exit;
-}
-//include database gegevens
-include('dbconnect.inc.php');
+require_once 'getuserdata.inc.php';
+logincheck();
+require 'dbconnect.inc.php';
+require 'config.inc.php';
 
-//verwerk wachtwoordwijziging
-if (($_GET['do'] == 'changepass') && (!empty($_POST))) {
-    //controleer of nieuwe wachtwoorden gelijk
+//init var
+if (!array_key_exists('do', $_GET))
+	$_GET['do'] = NULL;
+$wachtwoord_gewijzigd = NULL;
+$nieuw_wachtwoord_fout = NULL;
+$oud_wachtwoord_fout = NULL;
+$wachtwoord_lengte = NULL;
+
+/*
+* process password change
+*/
+if (($_GET['do'] == 'password') && (!empty($_POST))) {
+    //check if both new passwords are equal
     if ($_POST['new_password1'] == $_POST['new_password2']) {
-        //controleer wachtwoordlengte
-		if (strlen($_POST['new_password1']) >= 8) {
-			//stel karakterset in voor mysqli_real_escape_string
-			mysqli_set_charset($db['link'], 'latin1');
-			//bereken hash van oud wachtwoord
-			$wachtwoord = hash('sha256', $_POST['old_password']);
-			//query om rij te selecteren
-			$sql = "SELECT
-			`id`
-			FROM `".$db['prefix']."users`
-			WHERE `id` = '" . mysqli_real_escape_string($db['link'], $_SESSION['id']) . "'
-			AND `password` = '" . mysqli_real_escape_string($db['link'], $wachtwoord) . "'
-			LIMIT 1";
-			//voer query uit
-			$result = mysqli_query($db['link'], $sql);
-			if (mysqli_num_rows($result) != 1) {
-				//oud wachtwoord niet correct
-				$oud_wachtwoord_fout = TRUE;
-			}
-			else {
-				//wachtwoord correct, zet nieuw wachtwoord
-				//bereken hash van nieuw wachtwoord
-				$wachtwoord = hash('sha256', $_POST['new_password1']);
-				//query om rij aan te passen
-				$sql = "UPDATE `".$db['prefix']."users`
-				SET `password` = '" . mysqli_real_escape_string($db['link'], $wachtwoord) . "'
-				WHERE `id` = '" . mysqli_real_escape_string($db['link'], $_SESSION['id']) . "'";
-				//voer query uit
-				$wachtwoord_gewijzigd = mysqli_query($db['link'], $sql);
-				//plaats cookie opnieuw om te voorkomen dat gebruiker uitgelogd is
-				if ($wachtwoord_gewijzigd === TRUE) {
-					$cookie['id'] = $_SESSION['id'];
-					$cookie['token'] = $wachtwoord;
-					//zet cookie
-					setcookie('login', serialize($cookie), time() + 60*60*24*7*2, '/');
-				}
-			}
+        //check new password length
+		if (strlen($_POST['new_password1']) >= $cfg['account']['pass_minlength']) {
+            //check old password
+            //get password by username
+            $qry = "SELECT `id`, `password` FROM `".$db['prefix']."user` WHERE
+            `id` = '" . getuserdata('id') . "'";
+            $res = mysqli_query($db['link'], $qry);
+            if (mysqli_num_rows($res) == 1) {
+                //user exists
+                $data = mysqli_fetch_assoc($res);
+                //check password
+                if (!password_verify($_POST['old_password'], $data['password'])) {
+                    //password incorrect
+                    $oud_wachtwoord_fout = TRUE;
+                }
+                else {
+                    //store new password
+                    $new_password = password_hash($_POST['new_password1'], PASSWORD_DEFAULT);
+                    //query
+                    $sql = "UPDATE `".$db['prefix']."user`
+                    SET `password` = '" . mysqli_real_escape_string($db['link'], $new_password) . "'
+                    WHERE `id` = '" . getuserdata('id') . "'";
+                    $wachtwoord_gewijzigd = mysqli_query($db['link'], $sql);
+                }
+            }
 		}
 		else {
-			//wachtwoord niet lang genoeg
+			//password length insufficient
 			$wachtwoord_lengte = TRUE;
 		}
     }
     else {
-        //nieuwe wachtwoorden niet gelijk
+        //passwords don't match
         $nieuw_wachtwoord_fout = TRUE;
     }
+}
+/*
+* process user details change
+*/
+elseif (($_GET['do'] == 'userprofile') && (!empty($_POST))) {
+	$fieldcheck = TRUE;
+	//check fields
+	if (empty($_POST['name'])) $fieldcheck = FALSE;
+	//save data
+	if ($fieldcheck == TRUE) {
+		//query om rij aan te passen
+		$qry = "UPDATE `".$db['prefix']."user`
+		SET `name` = '" . mysqli_real_escape_string($db['link'], $_POST['name']) . "',
+		`phone` = '" . mysqli_real_escape_string($db['link'], $_POST['phone']) . "'
+        WHERE `id` = '" . getuserdata('id') . "'";
+		//voer query uit
+		$userprofile_gewijzigd = mysqli_query($db['link'], $qry);
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -98,45 +109,99 @@ if (($_GET['do'] == 'changepass') && (!empty($_POST))) {
 
 <div id="content">
     <?php 
-	if (($_GET['do'] == 'changepass') && ($wachtwoord_gewijzigd !== TRUE)) {
-		?>
-		<h1>Wijzig wachtwoord</h1>
-
-		<?php
-		if ($nieuw_wachtwoord_fout === TRUE) {
+    //change password
+    if (($_GET['do'] == 'password') && ($wachtwoord_gewijzigd !== TRUE)) {
+        echo '<h1>Wachtwoord wijzigen</h1>';
+        echo '<p>Geef je huidige wachtwoord en tweemaal het nieuwe wachtwoord op om je wachtwoord te wijzigen. Het nieuwe wachtwoord moet minstens ' . $cfg['account']['pass_minlength'] . ' tekens lang zijn.';
+        //messages
+        if ($nieuw_wachtwoord_fout === TRUE) {
 			echo '<p class="error">De ingevulde nieuwe wachtwoorden zijn niet gelijk.</p>';
 		}
 		if ($oud_wachtwoord_fout === TRUE) {
 			echo '<p class="error">De oude wachtwoord is niet juist.</p>';
 		}
 		if ($wachtwoord_lengte === TRUE) {
-			echo '<p class="error">Het nieuwe wachtwoord moet minstens 8 tekens lang zijn.</p>';
+			echo '<p class="error">Het nieuwe wachtwoord is te kort.</p>';
+		}
+		?>
+		
+		<form method="post">
+		<table class="invisible">
+            <tr><td>Oud wachtwoord:</td><td><input type="password" name="old_password"></td></tr>
+            <tr><td>Nieuw wachtwoord:</td><td><input type="password" name="new_password1"></td></tr>
+            <tr><td>Herhaal wachtwoord:</td><td><input type="password" name="new_password2"></td></tr>
+            <tr><td></td><td><input type="submit" value="Wijzig wachtwoord"> <a href="?">Annuleren</a></td></tr>
+		</table>
+		</form>
+		<?php
+    }
+
+    //change personal details
+    elseif (($_GET['do'] == 'userprofile') && ($userprofile_gewijzigd !== TRUE)) {
+        echo '<h1>Gebruikersprofiel wijzigen</h1>';
+        echo '<p>Wijzig via deze pagina de gegevens in je gebruikersprofiel. Deze worden automatisch ingevuld in een DRIP-aanvraagformulier en kunnen handig zijn voor de beheerder binnen jouw organisatie. Invullen van deze gegevens is niet verplicht.</p>';
+        //check if post data or get form database
+		if (!empty($_POST)) {
+			$data['name'] = htmlspecialchars($_POST['name']);
+			$data['phone'] = htmlspecialchars($_POST['phone']);
+		}
+		else {
+            //get data from database
+			$sql = "SELECT
+			`name`, `phone`
+			FROM `".$db['prefix']."user`
+			WHERE `id` = '" . getuserdata('id') . "'";
+			$result = mysqli_query($db['link'], $sql);
+			if (mysqli_num_rows($result)) {
+				$row = mysqli_fetch_row($result);
+				$data['name'] = htmlspecialchars($row[0]);
+				$data['phone'] = htmlspecialchars($row[1]);
+			}
+		}
+        //messages
+		if ($naam_fout === TRUE) {
+			echo '<p class="error">Naam kan niet leeg zijn</p>';
 		}
 		?>
 		
 		<form method="post">
 		<table>
-		<tr><td>Oud wachtwoord:</td><td><input type="password" name="old_password"></td></tr>
-		<tr><td>Nieuw wachtwoord:</td><td><input type="password" name="new_password1"></td></tr>
-		<tr><td>Herhaal wachtwoord:</td><td><input type="password" name="new_password2"></td></tr>
-		<tr><td></td><td><input type="submit" value="Wijzig wachtwoord"> <a href="?">Annuleren</a></td></tr>
+		<tr><td>Naam:</td><td><input type="text" name="name" value="<?php echo $data['name']; ?>"></td></tr>
+		<tr><td>Telefoonnummer:</td><td><input type="tel" name="phone" value="<?php echo $data['phone']; ?>"></td></tr>
+		<tr><td></td><td><input type="submit" value="Opslaan"> <a href="?">Annuleren</a></td></tr>
 		</table>
 		</form>
 		<?php
 	}
-	//main page
-	else {
-		if ($wachtwoord_gewijzigd === TRUE) {
-			echo '<p class="succes">Wachtwoord gewijzigd!</p>';
+
+
+    //query user info for main view
+    else {
+        echo '<h1>Account</h1>';
+        echo '<p>Via deze pagina kun je je wachtwoord<!-- en andere gegevens--> wijzigen.</p>';
+
+		//messages
+        if ($wachtwoord_gewijzigd === TRUE) {
+			echo '<p class="success">Wachtwoord gewijzigd.</p>';
 		}
-		if ($userprofile_gewijzigd === TRUE) {
-			echo '<p class="succes">Gebruikersgegevens gewijzigd!</p>';
-		}
-		?>
-        <h1>Account</h1>
-        <p><a href="?do=changepass">Wachtwoord wijzigen</a></p>
-        <?php
-	}
+        
+        $qry = "SELECT `".$db['prefix']."user`.`email` AS `email` FROM `".$db['prefix']."user`
+		WHERE `".$db['prefix']."user`.`id` = '" . getuserdata('id') . "'";
+        $res = mysqli_query($db['link'], $qry);
+        if ($data = mysqli_fetch_assoc($res)) {
+            ?>
+                <table>
+                    <tr><td>e-mailadres</td><td><?php echo htmlspecialchars($data['email']); ?></td><td></td></tr>
+                    <tr><td>wachtwoord</td><td>********</td><td><a href="?do=password">wachtwoord wijzigen</a></td></tr>
+                    <!--<tr><td>naam</td><td><?php echo htmlspecialchars($data['name']); ?></td><td rowspan="2"><a href="?do=userprofile">gegevens wijzigen</a></td></tr>
+                    <tr><td>telefoonnummer</td><td><?php echo htmlspecialchars($data['phone']); ?></td></tr>-->
+                </table>
+            <?php
+        }
+        else {
+            echo '<p class="error">Er is een fout opgetreden bij het ophalen van gebruikersdata.</p>';
+        }
+    }
 	?>
 </div>
 </body>

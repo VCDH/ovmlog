@@ -1,7 +1,7 @@
 <?php
 /*
 	ovmlog - logtool voor operationeel verkeersmanagement
-	Copyright (C) 2013-2017, 2021-2022 Gemeente Den Haag, Netherlands
+	Copyright (C) 2013-2017, 2021-2022, 2025 Gemeente Den Haag, Netherlands
     Developed by Jasper Vries
  
     This program is free software: you can redistribute it and/or modify
@@ -149,6 +149,81 @@ $qry = "CREATE TABLE IF NOT EXISTS `".$sql['database']."`.`".$sql['table_bijlage
 	ENGINE=MyISAM";
 	mysqli_query($sql['link'], $qry);
 	echo mysqli_error($sql['link']);
+
+$qry = array();
+$qry[] = "CREATE TABLE `".$db['prefix']."user` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE KEY,
+	`email` VARCHAR(255) NOT NULL,
+	`password` VARCHAR(64) NOT NULL,
+	`otp` MEDIUMTEXT,
+	`name` TINYTEXT,
+	`phone` TINYTEXT NULL DEFAULT NULL,
+	`organisation` INT UNSIGNED NOT NULL,
+	`accesslevel` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+	`lastlogin` DATETIME NOT NULL DEFAULT NOW(),
+	`user_edit` INT NOT NULL,
+	`date_edit` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`user_create` INT NOT NULL,
+	`date_create` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`email`)
+	)
+	ENGINE=MyISAM";
+
+$qry[] = "INSERT INTO `".$db['prefix']."user` SET
+	`id` = 1,
+	`email` = 'root@localhost',
+	`password` = '" . password_hash('password', PASSWORD_DEFAULT) . "',
+	`name` = 'root',
+	`organisation` = 1,
+	`accesslevel` = 255,
+	`user_edit` = 0,
+	`user_create` = 0";
+
+$qry[] = "CREATE TABLE `".$db['prefix']."user_login_tokens` (
+	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE KEY,
+	`user_id` INT UNSIGNED NOT NULL,
+	`token` TINYTEXT NOT NULL,
+	`date_create` DATETIME NOT NULL,
+	`date_lastchange` DATETIME NOT NULL,
+	`ip` TINYTEXT NOT NULL,
+	`device` TINYTEXT,
+	PRIMARY KEY (`id`)
+	)
+	ENGINE=MyISAM";
+
+foreach($qry as $qry_this) {
+	$res = @mysqli_query($db['link'], $qry_this);
+	//get table name
+	preg_match('/(.*)\h+.+`(.+)`.+/U', $qry_this, $table_name);
+	$qry_type = strtoupper($table_name[1]);
+	$table_name = $table_name[2];
+	//echo result
+	if ($res !== TRUE) {
+		switch ($qry_type) {
+			case 'CREATE':
+				echo '* Kan tabel `' . $table_name . '` niet aanmaken.' . PHP_EOL;
+				break;
+			case 'INSERT':
+				echo '* Kan rijen op `' . $table_name . '` niet invoegen.' . PHP_EOL;
+				break;
+			default:
+				echo '* ' . $qry_type .' op `' . $table_name . '` niet uitgevoerd.' . PHP_EOL;
+		}
+		echo '  Oorzaak: ' . mysqli_error($db['link']) . PHP_EOL;
+	}
+	else {
+		switch ($qry_type) {
+			case 'CREATE':
+				echo '* Tabel `' . $table_name . '` aangemaakt.' . PHP_EOL;
+				break;
+			case 'INSERT':
+				echo '* Rijen op `' . $table_name . '` ingevoegd.' . PHP_EOL;
+				break;
+			default:
+				echo '* ' . $qry_type .' op `' . $table_name . '` uitgevoerd.' . PHP_EOL;
+		}
+	}
+}
 
 //create store
 if (!is_dir('attachments')) {

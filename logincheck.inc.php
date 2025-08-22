@@ -3,7 +3,7 @@
  	scenariobrowser - viewer en editor voor verkeersmanagementscenario's
     Copyright (C) 2016-2019 Gemeente Den Haag, Netherlands
 	ovmlog - logtool voor operationeel verkeersmanagement
-	Copyright (C) 2022 Gemeente Den Haag, Netherlands
+	Copyright (C) 2022, 2025 Gemeente Den Haag, Netherlands
     Developed by Jasper Vries
  
     This program is free software: you can redistribute it and/or modify
@@ -21,44 +21,38 @@
 */
 require('auth.cfg.php');
 if (!function_exists('logincheck')) { function logincheck($type='bool') {
-	//haal gegevens uit cookie
-	$cookie = unserialize($_COOKIE['login']);
-	$user_id = $cookie['id'];
-	$token = $cookie['token'];
-	//controleer of waarden in het cookie zinnig zijn
-	if (is_numeric($user_id) && (strlen($token) == 64)) {
-		//include database gegevens
-		include('dbconnect.inc.php');
-		//stel karakterset in voor mysqli_real_escape_string
-		mysqli_set_charset($db['link'], 'latin1');
-		//query om tabel lezen
-		$sql = "SELECT
-		`id`, `password`, `token`, `email`, `username`, `accesslevel`, `organisation`
-		FROM `".$db['prefix']."users`
-		WHERE `id` = '" . mysqli_real_escape_string($db['link'], $user_id) . "'
-		AND `disabled` = 0
-		LIMIT 1";
-		//voer query uit
-		$result = mysqli_query($db['link'], $sql);
-		if (mysqli_num_rows($result) == 1) {
-			$data = mysqli_fetch_assoc($result);
-			if ($token == $data['password']) {
-				$_SESSION['id'] = $data['id'];
-				$_SESSION['org'] = $data['organisation'];
-				$_SESSION['email'] = $data['email'];
-				$_SESSION['name'] = $data['username'];
-				$_SESSION['accesslevel'] = $data['accesslevel'];
-				if ($type == 'id') {
-					return $data['id'];
-				}
-				elseif ($type == 'username') {
-					return $data['username'];
-				}
-				return TRUE;
-			}
+	require('dbconnect.inc.php');
+	require('config.inc.php');
+    //check if the user is logged in
+    //retrieve cookie
+    $cookievalue = unserialize($_COOKIE[$cfg['cookie']['name']]);
+    if (!is_numeric($cookievalue[0])) {
+        return FALSE;
+    }
+    //TODO: put this in a session variable such that it doesn't have to be retrieved from the database every time
+    
+    //match user info with db
+    $qry = "SELECT `".$db['prefix']."user`.`id` AS `id`, `".$db['prefix']."user`.`organisation` AS `organisation`, `".$db['prefix']."user`.`email` AS `email`, `".$db['prefix']."user`.`username` AS `username`, `".$db['prefix']."user`.`accesslevel` AS `accesslevel`, `".$db['prefix']."user_login_tokens`.`token` AS `token`, `".$db['prefix']."user`.`organisation` AS `organisation` FROM `".$db['prefix']."user_login_tokens`
+    LEFT JOIN `".$db['prefix']."user`
+    ON `".$db['prefix']."user_login_tokens`.`user_id` = `".$db['prefix']."user`.`id`
+    WHERE `".$db['prefix']."user_login_tokens`.`user_id` = '" . mysqli_real_escape_string($db['link'], $cookievalue[0]) . "'
+    AND `".$db['prefix']."user_login_tokens`.`token` = '" . mysqli_real_escape_string($db['link'], $cookievalue[1]) . "'";
+    $res = mysqli_query($db['link'], $qry);
+    if ($data = mysqli_fetch_assoc($res)) {
+		$_SESSION['id'] = $data['id'];
+		$_SESSION['org'] = $data['organisation'];
+		$_SESSION['email'] = $data['email'];
+		$_SESSION['name'] = $data['username'];
+		$_SESSION['accesslevel'] = $data['accesslevel'];
+		if ($type == 'id') {
+			return $data['id'];
 		}
-	}
-	return FALSE;
+		elseif ($type == 'username') {
+			return $data['username'];
+		}
+		return TRUE;
+    }
+    return FALSE;
 }}
 
 if (!function_exists('permissioncheck')) { function permissioncheck($permission, $check_org = FALSE) {
